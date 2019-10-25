@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <META HTTP-EQUIV="pragma" CONTENT="no-cache">
+    <META HTTP-EQUIV="Cache-Control" CONTENT="no-cache, must-revalidate">
+    <META HTTP-EQUIV="expires" CONTENT="0">
+    <title>1</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <link rel="stylesheet" href="../../layui/css/layui.css" media="all"/>
+    <link rel="stylesheet" href="../../css/public.css" media="all"/>
+    <link rel="stylesheet" href="../../css/june.css" media="all"/>
+    <style>
+        input:disabled{
+            color: #000;
+        }
+        .rechargeScale{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+    </style>
+</head>
+<body class="childrenBody">
+<form class="layui-form" style="" id="" enctype="multipart/form-data">
+    <input type="hidden" name="id" value=""/>
+    <div class="layui-col-xs6">
+
+        <div class="layui-form-item layui-row layui-col-xs12">
+            <label class="layui-form-label">用户<i class="layui-red">*</i></label>
+            <div class="layui-input-block ">
+                <select name="user_id" id="user_id" lay-verify="required"  lay-search title="" >
+                    <option value="">请选择用户</option>
+                </select>
+            </div>
+        </div>
+        <div class="layui-form-item layui-row layui-col-xs12">
+            <label class="layui-form-label">类型<i class="layui-red">*</i></label>
+            <div class="layui-input-block">
+                <select name="type" id="type" lay-verify="required" lay-search title="">
+                    <option value="">请选择类型</option>
+                    <option value="0">聚宝盆资产</option>
+                    <option value="3">积分</option>
+                    <option value="4">可用五行石</option>
+                </select>
+            </div>
+        </div>
+         <div class="layui-form-item layui-row layui-col-xs12">
+            <label class="layui-form-label">增减类型<i class="layui-red">*</i></label>
+             <div class="layui-input-block">
+                 <input type="radio" name="typeRadio" value="0" title="增加" checked >
+                 <input type="radio" name="typeRadio" value="1" title="减少">
+             </div>
+        </div>
+        <div class="layui-form-item layui-row layui-col-xs12">
+            <label class="layui-form-label">数量<i class="layui-red">*</i></label>
+            <div class="layui-input-block">
+                <input class="layui-input"  onkeyup="value=value.replace(/[^\d\.]/g,'')" onblur="value=value.replace(/[^\d\.]/g,'')" lay-verify="required|number" type="number" name="num" id="num" value=""  />
+            </div>
+        </div>
+        <div class="layui-form-item layui-row layui-col-xs12">
+            <label class="layui-form-label">备注</label>
+            <div class="layui-input-block">
+                <input class="layui-input"  type="text" name="remark" value="" />
+            </div>
+        </div>
+        <div class="layui-form-item layui-row layui-col-xs12">
+            <div class="layui-input-block">
+                <button class="layui-btn layui-btn" lay-submit="" lay-filter="public">确认</button>
+                <!--<button class="layui-btn layui-btn" id="testBtn">test</button>-->
+            </div>
+        </div>
+    </div>
+</form>
+
+<script type="text/javascript" src="../../layui/layui.js"></script>
+<script type="text/javascript" src="assetsAdd.js"></script>
+<script>
+    //转化正整数
+    function zhzs(value){
+        value = value.replace(/[^\d]/g,'');
+        if(''!=value){
+            value = parseInt(value);
+        }
+        return value;
+        console.log(value);
+
+    }
+</script>
+</body>
+</html>

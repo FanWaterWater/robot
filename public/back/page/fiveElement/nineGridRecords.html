@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <META HTTP-EQUIV="pragma" CONTENT="no-cache">
+    <META HTTP-EQUIV="Cache-Control" CONTENT="no-cache, must-revalidate">
+    <META HTTP-EQUIV="expires" CONTENT="0">
+    <title></title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <link rel="stylesheet" href="../../layui/css/layui.css" media="all"/>
+    <link rel="stylesheet" href="../../css/public.css" media="all"/>
+</head>
+<body class="childrenBody">
+<form class="layui-form">
+    <blockquote class="layui-elem-quote quoteBox">
+        <div class="layui-input-inline ">
+            <select name="username" id="username" lay-verify="" lay-search title="">
+                <option value="">请选择用户昵称</option>
+            </select>
+        </div>
+        <div class="layui-input-inline width150">
+            <select name="type" id="type" title="">
+                <option value="" selected>请选择奖品类型</option>
+                <option value="0">积分</option>
+                <option value="1">聚宝盆资产</option>
+                <option value="2">合成卡</option>
+                <option value="3">金</option>
+                <option value="4">木</option>
+                <option value="5">水</option>
+                <option value="6">火</option>
+                <option value="7">土</option>
+            </select>
+        </div>
+        <div class="layui-input-inline width150">
+            <select name="status" id="orderBy" title="">
+                <option value="" selected>请选择排序</option>
+                <option value="1">升序</option>
+                <option value="0">降序</option>
+            </select>
+        </div>
+        <div class="layui-input-inline width150">
+            <input type="text" class="layui-input" id="minDate" placeholder="开始日期"/>
+        </div>
+        <div class="layui-inline">&nbsp;至&nbsp;</div>
+        <div class="layui-input-inline width150">
+            <input type="text" class="layui-input" id="maxDate" placeholder="结束日期"/>
+        </div>
+        <div class="layui-inline">
+            <a class="layui-btn search_btn" data-type="reload">查询</a>
+        </div>
+    </blockquote>
+    <table id="listTable1" lay-filter="list"></table>
+
+</form>
+<script type="text/javascript" src="../../layui/layui.js"></script>
+<script>
+
+
+    layui.config({
+        base: "../../js/"
+    }).extend({
+        "ajaxUrl": "ajax_config"
+    })
+    layui.use(['form', 'layer', 'laydate', 'table', 'laytpl', 'ajaxUrl'], function () {
+        var form = layui.form,
+            layer = parent.layer === undefined ? layui.layer : top.layer,
+            $ = layui.jquery,
+            laytpl = layui.laytpl,
+            laydate = layui.laydate,
+            table = layui.table;
+        var ajaxArr = layui.ajaxUrl;
+
+        var ajaxUrl = ajaxArr.getRecords.url;
+        var ajaxType = ajaxArr.getRecords.method;
+
+        setTimeout(function () {
+            //列表
+            var tableIns1 = table.render({
+                elem: '#listTable1',
+                method: ajaxType,
+                url: ajaxUrl,
+                cellMinWidth: 95,
+                page: true,
+                height: "full-125",
+                limit: 10,
+                limits: [10, 15, 20, 25],
+                id: "listTable1",
+                response: {
+                    statusCode: 200 //成功的状态码，默认：200
+                },
+                cols: [[
+                    /* {field: 'LAY_TABLE_INDEX', title: '排序', width: 100,align: "center",templet:function (d) {
+                             var num;
+                             num = d.LAY_TABLE_INDEX+1;
+                             return num;
+                         }},*/
+                    {field: 'id', title: '排序', width:100,align: "center"},
+                    {field: 'user_id', title: '用户ID', width:100, align: "center"},
+                    {field: 'nickname', title: '用户昵称', minWidth:150, align: "center",templet:function (d) {
+                            var user = d.user,
+                                nickname = "";
+                            if(user != ""){
+                                nickname = user.nickname;
+                            }
+                            return nickname
+                        }},
+                    {field: 'type', title: '奖品类型', minWidth:150, align: "center",templet:function (d) {
+                            var prizeType,
+                                type_id = d.lottery;
+                            switch(type_id.type){
+                                case 0:
+                                    prizeType = '积分';
+                                    break;
+                                case 1:
+                                    prizeType = '聚宝盆资产';
+                                    break;
+                                case 2:
+                                    prizeType = '合成卡';
+                                    break;
+                                case 3:
+                                    prizeType = '金';
+                                    break;
+                                case 4:
+                                    prizeType = '木';
+                                    break;
+                                case 5:
+                                    prizeType = '水';
+                                    break;
+                                case 6:
+                                    prizeType = '火';
+                                    break;
+                                case 7:
+                                    prizeType = '土';
+                                    break;
+                            }
+                            return prizeType
+                        }},
+                    {field: 'created_at', title: '中奖时间', minWidth:150,  align: "center"}
+                ]],
+                done: function (res, curr, count) {
+                    // console.log(res);
+                }
+            });
+
+        },100);
+
+        var start = laydate.render({
+            elem: '#minDate',//指定元素
+            done:function(value,date){
+                endMax = end.config.max;
+                end.config.min = date;
+                end.config.min.month = date.month -1;
+            }
+        });
+
+        var end = laydate.render({
+            elem: '#maxDate', //指定元素
+            done:function(value,date){
+                if($.trim(value) == ''){
+                    var curDate = new Date();
+                    date = {'date': curDate.getDate(), 'month': curDate.getMonth()+1, 'year': curDate.getFullYear()};
+                }
+                start.config.max = date;
+                start.config.max.month = date.month -1;
+            }
+        });
+
+
+        // 获取所有用户
+        $.ajax({
+            url: ajaxArr.getAllUser.url,
+            type:ajaxArr.getAllUser.method,
+            data: {},
+            async: true,
+            dataType: "json",
+            headers:{'token':token},
+            success: function(res) {
+                if(res.code == 200){
+                    for(var i =0;i<res.data.length;i++){
+                        $('#username').append(' <option value="'+res.data[i].id+'">'+res.data[i].nickname+'('+res.data[i].phone+')</option>');
+                    }
+                    form.render('select');
+                }
+
+            },
+            complete: function() {
+            }
+        });
+
+        //筛选
+        $(".search_btn").click(function(){
+            var user_id = $('#username').val(),
+                type = $('#type').val(),
+                orderBy = $('#orderBy').val(),
+                startDate=$("#minDate").val(),
+                endDate=$("#maxDate").val();
+            table.reload("listTable1", {
+                page: {
+                    curr: 1 //重新从第 1 页开始
+                },
+                where: {
+                    user_id: user_id,
+                    type: type,
+                    orderBy:orderBy,
+                    startDate: startDate,
+                    endDate: endDate
+                }
+            })
+        });
+    });
+</script>
+</body>
+</html>

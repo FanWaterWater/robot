@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>用户中心--后台管理</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <link rel="stylesheet" href="../../layui/css/layui.css" media="all" />
+    <link rel="stylesheet" href="../../css/public.css" media="all" />
+    <style>
+        .cur{    margin: 20px 0;}
+        .cur span{color: red;font-size: 20px;margin: 0 10px}
+    </style>
+</head>
+<body class="childrenBody">
+
+<form class="layui-form" action="">
+    <blockquote class="layui-elem-quote quoteBox">
+        <div class="cur">当前设置：价格<span id="curPrice"></span>元，求购量<span id="curCount"></span>份</div>
+    <div class="layui-inline">
+        <label class="layui-form-label">价格(元)</label>
+        <div class="layui-input-block">
+            <input type="text" name="price"   lay-filter="price" placeholder="价格" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-inline">
+        <label class="layui-form-label">求购量(份)</label>
+        <div class="layui-input-block">
+            <input type="text" name="count"  lay-filter="count"  autocomplete="off" class="layui-input" value="0">
+        </div>
+    </div>
+    <div class="layui-inline layui-input-block">
+        <a class="layui-btn" lay-submit lay-filter="public">修改</a>
+        <a class="layui-btn layui-btn-danger delAll_btn">批量删除</a>
+    </div>
+    </blockquote>
+</form>
+
+    <table id="listTable" lay-filter="list"></table>
+    <!--操作-->
+    <script type="text/html" id="listBar">
+        <a class="layui-btn layui-btn-xs layui-btn-danger" lay-event="del">删除</a>
+    </script>
+
+<script type="text/javascript" src="../../layui/layui.js"></script>
+<script type="text/javascript" src="setting.js"></script>
+</body>
+</html>

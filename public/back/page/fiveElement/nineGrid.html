@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <META HTTP-EQUIV="pragma" CONTENT="no-cache">
+    <META HTTP-EQUIV="Cache-Control" CONTENT="no-cache, must-revalidate">
+    <META HTTP-EQUIV="expires" CONTENT="0">
+    <title>九宫格设置</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <link rel="stylesheet" href="../../layui/css/layui.css" media="all"/>
+    <link rel="stylesheet" href="../../css/public.css" media="all"/>
+    <style>
+        .cur{    margin: 20px 0;}
+        .cur span{color: red;font-size: 20px;margin: 0 10px}
+    </style>
+</head>
+<body class="childrenBody">
+
+<form class="layui-form" style="" id="" enctype="multipart/form-data">
+    <blockquote class="layui-elem-quote quoteBox">
+        <a class="layui-btn  layui-btn-normal records_btn">查看抽奖记录</a>
+    </blockquote>
+</form>
+
+<table id="listTable" lay-filter="list"></table>
+<!--操作-->
+<script type="text/html" id="listBar">
+    <a class="layui-btn layui-btn-xs " lay-event="edit">编辑</a>
+</script>
+<script type="text/javascript" src="../../layui/layui.js"></script>
+<script type="text/javascript" src="nineGrid.js"></script>
+</body>
+</html>

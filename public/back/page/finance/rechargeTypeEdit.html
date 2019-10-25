@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <META HTTP-EQUIV="pragma" CONTENT="no-cache">
+    <META HTTP-EQUIV="Cache-Control" CONTENT="no-cache, must-revalidate">
+    <META HTTP-EQUIV="expires" CONTENT="0">
+    <title>1</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <link rel="stylesheet" href="../../layui/css/layui.css" media="all"/>
+    <link rel="stylesheet" href="../../css/public.css" media="all"/>
+    <link rel="stylesheet" href="../../css/june.css" media="all"/>
+    <style>
+        input:disabled{
+            color: #000;
+        }
+        .rechargeScale{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+    </style>
+</head>
+<body class="childrenBody">
+<form class="layui-form" style="" id="" enctype="multipart/form-data">
+    <input type="hidden" name="id" value=""/>
+    <div class="layui-col-xs6">
+        <div class="layui-form-item layui-row layui-col-xs12">
+            <label class="layui-form-label">ID</label>
+            <div class="layui-input-block">
+                <input class="layui-input" lay-verify="required" type="text" name="id" value="" disabled />
+            </div>
+        </div>
+        <div class="layui-form-item layui-row layui-col-xs12">
+            <label class="layui-form-label">充值类型</label>
+            <div class="layui-input-block">
+                <input class="layui-input" lay-verify="required" type="text" name="type" value="" disabled/>
+            </div>
+        </div>
+        <div class="layui-form-item layui-row layui-col-xs12">
+            <label class="layui-form-label">充值比例</label>
+            <div class="layui-input-block rechargeScale">
+                <span  style="letter-spacing: 5px">1:</span>
+                <input class="layui-input" lay-verify="required" type="text" name="scale" value="" />
+            </div>
+        </div>
+        <div class="layui-form-item layui-row layui-col-xs12">
+            <label class="layui-form-label">说明</label>
+            <div class="layui-input-block">
+                <input class="layui-input" lay-verify="required" type="text" name="remark" value="" disabled/>
+            </div>
+        </div>
+        <div class="layui-form-item layui-row layui-col-xs12">
+            <div class="layui-input-block">
+                <button class="layui-btn layui-btn" lay-submit="" lay-filter="public">确认</button>
+            </div>
+        </div>
+    </div>
+</form>
+
+<script type="text/javascript" src="../../layui/layui.js"></script>
+<script type="text/javascript" src="rechargeTypeEdit.js"></script>
+</body>
+</html>

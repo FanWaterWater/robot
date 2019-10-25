@@ -1,0 +1,119 @@
+{
+    "contentManagement": [{
+            "title": "管理员中心",
+            "icon": "icon-text",
+            "spread": false,
+            "children": [{
+                "title": "管理员列表",
+                "icon": "icon-text",
+                "href": "page/admin/adminList.html"
+            }]
+        },
+        {
+            "title": "会员中心",
+            "icon": "icon-text",
+            "spread": false,
+            "children": [{
+                "title": "会员列表",
+                "icon": "icon-text",
+                "href": "page/customer/customerList.html"
+            }, {
+                "title": "会员等级",
+                "icon": "icon-text",
+                "href": "page/customer/levelsList.html"
+            }, {
+                "title": "会员权限",
+                "icon": "icon-text",
+                "href": "page/customer/permissionsList.html"
+            }, {
+                "title": "VIP激活码",
+                "icon": "icon-text",
+                "href": "page/customer/vipcodeList.html"
+            }]
+        },
+        {
+            "title": "财务列表",
+            "icon": "icon-text",
+            "spread": false,
+            "children": [{
+                "title": "会员开通记录",
+                "icon": "icon-text",
+                "href": "page/finance/userRechargesList.html"
+            }, {
+                "title": "会员收益",
+                "icon": "icon-text",
+                "href": "page/finance/balancesList.html"
+            }, {
+                "title": "会员账单",
+                "icon": "icon-text",
+                "href": "page/finance/billsList.html"
+            }]
+        },
+        {
+            "title": "提现申请",
+            "icon": "icon-text",
+            "spread": false,
+            "href": "page/withdrawal/withdrawalList.html"
+        },
+        {
+            "title": "实名认证",
+            "icon": "icon-text",
+            "spread": false,
+            "href": "page/realnameVerifys/realname.html"
+        },
+        {
+            "title": "公告管理",
+            "icon": "icon-text",
+            "spread": false,
+            "href": "page/notices/noticesList.html"
+        },
+        {
+            "title": "帮助中心",
+            "icon": "icon-text",
+            "href": "page/help/helpsList.html",
+            "spread": false
+        },
+        {
+            "title": "视频中心",
+            "icon": "icon-text",
+            "href": "page/video/videoList.html",
+            "spread": false
+        },
+        {
+            "title": "公司介绍",
+            "icon": "icon-text",
+            "href": "page/company/companyList.html",
+            "spread": false
+        },
+        {
+            "title": "代理介绍",
+            "icon": "icon-text",
+            "href": "page/agentIntroduction/agentList.html",
+            "spread": false
+        },
+        {
+            "title": "代理设置",
+            "icon": "icon-text",
+            "href": "page/agent/agentList.html",
+            "spread": false
+        },
+        {
+            "title": "弹窗设置",
+            "icon": "icon-text",
+            "href": "page/ads/adList.html",
+            "spread": false
+        },
+        {
+            "title": "系统配置",
+            "icon": "icon-text",
+            "href": "page/systemConfig/configList.html",
+            "spread": false
+        },
+        {
+            "title": "在线客服",
+            "icon": "icon-text",
+            "href": "page/faq/index.html?kid=f001",
+            "spread": false
+        }
+    ]
+}

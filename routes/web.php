@@ -12,5 +12,9 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('layout.header');
+});
+
+Route::get('test', function () {
+    return \App\Services\Token::id();
 });
