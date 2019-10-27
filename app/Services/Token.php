@@ -4,19 +4,21 @@ namespace App\Services;
 use App\Utils\UserType;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 
 class Token
 {
     public static function id()
     {
-        $guard = JWTAuth::parseToken()->getPayload()['role'];
-        return Auth::guard($guard)->id();
+        return JWTAuth::parseToken()->getPayload()['sub'];
     }
 
     public static function user()
     {
         $guard = JWTAuth::parseToken()->getPayload()['role'];
-        return Auth::guard($guard)->user();
+        return Cache::remember($guard . '_' . self::id(), 3600, function () use ($guard) {
+            return Auth::guard($guard)->user();
+        });
     }
 
     public static function userType()

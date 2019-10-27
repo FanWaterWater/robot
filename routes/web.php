@@ -16,5 +16,6 @@ Route::get('/', function () {
 });
 
 Route::get('test', function () {
+    return JWTAuth::parseToken()->getPayload();
     return \App\Services\Token::id();
 });
