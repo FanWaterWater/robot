@@ -28,7 +28,7 @@ class CreateUsersTable extends Migration
             $table->tinyInteger('status')->nullable()->default(0)->comment('账号状态');
             $table->string('remark', 256)->nullable()->default('')->comment('备注，账号状态为封号的时候使用');
             $table->timestamps();
-            $table->index(['id', 'username', 'invite_id', 'invite_code', 'status']);
+            $table->index(['id', 'username', 'level_id', 'invite_id', 'invite_code', 'status']);
         });
     }
 

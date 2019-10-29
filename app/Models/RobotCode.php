@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-class VipCode extends Model
+class RobotCode extends Model
 {
     public static function generateCode($length = 8)
     {
@@ -14,8 +14,8 @@ class VipCode extends Model
         return $this->hasOne(User::class, 'id', 'user_id');
     }
 
-    public function level()
+    public function robot()
     {
-        return $this->hasOne(Level::class, 'id', 'level_id')->select('id', 'name');
+        return $this->hasOne(Robot::class, 'id', 'robot_id');
     }
 }

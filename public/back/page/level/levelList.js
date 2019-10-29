@@ -12,15 +12,17 @@ layui.use(['form', 'layer', 'laydate', 'table', 'laytpl', 'ajaxUrl'], function (
         table = layui.table;
     var ajaxArr = layui.ajaxUrl;
 
-    var ajaxUrl = ajaxArr.configsList;
+    var ajaxUrl = ajaxArr.levelsList;
     //列表
     var tableIns = table.render({
         elem: '#listTable',
         method: "get",
         url: ajaxUrl,
         cellMinWidth: 95,
-        page: false,
+        page: true,
         height: "full-125",
+        limit: 10,
+        limits: [10, 15, 20, 25],
         id: "listTable",
         response: {
             statusCode: 200 //成功的状态码，默认：200
@@ -37,29 +39,92 @@ layui.use(['form', 'layer', 'laydate', 'table', 'laytpl', 'ajaxUrl'], function (
                     width: 50
                 },
                 {
-                    field: 'flag',
-                    title: '配置标识',
+                    field: 'sort',
+                    title: '排序',
                     minWidth: 100,
                     align: "center"
                 },
                 {
-                    field: 'param',
-                    title: '配置值',
+                    field: 'name',
+                    title: '等级名称',
+                    minWidth: 100,
+                    align: "center"
+                },
+                {
+                    field: 'direct_reward',
+                    title: '直推奖励',
                     minWidth: 100,
                     align: "center",
                     templet: function(d) {
-                        var param = ''
-                        if(d.type == 0) {
-                            param = d.int_param
-                        } else {
-                            param = d.string_param
-                        }
-                        return param
+                        return d.direct_reward + '元'
                     }
                 },
                 {
-                    field: 'remark',
-                    title: '备注',
+                    field: 'indirect_reward',
+                    title: '间推奖励',
+                    minWidth: 100,
+                    align: "center",
+                    templet: function(d) {
+                        return d.indirect_reward + '元'
+                    }
+                },
+                {
+                    field: 'income_reward_direct',
+                    title: '直推收益奖励',
+                    minWidth: 100,
+                    align: "center",
+                    templet: function(d) {
+                        return d.income_reward.direct + '%'
+                    }
+                },
+                {
+                    field: 'income_reward_indirect',
+                    title: '间推收益奖励',
+                    minWidth: 100,
+                    align: "center",
+                    templet: function(d) {
+                        return d.income_reward.indirect + '%'
+                    }
+                },
+                {
+                    field: 'income_reward_team',
+                    title: '团队收益奖励',
+                    minWidth: 100,
+                    align: "center",
+                    templet: function(d) {
+                        return d.income_reward.team + '%'
+                    }
+                },
+                {
+                    field: 'upgrade_direct',
+                    title: '升级(直推)',
+                    minWidth: 100,
+                    align: "center",
+                    templet: function(d) {
+                        return d.upgrade.direct
+                    }
+                },
+                {
+                    field: 'upgrade_indirect',
+                    title: '升级(间推)',
+                    minWidth: 100,
+                    align: "center",
+                    templet: function(d) {
+                        return d.upgrade.indirect
+                    }
+                },
+                {
+                    field: 'upgrade_team',
+                    title: '升级(团队)',
+                    minWidth: 100,
+                    align: "center",
+                    templet: function(d) {
+                        return d.upgrade.team
+                    }
+                },
+                {
+                    field: 'updated_at',
+                    title: '修改时间',
                     minWidth: 100,
                     align: "center"
                 },
@@ -94,7 +159,7 @@ layui.use(['form', 'layer', 'laydate', 'table', 'laytpl', 'ajaxUrl'], function (
         var index = layui.layer.open({
             title: "添加",
             type: 2,
-            content: "configEdit.html?mode=add",
+            content: "levelEdit.html?mode=add",
             success: function (layero, index) {
                 var body = layui.layer.getChildFrame('body', index);
 
@@ -112,25 +177,16 @@ layui.use(['form', 'layer', 'laydate', 'table', 'laytpl', 'ajaxUrl'], function (
         var index = layui.layer.open({
             title: "编辑",
             type: 2,
-            content: "configEdit.html?mode=edit",
+            content: "levelEdit.html?mode=edit",
             success: function (layero, index) {
                 var body = layui.layer.getChildFrame('body', index);
                 if (data) {
-                    console.log(data)
                     body.find("*[name=id]").val(data.id);
-                    body.find("*[name=flag]").val(data.flag);
-                    body.find("*[name=type][value="+ data.type +"]").attr('checked', true);
-                    var param;
-                    var inputType;
-                    if(data.type == 0) {
-                        param = data.int_param
-                        inputType = 'number'
-                    }else {
-                        param = data.string_param
-                        inputType = 'text'
+                    body.find("*[name=name]").val(data.name);
+                    body.find("*[name=wechat]").val(data.wechat);
+                    if(data.type == 1) {
+                        body.find("*[name=type]").attr('checked', true);
                     }
-                    body.find("*[name=param]").val(param).attr('type', inputType);
-                    body.find("*[name=remark]").val(data.remark);
 
                     form.render();
                 }
@@ -149,8 +205,8 @@ layui.use(['form', 'layer', 'laydate', 'table', 'laytpl', 'ajaxUrl'], function (
             icon: 3,
             title: '提示信息'
         }, function (index) {
-            var ajaxUrl = ajaxArr.configsDelete.url;
-            var ajaxType = ajaxArr.configsDelete.method;
+            var ajaxUrl = ajaxArr.levelsDelete.url;
+            var ajaxType = ajaxArr.levelsDelete.method;
             var loading = layer.load();
 
             $.ajax({
@@ -183,8 +239,8 @@ layui.use(['form', 'layer', 'laydate', 'table', 'laytpl', 'ajaxUrl'], function (
         var checkStatus = table.checkStatus('listTable'),
             data = checkStatus.data,
             ids = [];
-        ajaxUrl = ajaxArr.configsDelAll.url;
-        ajaxType = ajaxArr.configsDelAll.method;
+        ajaxUrl = ajaxArr.levelsDelAll.url;
+        ajaxType = ajaxArr.levelsDelAll.method;
         if (data.length > 0) {
             for (var i in data) {
                 ids.push(data[i].id);

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <META HTTP-EQUIV="pragma" CONTENT="no-cache">
+    <META HTTP-EQUIV="Cache-Control" CONTENT="no-cache, must-revalidate">
+    <META HTTP-EQUIV="expires" CONTENT="0">
+    <title>1</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <link rel="stylesheet" href="../../layui/css/layui.css" media="all" />
+    <link rel="stylesheet" href="../../css/public.css" media="all" />
+    <link rel="stylesheet" href="../../css/june.css" media="all" />
+</head>
+
+<body class="childrenBody">
+    <form class="layui-form" style="" id="" enctype="multipart/form-data">
+        <input type="hidden" name="id" value="" />
+        <div class="layui-col-xs6">
+            <div class="layui-form-item layui-row layui-col-xs12">
+                <label class="layui-form-label">等级名称<span style="color: red;">*</span></label>
+                <div class="layui-input-block">
+                    <input class="layui-input" lay-verify="required" placeholder="请输入等级名字" type="text" name="name" value="" />
+                </div>
+            </div>
+            <div class="layui-form-item layui-row layui-col-xs12">
+                <label class="layui-form-label">直推奖励<span style="color: red;">*</span></label>
+                <div class="layui-input-block">
+                    <input class="layui-input" lay-verify="required" placeholder="单位：元" type="number" name="direct_reward" value="" />
+                </div>
+            </div>
+            <div class="layui-form-item layui-row layui-col-xs12">
+                <label class="layui-form-label">间推奖励<span style="color: red;">*</span></label>
+                <div class="layui-input-block">
+                    <input class="layui-input" lay-verify="required" placeholder="单位：元" type="number" name="indirect_reward" value="" />
+                </div>
+            </div>
+            <div class="layui-form-item layui-row layui-col-xs12">
+                <label class="layui-form-label">收益奖励<span style="color: red;">*</span></label>
+                <div class="layui-input-block">
+                    <input class="layui-input" lay-verify="required" placeholder="直推收益奖励，单位：%" type="number" name="income_reward_direct" value=""/>
+                    <input class="layui-input" lay-verify="required" placeholder="间推收益奖励，单位：%" type="number" name="income_reward_indirect" value="" style="margin-top:5px"/>
+                    <input class="layui-input" lay-verify="required" placeholder="团队收益奖励，单位：%" type="number" name="income_reward_team" value="" style="margin-top:5px"/>
+                </div>
+            </div>
+            <div class="layui-form-item layui-row layui-col-xs12">
+                <label class="layui-form-label">升级条件<span style="color: red;">*</span></label>
+                <div class="layui-input-block">
+                    <input class="layui-input" lay-verify="required" placeholder="直推机器数量" type="number" name="upgrade_direct" value="" />
+                    <input class="layui-input" lay-verify="required" placeholder="间推机器数量" type="number" name="upgrade_indirect" value="" style="margin-top:5px"/>
+                    <input class="layui-input" lay-verify="required" placeholder="团队机器数量" type="number" name="upgrade_team" value="" style="margin-top:5px"/>
+                </div>
+            </div>
+            <div class="layui-form-item layui-row layui-col-xs12">
+                <label class="layui-form-label">排序<span style="color: red;">*</span></label>
+                <div class="layui-input-block">
+                    <input class="layui-input" lay-verify="required" placeholder="重要！越难升级的等级值必须越大！" type="number" name="sort" value="" />
+                </div>
+            </div>
+            <div class="layui-form-item layui-row layui-col-xs12">
+                <div class="layui-input-block">
+                    <button class="layui-btn layui-btn-sm" lay-submit="" lay-filter="public">确认</button>
+                </div>
+            </div>
+        </div>
+    </form>
+
+    <script type="text/javascript" src="../../layui/layui.js"></script>
+    <script type="text/javascript" src="levelEdit.js"></script>
+</body>
+
+</html>

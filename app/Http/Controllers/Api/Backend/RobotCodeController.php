@@ -3,13 +3,12 @@
 namespace App\Http\Controllers\Api\Backend;
 
 use App\Models\Level;
-use App\Models\VipCode;
+use App\Models\RobotCode;
 use Illuminate\Http\Request;
 use App\Services\LaravelExcel;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Web\VipCodeRequest;
 
-class VipCodeController extends Controller
+class RobotCodeController extends Controller
 {
     public function index(Request $request)
     {
@@ -17,9 +16,9 @@ class VipCodeController extends Controller
         $status = $request->status ?? -1;
         $code = $request->code;
         $startDate = $request->startDate;
-        $endDate = $request->endDate ? $request->endDate . ' 23:59:59' : null;;
+        $endDate = $request->endDate ? $request->endDate . ' 23:59:59' : null;
         $orderBy = $request->orderBy ? 'asc' : 'desc';
-        $codes = VipCode::when($code, function ($query) use ($code) {
+        $codes = RobotCode::when($code, function ($query) use ($code) {
             return $query->where('code', 'like', '%' . $code . '%');
         })->when($status > -1, function ($query) use ($status) {
             return $query->where('status', $status);
@@ -27,35 +26,34 @@ class VipCodeController extends Controller
             return $query->where('created_at', '>=', $startDate);
         })->when($endDate, function ($query) use ($endDate) {
             return $query->where('created_at', '<=', $endDate);
-        })->with(['user', 'level'])->orderBy('created_at', $orderBy)->paginate($limit);
+        })->orderBy('created_at', $orderBy)->paginate($limit);
         return success($codes);
     }
 
     public function store(Request $request)
     {
-        $level_id = $request->level_id;
         $count = $request->count;
-        $vipCode = [];
+        $robotCode = [];
         for ($i = 0; $i < $count; $i++) {
-            $code = VipCode::generateCode();
-            $vipCode[] = VipCode::create(['code' => $code, 'level_id' => $level_id]);
+            $code = RobotCode::generateCode();
+            $robotCode[] = RobotCode::create(['code' => $code]);
         }
-        if (isset($vipCode)) {
-            return success($vipCode);
+        if (isset($robotCode)) {
+            return success($robotCode);
         }
         return error();
     }
 
     public function show($id)
     {
-        $vipCode = VipCode::with(['user', 'level'])->find($id);
-        return success($vipCode);
+        $robotCode = RobotCode::with(['user', 'level'])->find($id);
+        return success($robotCode);
     }
 
     public function update(Request $request, $id)
     {
         $data = request()->all();
-        if (VipCode::where('id', $id)->update($data)) {
+        if (RobotCode::where('id', $id)->update($data)) {
             return success();
         }
         return error();
@@ -63,7 +61,7 @@ class VipCodeController extends Controller
 
     public function destroy($id)
     {
-        if (VipCode::where('id', $id)->delete()) {
+        if (RobotCode::where('id', $id)->delete()) {
             return success();
         }
         return error();
@@ -76,7 +74,7 @@ class VipCodeController extends Controller
         $startDate = $request->startDate;
         $endDate = $request->endDate ? $request->endDate . ' 23:59:59' : null;;
         $orderBy = $request->orderBy ? 'asc' : 'desc';
-        $codes = VipCode::when($code, function ($query) use ($code) {
+        $codes = RobotCode::when($code, function ($query) use ($code) {
             return $query->where('code', 'like', '%' . $code . '%');
         })->when($status > -1, function ($query) use ($status) {
             return $query->where('status', $status);
@@ -84,20 +82,19 @@ class VipCodeController extends Controller
             return $query->where('created_at', '>=', $startDate);
         })->when($endDate, function ($query) use ($endDate) {
             return $query->where('created_at', '<=', $endDate);
-        })->with(['level'])->orderBy('created_at', $orderBy)->get();
+        })->orderBy('created_at', $orderBy)->get();
         $data = [];
-        $title = ['ID', '会员ID', '会员等级', '激活码', '使用状态', '创建时间'];
+        $title = ['ID', '会员ID', '激活码', '使用状态', '创建时间'];
         array_push($data, $title);
         foreach ($codes as &$code) {
-            $code->level = Level::find($code->level_id)['name'];
             if ($code->status == 1) {
                 $code->status = '已使用';
             } else {
                 $code->status = '未使用';
             }
-            array_push($data, [$code->id, $code->user_id, $code->level, $code->code, $code->status, $code->created_at]);
+            array_push($data, [$code->id, $code->user_id, $code->code, $code->status, $code->created_at]);
         }
-        $name = 'VIP激活码';
+        $name = '激活码';
         LaravelExcel::export($name, $data);
     }
 }

@@ -80,7 +80,7 @@ layui.use(['form', 'layer', 'laydate', 'table', 'laytpl', 'ajaxUrl'], function (
         var index = layui.layer.open({
             title: "编辑",
             type: 2,
-            content: "companysEdit.html?mode=edit",
+            content: "companyEdit.html?mode=edit",
             success: function (layero, index) {
                 var body = layui.layer.getChildFrame('body', index);
                 if (data) {
@@ -100,7 +100,7 @@ layui.use(['form', 'layer', 'laydate', 'table', 'laytpl', 'ajaxUrl'], function (
 
     // 删除
     function del(data){
-        layer.confirm('确定删除此用户？',{icon:3, title:'提示信息'},function(index){
+        layer.confirm('确定删除该数据？',{icon:3, title:'提示信息'},function(index){
             var ajaxUrl = ajaxArr.companysDelete.url;
             var ajaxType = ajaxArr.companysDelete.method;
             var loading = layer.load();

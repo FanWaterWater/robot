@@ -50,16 +50,30 @@
             }]
         },
         {
+            "title": "机器管理",
+            "icon": "icon-text",
+            "spread": false,
+            "children": [{
+                "title": "机器列表",
+                "icon": "icon-text",
+                "href": "page/robot/robotList.html"
+            }, {
+                "title": "激活码",
+                "icon": "icon-text",
+                "href": "page/robot/codeList.html"
+            }]
+        },
+        {
+            "title": "等级设置",
+            "icon": "icon-text",
+            "spread": false,
+            "href": "page/level/levelList.html"
+        },
+        {
             "title": "提现申请",
             "icon": "icon-text",
             "spread": false,
             "href": "page/withdrawal/withdrawalList.html"
-        },
-        {
-            "title": "实名认证",
-            "icon": "icon-text",
-            "spread": false,
-            "href": "page/realnameVerifys/realname.html"
         },
         {
             "title": "公告管理",

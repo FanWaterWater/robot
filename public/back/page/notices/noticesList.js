@@ -98,7 +98,7 @@ layui.use(['form', 'layer', 'laydate', 'table', 'laytpl', 'ajaxUrl'], function (
 
     // 删除
     function del(data){
-        layer.confirm('确定删除此用户？',{icon:3, title:'提示信息'},function(index){
+        layer.confirm('确定删除该数据？',{icon:3, title:'提示信息'},function(index){
             var ajaxUrl = ajaxArr.noticesDelete.url;
             var ajaxType = ajaxArr.noticesDelete.method;
             var loading = layer.load();

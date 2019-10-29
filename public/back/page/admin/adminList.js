@@ -156,7 +156,7 @@ layui.use(['form', 'layer', 'laydate', 'table', 'laytpl', 'ajaxUrl'], function (
         if (layEvent === 'edit') { //编辑
             edit(data);
         }else if(layEvent === 'del'){ //删除
-            layer.confirm('确定删除此用户？',{icon:3, title:'提示信息'},function(index){
+            layer.confirm('确定删除该数据？',{icon:3, title:'提示信息'},function(index){
                 var ajaxUrl = ajaxArr.adminsDelete.url + '/' + data.id;
                 var ajaxType = ajaxArr.adminsDelete.method;
                 var loading = layer.load();

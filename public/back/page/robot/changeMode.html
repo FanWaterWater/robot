@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <META HTTP-EQUIV="pragma" CONTENT="no-cache">
+    <META HTTP-EQUIV="Cache-Control" CONTENT="no-cache, must-revalidate">
+    <META HTTP-EQUIV="expires" CONTENT="0">
+    <title>1</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <link rel="stylesheet" href="../../layui/css/layui.css" media="all"/>
+    <link rel="stylesheet" href="../../css/public.css" media="all"/>
+    <style>
+        .childrenBody{
+            padding-top: 40px;
+        }
+       #priceType{
+           height: 35px;width: 100px
+       }
+    </style>
+</head>
+<body class="childrenBody">
+        <div class="layui-inline">
+            <label class="layui-form-label" style="width: auto">购买模式</label>
+                <select name="priceType" id="priceType" lay-verify="required">
+                    <option value="0">永久付</option>
+                    <option value="1">按月付</option>
+                </select>
+        </div>
+        <div class="layui-inline">
+            <a class="layui-btn change_btn" id="changeBtn" >确认</a>
+        </div>
+
+<script type="text/javascript" src="../../layui/layui.js"></script>
+<script>
+    layui.config({
+        base: "../../js/"
+    }).extend({
+        "ajaxUrl": "ajax_config"
+    });
+    layui.use(['form', 'layer', 'laydate', 'table', 'laytpl', 'ajaxUrl'], function () {
+
+        var ajaxArr = layui.ajaxUrl,
+            $ = layui.jquery;
+
+        $('#changeBtn').click(function () {
+            var id = $('#priceType option:selected').attr('data-id');
+            var mode = $('#priceType').val();
+
+            $.ajax({
+                url: ajaxArr.changeMode.url,
+                type: ajaxArr.changeMode.method,
+                data: {
+                    id: id,
+                    mode: mode
+                },
+                async: true,
+                dataType: "json",
+                headers:{'token':token},
+                success: function (res) {
+                    if(res.code == 200) {
+                        layer.msg(res.msg);
+                        setTimeout(function () {
+                            parent.location.reload();
+                        },1000)
+                    } else {
+                        layer.msg(res.msg[0]);
+                    }
+                },
+                complete: function () {
+
+                }
+            });
+        })
+
+    });
+</script>
+</body>
+</html>

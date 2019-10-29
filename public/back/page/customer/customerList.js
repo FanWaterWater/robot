@@ -29,7 +29,7 @@ layui.use(['form', 'layer', 'laydate', 'table', 'laytpl', 'ajaxUrl'], function (
         id: "listTable",
         response: {
          	statusCode: 200 //成功的状态码，默认：200
-         },  
+         },
         cols: [[
             // {type: "checkbox", fixed: "left", width: 50},
             {field: 'id', title: 'ID', width: 100,align: "center"},
@@ -494,7 +494,7 @@ layui.use(['form', 'layer', 'laydate', 'table', 'laytpl', 'ajaxUrl'], function (
         }else if (layEvent === 'edit') { //编辑
             edit(data);
         }else if(layEvent === 'del'){ //删除
-            layer.confirm('确定删除此用户？',{icon:3, title:'提示信息'},function(index){
+            layer.confirm('确定删除该数据？',{icon:3, title:'提示信息'},function(index){
                 var ajaxUrl = ajaxArr.userDelete.url;
                 var ajaxType = ajaxArr.userDelete.method;
                 var loading = layer.load();

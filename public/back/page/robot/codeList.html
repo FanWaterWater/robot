@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<META HTTP-EQUIV="pragma" CONTENT="no-cache">
+	<META HTTP-EQUIV="Cache-Control" CONTENT="no-cache, must-revalidate">
+	<META HTTP-EQUIV="expires" CONTENT="0">
+	<title></title>
+	<meta name="renderer" content="webkit">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="format-detection" content="telephone=no">
+	<link rel="stylesheet" href="../../layui/css/layui.css" media="all" />
+	<link rel="stylesheet" href="../../css/public.css" media="all" />
+	<link rel="stylesheet" href="../../css/june.css" media="all" />
+</head>
+<body class="childrenBody">
+<form class="layui-form">
+	<blockquote class="layui-elem-quote quoteBox">
+		<form class="layui-form" enctype="" type="">
+				<div class="layui-input-inline">
+					<input type="text" class="layui-input" name="code" id="code" placeholder="激活码" />
+				</div>
+				<div class="layui-input-inline">
+					<select name="status" id="status">
+						<option value="">请选择</option>
+						<option value="0">未使用</option>
+						<option value="1">已使用</option>
+					</select>
+				</div>
+				<div class="layui-input-inline">
+					<select name="orderBy" id="orderBy">
+						<option value="1">升序</option>
+						<option value="0">降序</option>
+					</select>
+				</div>
+			<div class="layui-input-inline width150">
+				<input type="text" class="layui-input" id="minDate" placeholder="开始日期"/>
+			</div>
+			<div class="layui-inline">&nbsp;至&nbsp;</div>
+			<div class="layui-input-inline width150">
+				<input type="text" class="layui-input" id="maxDate" placeholder="结束日期"/>
+			</div>
+			<div class="layui-inline" >
+				<a class="layui-btn search_btn" data-type="reload">查询</a>
+				<a class="layui-btn layui-btn-normal ExportBtn">导出</a>
+				<a class="layui-btn layui-btn-normal add_btn">添加激活码</a>
+			 </div>
+
+		</form>
+	</blockquote>
+	<table id="listTable" lay-filter="list"></table>
+	<!--操作-->
+	<script type="text/html" id="listBar">
+		{{#  if(d.status == 0){ }}
+		 <a class="layui-btn layui-btn-xs" lay-event="edit" >编辑</a>
+		{{# }else if(d.status == 1){ }}
+		<a class="layui-btn layui-btn-xs layui-btn-disabled" lay-event="edit" >编辑</a>
+		{{#  }  }}
+		 <a class="layui-btn layui-btn-xs layui-btn-danger" lay-event="del">删除</a>
+	</script>
+	<!--使用状态-->
+	<script type="text/html" id="listStatus">
+		{{#  if(d.status == 0){ }}
+		<span >未使用</span>
+		{{# }else if(d.status == 1){ }}
+		<span style="color:red;">已使用</span>
+		{{#  }  }}
+	</script>
+</form>
+<script type="text/javascript" src="../../layui/layui.js"></script>
+<script type="text/javascript" src="codeList.js"></script>
+
+</body>
+</html>
