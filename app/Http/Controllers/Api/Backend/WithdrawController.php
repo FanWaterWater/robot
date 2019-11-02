@@ -28,7 +28,7 @@ class WithdrawController extends Controller
             return $query->where('created_at', '>=', $startDate);
         })->when($endDate, function ($query) use ($endDate) {
             return $query->where('created_at', '<=', $endDate);
-        })->with(['user'])->orderBy('created_at', $orderBy)->paginate($limit);
+        })->with(['user:id,username,nickname'])->orderBy('id', $orderBy)->paginate($limit);
         return success($withdraws);
     }
 

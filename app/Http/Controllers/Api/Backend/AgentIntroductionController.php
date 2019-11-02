@@ -15,7 +15,7 @@ class AgentIntroductionController extends Controller
         $orderBy = $request->orderBy ? 'asc' : 'desc';
         $agents = AgentIntroduction::when($title, function ($query) use ($title) {
             return $query->where('title', 'like', '%' . $title . '%');
-        })->orderBy('created_at', $orderBy)->paginate($limit);
+        })->orderBy('id', $orderBy)->paginate($limit);
         return success($agents);
     }
 

@@ -12,7 +12,7 @@ layui.use(['form', 'layer', 'laydate', 'table', 'laytpl', 'ajaxUrl'], function (
         table = layui.table;
     var ajaxArr = layui.ajaxUrl;
 
-    var ajaxUrl = ajaxArr.robotsList;
+    var ajaxUrl = ajaxArr.robotConfigsList;
     //列表
     var tableIns = table.render({
         elem: '#listTable',
@@ -36,15 +36,24 @@ layui.use(['form', 'layer', 'laydate', 'table', 'laytpl', 'ajaxUrl'], function (
                     width: 50
                 },
                 {
-                    field: 'robot_no',
-                    title: '机器编号',
-                    minWidth: 200,
-                    align: "center"
+                    field: 'income_switch',
+                    title: '收益开关',
+                    minWidth: 80,
+                    align: "center",
+                    templet: function (d) {
+                        var html = ''
+                        if (d.income_switch == 0) {
+                            html = '<p style="color:#5FB878">关</p>'
+                        } else {
+                            html = '<p style="color:#FFB800">开</p>'
+                        }
+                        return html;
+                    }
                 },
                 {
                     field: 'type',
                     title: '运行周期',
-                    minWidth: 100,
+                    minWidth: 80,
                     align: "center",
                     templet: function (d) {
                         var html = ''
@@ -57,31 +66,47 @@ layui.use(['form', 'layer', 'laydate', 'table', 'laytpl', 'ajaxUrl'], function (
                     }
                 },
                 {
-                    field: 'user_id',
-                    title: '用户ID',
-                    minWidth: 100,
-                    align: "center",
-                },
-                {
-                    field: 'username',
-                    title: '用户账号',
-                    minWidth: 100,
+                    field: 'income',
+                    title: '机器收益',
+                    minWidth: 80,
                     align: "center",
                     templet: function (d) {
-                        return d.user.username;
+                        return d.income + '元';
                     }
                 },
                 {
-                    field: 'start_time',
+                    field: 'price',
+                    title: '价格',
+                    minWidth: 80,
+                    align: "center",
+                    templet: function (d) {
+                        return d.price + '元';
+                    }
+                },
+                {
+                    field: 'limit',
+                    title: '周期时间',
+                    minWidth: 80,
+                    align: "center",
+                    templet: function (d) {
+                        if (d.type == 1) {
+                            return d.limit + '天';
+                        }
+                        return '无'
+                    }
+                },
+                {
+                    field: 'created_at',
                     title: '开始时间',
-                    minWidth: 150,
+                    minWidth: 100,
                     align: "center",
                 },
                 {
-                    field: 'end_time',
-                    title: '结束时间',
-                    minWidth: 150,
-                    align: "center",
+                    title: '操作',
+                    minWidth: 100,
+                    templet: '#listBar',
+                    fixed: "right",
+                    align: "center"
                 }
             ]
         ],
@@ -93,47 +118,44 @@ layui.use(['form', 'layer', 'laydate', 'table', 'laytpl', 'ajaxUrl'], function (
 
     var curMode = {};
     // 获取当前会员购买模式
-    // $.ajax({
-    //     url: ajaxArr.robotsConfig.url,
-    //     type: ajaxArr.robotsConfig.method,
-    //     async: true,
-    //     dataType: "json",
-    //     page: true,
-    //     height: "full-125",
-    //     limit: 10,
-    //     limits: [10, 15, 20, 25],
-    //     headers: {
-    //         'token': token
-    //     },
-    //     success: function (res) {
+    $.ajax({
+        url: ajaxArr.robotConfigsCurrent.url,
+        async: true,
+        dataType: "json",
+        height: "full-125",
+        headers: {
+            'token': token
+        },
+        success: function (res) {
 
-    //         if (res.code == 200) {
-    //             var incomeSwitch = '关闭'
-    //             if (res.data.income_switch == 1) {
-    //                 incomeSwitch = '开启'
-    //             }
-    //             $('#configId').attr('data-id', res.data.id)
-    //             $('#incomeSwitch').text(incomeSwitch).attr('data-switch', res.data.income_switch)
-    //             $('#price').text(res.data.price + '元').attr('data-price', res.data.price)
-    //             if (res.data.type == 0) {
-    //                 $('#type').text('永久').attr('data-type', res.data.type)
-    //                 $('#limit').text('无').attr('data-limit', 0)
-    //             } else {
-    //                 $('#type').text('周期').attr('data-id', res.data.id).attr('data-type', res.data.type)
-    //                 $('#limit').text(res.data.limit + '天').attr('data-limit', res.data.limit)
-    //             }
-    //             curMode = {
-    //                 id: res.data.id,
-    //                 mode: res.data.mode
-    //             }
-    //         } else {
-    //             console.log(res.msg);
-    //         }
-    //     },
-    //     complete: function () {
+            if (res.code == 200) {
+                var incomeSwitch = '关闭'
+                if (res.data.income_switch == 1) {
+                    incomeSwitch = '开启'
+                }
+                $('#configId').attr('data-id', res.data.id)
+                $('#incomeSwitch').text(incomeSwitch).attr('data-switch', res.data.income_switch)
+                $('#price').text(res.data.price + '元').attr('data-price', res.data.price)
+                $('#income').text(res.data.income + '元').attr('data-income', res.data.income)
+                if (res.data.type == 0) {
+                    $('#type').text('永久').attr('data-type', res.data.type)
+                    $('#limit').text('无').attr('data-limit', 0)
+                } else {
+                    $('#type').text('周期').attr('data-id', res.data.id).attr('data-type', res.data.type)
+                    $('#limit').text(res.data.limit + '天').attr('data-limit', res.data.limit)
+                }
+                curMode = {
+                    id: res.data.id,
+                    mode: res.data.mode
+                }
+            } else {
+                console.log(res.msg);
+            }
+        },
+        complete: function () {
 
-    //     }
-    // });
+        }
+    });
 
 
 
@@ -157,7 +179,7 @@ layui.use(['form', 'layer', 'laydate', 'table', 'laytpl', 'ajaxUrl'], function (
         var index = layui.layer.open({
             title: "添加",
             type: 2,
-            content: "robotsEdit.html?mode=add",
+            content: "configEdit.html?mode=add",
             success: function (layero, index) {
                 var body = layui.layer.getChildFrame('body', index);
 
@@ -175,34 +197,22 @@ layui.use(['form', 'layer', 'laydate', 'table', 'laytpl', 'ajaxUrl'], function (
         var index = layui.layer.open({
             title: "编辑",
             type: 2,
-            content: "robotsEdit.html?mode=edit",
+            content: "configEdit.html?mode=edit",
             success: function (layero, index) {
                 var body = layui.layer.getChildFrame('body', index);
                 if (data) {
-                    body.find("*[name=id]").val(data.id);
-                    body.find("*[name=sort]").val(data.sort);
-
-                    if (data.image != "" && data.image != null) {
-                        body.find("*[name=image]").val(data.image);
-                        body.find(".upload-img-box").append('<div class="upload-pre-item imgItem"><img src="' + data.image + '" class="img"></div>');
-                    } else {
-                        body.find(".upload-img-box").html("");
+                    body.find("*[name=id]").val(data.id)
+                    if (data.income_switch == 1) {
+                        body.find("*[name=income_switch]").attr('checked', true)
                     }
-
-
-
-                    body.find("*[name=name]").val(data.name);
-                    // body.find("*[name=permission]").val(data.permission);
-
-                    var list = [];
-                    for (var i = 0; i < data.permission.length; i++) {
-                        list.push(data.permission[i].id)
+                    var type = data.type;
+                    body.find("*[name=type][value=" + type + "]").attr('checked', true);
+                    if (type == 1) {
+                        body.find("#limit").show()
                     }
-                    body.find("*[name=permission]").val(JSON.stringify(list));
-                    body.find("*[name=price]").val(data.price);
-                    // body.find("*[name=month_price]").val(data.month_price);
-                    // body.find("*[name=forever_price]").val(data.forever_price);
-                    body.find("*[name=users_count]").val(data.users_count);
+                    body.find("*[name=limit]").val(data.limit)
+                    body.find("*[name=price]").val(data.price)
+                    body.find("*[name=income]").val(data.income)
                     form.render();
                 }
             }
@@ -255,12 +265,12 @@ layui.use(['form', 'layer', 'laydate', 'table', 'laytpl', 'ajaxUrl'], function (
             success: function (layero, index) {
                 var body = layui.layer.getChildFrame('body', index);
                 body.find("*[name=id]").val($('#configId').data('id'))
-                if($('#incomeSwitch').data('switch') == 1) {
+                if ($('#incomeSwitch').data('switch') == 1) {
                     body.find("*[name=income_switch]").attr('checked', true)
                 }
                 var type = $('#type').data('type');
-                body.find("*[name=type][value="+ type +"]").attr('checked', true);
-                if(type == 1) {
+                body.find("*[name=type][value=" + type + "]").attr('checked', true);
+                if (type == 1) {
                     body.find("#limit").show()
                 }
                 body.find("*[name=limit]").val($('#limit').data('limit'))

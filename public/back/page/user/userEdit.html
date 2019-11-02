@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <META HTTP-EQUIV="pragma" CONTENT="no-cache">
+    <META HTTP-EQUIV="Cache-Control" CONTENT="no-cache, must-revalidate">
+    <META HTTP-EQUIV="expires" CONTENT="0">
+    <title>1</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <link rel="stylesheet" href="../../layui/css/layui.css" media="all" />
+    <link rel="stylesheet" href="../../css/public.css" media="all" />
+    <link rel="stylesheet" href="../../css/june.css" media="all" />
+</head>
+
+<body class="childrenBody">
+    <form class="layui-form" style="" id="" enctype="multipart/form-data">
+        <input type="hidden" name="id" value="" />
+        <div class="layui-col-xs6">
+            <div class="layui-form-item layui-row layui-col-xs12" id="avatarDiv">
+                <label class="layui-form-label">头像</label>
+                <div class="layui-input-block ">
+                    <button type="button" class="layui-btn layui-btn-primary planeDiagram" id="avatar">
+                        <i class="layui-icon">&#xe67c;</i>上传图片
+                    </button>
+                    <div class="upload-img-box"></div>
+                    <input type="hidden" name="avatar" class="picInput" />
+                </div>
+            </div>
+            <div class="layui-form-item layui-row layui-col-xs12">
+                <label class="layui-form-label">昵称</label>
+                <div class="layui-input-block">
+                    <input class="layui-input" type="text" name="nickname" value="" />
+                </div>
+            </div>
+            <div class="layui-form-item layui-row layui-col-xs12">
+                <label class="layui-form-label">手机号<i class="layui-red">*</i></label>
+                <div class="layui-input-block">
+                    <input class="layui-input" lay-verify="required|phone|number" type="tel" name="username" value="" />
+                </div>
+            </div>
+            <div class="layui-form-item layui-row layui-col-xs12" id="pwdDiv">
+                <label class="layui-form-label">登录密码</label>
+                <div class="layui-input-block">
+                    <input class="layui-input" type="password" name="password" value="" />
+                </div>
+            </div>
+            <div class="layui-form-item layui-row layui-col-xs12 levelDiv">
+                <label class="layui-form-label">等级</label>
+                <div class="layui-input-block">
+                    <!--<input class="layui-input" lay-verify="required" type="text" name="level" value=""/>-->
+                    <select name="level" id="level" title="" lay-filter="level-select">
+                        <option value="">请选择等级</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="layui-form-item layui-row layui-col-xs12">
+                <label class="layui-form-label">推荐人</label>
+                <div class="layui-input-block">
+                    <input class="layui-input" lay-verify="required" type="text" name="recommend" value="" />
+                </div>
+            </div>
+
+            <div class="layui-form-item layui-row layui-col-xs12">
+                <label class="layui-form-label">状态</label>
+                <div class="layui-input-block">
+                    <!--<input class="layui-input" lay-verify="required" type="text" name="status" value=""/>-->
+                    <select name="status" id="status" title="">
+                        <option value="">请选择状态</option>
+                        <option value="0" selected>正常</option>
+                        <option value="1">冻结</option>
+                    </select>
+                </div>
+            </div>
+            <!--    <div class="layui-form-item layui-row layui-col-xs12">
+            <label class="layui-form-label">邮箱<i class="layui-red">*</i></label>
+            <div class="layui-input-block">
+                <input class="layui-input" lay-verify="required" type="text" name="email" value=""/>
+            </div>
+        </div>-->
+            <!--   <div class="layui-form-item layui-row layui-col-xs12">
+            <label class="layui-form-label">实名认证ID</label>
+            <div class="layui-input-block">
+                <input class="layui-input" lay-verify="required" type="text" name="realname_verify_id" value=""/>
+            </div>
+        </div>-->
+            <div class="layui-form-item layui-row layui-col-xs12">
+                <label class="layui-form-label">可提余额</label>
+                <div class="layui-input-block">
+                    <input class="layui-input" type="text" name="amount" value="" />
+                </div>
+            </div>
+            <div class="layui-form-item layui-row layui-col-xs12">
+                <label class="layui-form-label">总收益</label>
+                <div class="layui-input-block">
+                    <input class="layui-input" type="text" name="amount_total" value="" />
+                </div>
+            </div>
+
+            <div class="layui-form-item layui-row layui-col-xs12">
+                <label class="layui-form-label">支付宝姓名</label>
+                <div class="layui-input-block">
+                    <input class="layui-input" type="text" name="alipay_account_name" value="" />
+                </div>
+            </div>
+            <div class="layui-form-item layui-row layui-col-xs12">
+                <label class="layui-form-label">支付宝账号</label>
+                <div class="layui-input-block ">
+                    <input class="layui-input" type="text" name="alipay_account" value="" />
+                </div>
+            </div>
+            <div class="layui-form-item layui-row layui-col-xs12">
+                <label class="layui-form-label">银行名称</label>
+                <div class="layui-input-block ">
+                    <input class="layui-input" type="text" name="bank_name" value="" />
+                </div>
+            </div>
+            <div class="layui-form-item layui-row layui-col-xs12">
+                <label class="layui-form-label">开户姓名</label>
+                <div class="layui-input-block ">
+                    <input class="layui-input" type="text" name="bank_account_name" value="" />
+                </div>
+            </div>
+            <div class="layui-form-item layui-row layui-col-xs12">
+                <label class="layui-form-label">银行账号</label>
+                <div class="layui-input-block ">
+                    <input class="layui-input" type="text" name="bank_account" value="" />
+                </div>
+            </div>
+
+            <div class="layui-form-item layui-row layui-col-xs12">
+                <div class="layui-input-block">
+                    <button class="layui-btn layui-btn" lay-submit="" lay-filter="public">确认</button>
+                </div>
+            </div>
+        </div>
+    </form>
+
+    <script type="text/javascript" src="../../layui/layui.js"></script>
+    <script type="text/javascript" src="userEdit.js"></script>
+</body>
+
+</html>

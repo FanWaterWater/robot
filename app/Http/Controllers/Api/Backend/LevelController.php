@@ -11,7 +11,7 @@ class LevelController extends Controller
     public function index()
     {
         $pagesize = request('limit') ?? config('common.pagesize');
-        $levels = Level::paginate($pagesize);
+        $levels = Level::orderBy('sort', 'asc')->paginate($pagesize);
         return success($levels);
     }
 

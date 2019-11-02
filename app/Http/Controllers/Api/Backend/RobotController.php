@@ -29,7 +29,7 @@ class RobotController extends Controller
             return $query->where('created_at', '>=', $startDate);
         })->when($endDate, function ($query) use ($endDate) {
             return $query->where('created_at', '<=', $endDate);
-        })->with('user:id,username')->paginate($pagesize);
+        })->with('user:id,username')->orderBy('id', 'desc')->paginate($pagesize);
         return success($robots);
     }
 

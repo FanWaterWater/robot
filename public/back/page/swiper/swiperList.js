@@ -12,7 +12,7 @@ layui.use(['form', 'layer', 'laydate', 'table', 'laytpl', 'ajaxUrl'], function (
         table = layui.table;
     var ajaxArr = layui.ajaxUrl;
 
-    var ajaxUrl = ajaxArr.adsList;
+    var ajaxUrl = ajaxArr.swipersList;
     //列表
     var tableIns = table.render({
         elem: '#listTable',
@@ -29,64 +29,59 @@ layui.use(['form', 'layer', 'laydate', 'table', 'laytpl', 'ajaxUrl'], function (
         },
         cols: [
             [{
-                    type: "checkbox",
-                    fixed: "left",
-                    width: 50
-                },
-                {
                     field: 'id',
                     title: 'ID',
                     width: 50
                 },
                 {
-                    field: 'title',
-                    title: '标题',
+                    field: 'hidden',
+                    title: '是否显示',
                     minWidth: 150,
-                    align: "center"
+                    align: "center",
+                    templet: function (d) {
+                        var html = ''
+                        if (d.hidden == 0) {
+                            html = '<p style="color:#5FB878">显示</p>'
+                        } else {
+                            html = '<p style="color:#FFB800">隐藏</p>'
+                        }
+                        return html;
+                    }
                 },
                 {
                     field: 'image',
-                    title: '封面',
+                    title: '图片',
                     minWidth: 100,
                     align: "center",
-                    templet:function (d) {
-                        var image= d.image
-                        if(image != "" && image != null){
-                            image = '<img lay-event="openPic_image" src="'+image+'" style="height: 100%;width: auto"/>'
+                    templet: function (d) {
+                        var image = d.image
+                        if (image != "" && image != null) {
+                            image = '<img lay-event="openPic_image" src="' + image + '" style="height: 100%;width: auto"/>'
                         }
                         return image
                     }
                 },
                 {
                     field: 'url',
-                    title: '链接',
+                    title: '跳转链接',
                     minWidth: 100,
                     align: "center",
-                },
-                {
-                    field: 'hidden',
-                    title: '是否开启',
-                    minWidth: 100,
-                    align: "center",
-                    templet: function (d) {
-                        var avatar = "";
-                        if (d.hidden == 1) {
-                            avatar = '<p>开</p>';
-                        }else {
-                            avatar = '<p>关</p>';
+                    templet: function(d) {
+                        if(d.url == null) {
+                            return '无'
                         }
-                        return avatar;
+                        return d.url
                     }
                 },
                 {
-                    field: 'created_at',
-                    title: '创建时间',
+                    field: 'sort',
+                    title: '排序',
                     minWidth: 100,
                     align: "center"
                 },
                 {
-                    field: 'updated_at',
-                    title: '修改时间',
+                    field: 'created_at',
+                    title: '创建时间',
                     minWidth: 100,
                     align: "center"
                 },
@@ -121,7 +116,7 @@ layui.use(['form', 'layer', 'laydate', 'table', 'laytpl', 'ajaxUrl'], function (
         var index = layui.layer.open({
             title: "添加",
             type: 2,
-            content: "adEdit.html?mode=add",
+            content: "swiperEdit.html?mode=add",
             success: function (layero, index) {
                 var body = layui.layer.getChildFrame('body', index);
 
@@ -139,19 +134,20 @@ layui.use(['form', 'layer', 'laydate', 'table', 'laytpl', 'ajaxUrl'], function (
         var index = layui.layer.open({
             title: "编辑",
             type: 2,
-            content: "adEdit.html?mode=edit",
+            content: "swiperEdit.html?mode=edit",
             success: function (layero, index) {
                 var body = layui.layer.getChildFrame('body', index);
                 if (data) {
                     body.find("*[name=id]").val(data.id);
-                    body.find("*[name=title]").val(data.title);
+                    body.find("*[name=sort]").val(data.sort);
                     body.find("*[name=url]").val(data.url);
                     body.find("#imageBlock").show();
                     body.find("#image").attr('src', data.image);
                     body.find("*[name=image]").val(data.image);
-                    if(data.hidden) {
-                        body.find("*[name=hidden]").attr('checked','true');
+                    if(data.hidden == 0) {
+                        body.find("*[name=hidden]").attr('checked',true);
                     }
+
                     form.render();
                 }
             }
@@ -169,8 +165,8 @@ layui.use(['form', 'layer', 'laydate', 'table', 'laytpl', 'ajaxUrl'], function (
             icon: 3,
             title: '提示信息'
         }, function (index) {
-            var ajaxUrl = ajaxArr.adsDelete.url;
-            var ajaxType = ajaxArr.adsDelete.method;
+            var ajaxUrl = ajaxArr.swipersDelete.url;
+            var ajaxType = ajaxArr.swipersDelete.method;
             var loading = layer.load();
 
             $.ajax({
@@ -198,13 +194,32 @@ layui.use(['form', 'layer', 'laydate', 'table', 'laytpl', 'ajaxUrl'], function (
         add();
     });
 
+    //预览
+    $(".preview").click(function () {
+        var index = layui.layer.open({
+            title: "预览",
+            type: 2,
+            content: "preview.html",
+            area: 'auto',
+            maxWidth: 600,
+            success: function (layero, index) {
+                var body = layui.layer.getChildFrame('body', index);
+            }
+        });
+        layui.layer.full(index);
+        //改变窗口大小时，重置弹窗的宽高，防止超出可视区域（如F12调出debug的操作）
+        $(window).on("resize", function () {
+            layui.layer.full(index);
+        })
+    });
+
     //批量删除
     $(".delAll_btn").click(function () {
         var checkStatus = table.checkStatus('listTable'),
             data = checkStatus.data,
             ids = [];
-        ajaxUrl = ajaxArr.adsDelAll.url;
-        ajaxType = ajaxArr.adsDelAll.method;
+        ajaxUrl = ajaxArr.swipersDelAll.url;
+        ajaxType = ajaxArr.swipersDelAll.method;
         if (data.length > 0) {
             for (var i in data) {
                 ids.push(data[i].id);
@@ -254,15 +269,15 @@ layui.use(['form', 'layer', 'laydate', 'table', 'laytpl', 'ajaxUrl'], function (
             edit(data);
         } else if (layEvent === 'del') { //删除
             del(data);
-        }else if(layEvent === 'openPic_image'){
+        } else if (layEvent === 'openPic_image') {
             layer.open({
                 type: 1,
                 title: false,
                 closeBtn: 0,
-                area:  ['auto', '70%'],
+                area: ['auto', '70%'],
                 skin: 'layui-layer-nobg', //没有背景色
                 shadeClose: true,
-                content: "<img src='"+obj.data.image+"' style='height:100%;width: auto;margin:auto'>",
+                content: "<img src='" + obj.data.image + "' style='height:100%;width: auto;margin:auto'>",
             });
         }
     });

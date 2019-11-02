@@ -35,6 +35,6 @@ class CommonRequest extends FormRequest
             $res = $val[0];
             break;
         }
-        error($res);
+        error($res, 200, 400);
     }
 }

@@ -26,7 +26,7 @@ class RobotCodeController extends Controller
             return $query->where('created_at', '>=', $startDate);
         })->when($endDate, function ($query) use ($endDate) {
             return $query->where('created_at', '<=', $endDate);
-        })->orderBy('created_at', $orderBy)->paginate($limit);
+        })->orderBy('id', $orderBy)->paginate($limit);
         return success($codes);
     }
 
@@ -82,7 +82,7 @@ class RobotCodeController extends Controller
             return $query->where('created_at', '>=', $startDate);
         })->when($endDate, function ($query) use ($endDate) {
             return $query->where('created_at', '<=', $endDate);
-        })->orderBy('created_at', $orderBy)->get();
+        })->orderBy('id', $orderBy)->get();
         $data = [];
         $title = ['ID', '会员ID', '激活码', '使用状态', '创建时间'];
         array_push($data, $title);

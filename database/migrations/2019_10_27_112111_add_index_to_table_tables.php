@@ -13,22 +13,6 @@ class AddIndexToTableTables extends Migration
      */
     public function up()
     {
-        Schema::table('admins', function (Blueprint $table) {
-            $table->index(['id']);
-        });
-
-        Schema::table('vip_codes', function (Blueprint $table) {
-            $table->index(['id', 'user_id', 'level_id', 'status']);
-        });
-
-        Schema::table('swipers', function (Blueprint $table) {
-            $table->index(['id', 'group']);
-        });
-
-        Schema::table('swiper_groups', function (Blueprint $table) {
-            $table->index(['id', 'display']);
-        });
-
         Schema::table('helps', function (Blueprint $table) {
             $table->index(['id']);
         });

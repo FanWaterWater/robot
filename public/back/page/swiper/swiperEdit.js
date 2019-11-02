@@ -13,24 +13,43 @@ layui.use(['form', 'layer', 'layedit', 'laydate', 'upload', 'ajaxUrl'], function
         $ = layui.jquery;
     var ajaxArr = layui.ajaxUrl;
 
+    //上传缩略图
+    upload.render({
+        elem: '#uploadBtn',
+        url: ajaxArr.upload,
+        accept: 'images',
+        acceptMime: 'images/*',
+        size: '10240',
+        method: "post", //此处是为了演示之用，实际使用中请将此删除，默认用post方式提交
+        done: function (res, news_content, upload) {
+            var obj = res.data;
+            $('#image').attr('src', obj.src);
+            $('#image-url').val(obj.src);
+            $('#imageBlock').show();
+        }
+    });
+
+
+    //上传缩略图
+    upload.render({
+        elem: '.thumbBox',
+        url: ajaxArr.upload,
+        method: "post", //此处是为了演示之用，实际使用中请将此删除，默认用post方式提交
+        done: function (res, index, upload) {
+            var obj = res.data;
+            $('.thumbImg').attr('src', obj.src);
+            $('#thumbImg').val(obj.src);
+
+        }
+    });
+
     //获取url中的参数
     function getUrlParam(name) {
-
         var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)"); //构造一个含有目标参数的正则表达式对象
         var r = window.location.search.substr(1).match(reg); //匹配目标参数
         if (r != null) return unescape(r[2]);
         return null; //返回参数值
     }
-
-    form.verify({
-        min8: [
-            /^[\S]{8,8}$/, '请输入8位数！'
-        ]
-    });
-
-
-
-
 
     /*
      获取页面类型
@@ -42,21 +61,20 @@ layui.use(['form', 'layer', 'layedit', 'laydate', 'upload', 'ajaxUrl'], function
     form.on("submit(public)", function (data) {
         var ajaxUrl = "";
         var params = {};
+        params.sort = data.field.sort;
+        params.image = data.field.image;
+        params.url = data.field.url;
+        params.hidden = data.field.hidden ? 0 : 1;
+
         if (pageMode == "add") {
-            ajaxUrl = ajaxArr.robotConfigsAdd.url;
-            ajaxType = ajaxArr.robotConfigsAdd.method;
+            ajaxUrl = ajaxArr.swipersAdd.url;
+            ajaxType = ajaxArr.swipersAdd.method;
+
         } else if (pageMode == "edit") {
-            ajaxUrl = ajaxArr.robotConfigsEdit.url + '/' + data.field.id;
-            ajaxType = ajaxArr.robotConfigsEdit.method;
-
+            ajaxUrl = ajaxArr.swipersEdit.url + '/' + data.field.id;
+            ajaxType = ajaxArr.swipersEdit.method;
+            params.id = data.field.id;
         }
-
-        params.income_switch = data.field.income_switch;
-        params.type = data.field.type;
-        params.limit = data.field.limit;
-        params.income = data.field.income;
-        params.price = data.field.price;
-
         var loading = layer.load();
         // 实际使用时的提交信息
         $.ajax({
@@ -73,34 +91,15 @@ layui.use(['form', 'layer', 'layedit', 'laydate', 'upload', 'ajaxUrl'], function
                     parent.location.reload();
                     layer.msg(res.msg);
                 } else {
-                    layer.msg(res.msg);
+                    layer.msg(res.msg[0]);
                 }
-                //console.log(res);
+                console.log(res);
             },
             complete: function () {
                 layer.close(loading);
             }
         });
-
         return false;
     });
-
-    form.on("radio", function (data) {
-        console.log(data)
-        if (data.value == 0) {
-            $("#limit").hide();
-        } else {
-            $("#limit").show();
-        }
-    });
-
-    //参数设置Null
-    function setNull(param) {
-        if (param == "") {
-            return null;
-        } else {
-            return param;
-        }
-    }
 
 });

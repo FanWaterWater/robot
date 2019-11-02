@@ -16,11 +16,11 @@ class CreateSwipersTable extends Migration
         Schema::create('swipers', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('image', 512)->default('')->comment('图片');
-            $table->string('url', 512)->default('')->comment('链接');
-            $table->string('remake', 50)->default('')->comment('模块备注');
-            $table->tinyInteger('display')->default(0)->comment('是否显示');
-            $table->integer('group')->default(0)->comment('轮播图组');
+            $table->string('url', 512)->nullable()->default('')->comment('链接');
+            $table->integer('sort')->nullable()->default(0)->comment('排序');
+            $table->tinyInteger('hidden')->nullable()->default(0)->comment('是否隐藏，0：否，1:是');
             $table->timestamps();
+            $table->index(['id', 'sort', 'hidden']);
         });
     }
 

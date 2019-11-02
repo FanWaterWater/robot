@@ -11,16 +11,13 @@ class SwiperController extends Controller
 {
     public function index()
     {
-        $swipers = Swiper::where('display', 1)->orderBy('created_at', 'asc')->get();
-
+        $swipers = Swiper::orderBy('sort', 'desc')->get();
         return success($swipers);
     }
 
     public function store(Request $request)
     {
-        $data = request([
-            'url', 'remake', 'display', 'image', 'group'
-        ]);
+        $data = $request->all();
         if (Swiper::create($data)) {
             return success();
         }
@@ -33,14 +30,9 @@ class SwiperController extends Controller
         return success($swiper);
     }
 
-    public function update(SwiperRequest $request)
+    public function update(Request $request)
     {
-        // TODO:判断更新权限
-
-        $data = request([
-            'url', 'remake', 'display', 'image', 'group'
-        ]);
-
+        $data = $request->all();
         if (Swiper::where('id', request()->swiper)->update($data)) {
             return success();
         }
@@ -55,5 +47,11 @@ class SwiperController extends Controller
             return success();
         }
         return error();
+    }
+
+    public function display()
+    {
+        $swipers = Swiper::where('hidden', 0)->orderBy('sort', 'desc')->get();
+        return success($swipers);
     }
 }

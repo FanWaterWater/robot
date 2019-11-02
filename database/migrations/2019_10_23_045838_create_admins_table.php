@@ -18,6 +18,7 @@ class CreateAdminsTable extends Migration
             $table->string('username', 30)->unique()->default('')->comment('用户名');
             $table->string('password', 100)->default('')->comment('密码');
             $table->timestamps();
+            $table->index(['id']);
         });
     }
 

@@ -61,11 +61,11 @@ layui.use(['form', 'layer', 'laydate', 'table', 'laytpl', 'ajaxUrl'], function (
                     align: "center",
                     templet: function (d) {
                         var user = d.user,
-                            phone = "";
+                            username = "";
                         if (user != null && user != "") {
-                            phone = user.phone;
+                            username = user.username;
                         }
-                        return phone
+                        return username
                     }
                 },
                 {

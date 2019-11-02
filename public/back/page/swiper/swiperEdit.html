@@ -19,51 +19,52 @@
 </head>
 
 <body class="childrenBody">
-    <form class="layui-form" style="" id="" enctype="multipart/form-data">
+    <form class="layui-form" enctype="multipart/form-data">
         <input type="hidden" name="id" value="" />
         <div class="layui-col-xs6">
             <div class="layui-form-item layui-row layui-col-xs12">
-                <label class="layui-form-label">收益开关<span style="color: red;">*</span></label>
+                <label class="layui-form-label">排序</label>
                 <div class="layui-input-block">
-                    <input type="checkbox" name="income_switch" lay-skin="switch" lay-text="开启|关闭" value="1">
+                    <input class="layui-input" type="number" name="sort" placeholder="序号越大排越前面" value="0" />
                 </div>
             </div>
             <div class="layui-form-item layui-row layui-col-xs12">
-                <label class="layui-form-label">机器模式<span style="color: red;">*</span></label>
+                <label class="layui-form-label">图片<span style="color: red;">*</span></label>
                 <div class="layui-input-block">
-                    <input type="radio" name="type" value="0" title="永久" checked>
-                    <input type="radio" name="type" value="1" title="周期">
+                    <!-- <textarea class="layui-textarea layui-hide" name="content" lay-verify="content"
+                          id="news_content"></textarea> -->
+                    <button type="button" class="layui-btn" id="uploadBtn">
+                        <i class="layui-icon">&#xe67c;</i>选择图片
+                    </button>
                 </div>
-            </div>
-            <div class="layui-form-item layui-row layui-col-xs12" id="limit" style="display:none">
-                <label class="layui-form-label">周期时限<span style="color: red;">*</span></label>
-                <div class="layui-input-block">
-                    <input class="layui-input" placeholder="请输入周期时限，单位：天" type="number" name="limit" value="" />
-                </div>
-            </div>
-            <div class="layui-form-item layui-row layui-col-xs12">
-                <label class="layui-form-label">机器收益<span style="color: red;">*</span></label>
-                <div class="layui-input-block">
-                    <input class="layui-input" placeholder="请输入机器收益，单位：元" lay-verify="required" type="number" name="income" value="" />
+                <div class="layui-input-block" id="imageBlock" style="display:none;margin-top: 10px;">
+                    <img id="image" src="" controls="controls" style="max-height:300px;max-width: 450px;"></img>
+                    <input class="layui-input" id="image-url" lay-verify="required" type="hidden" name="image"
+                        value="" />
                 </div>
             </div>
             <div class="layui-form-item layui-row layui-col-xs12">
-                <label class="layui-form-label">机器价格<span style="color: red;">*</span></label>
+                <label class="layui-form-label">跳转链接</label>
                 <div class="layui-input-block">
-                    <input class="layui-input" placeholder="请输入机器价格，单位：元" lay-verify="required" type="number" name="price" value="" />
+                    <input class="layui-input" type="text" placeholder="需要跳转页面请填写，不跳转可为空"  name="url" value="" />
                 </div>
             </div>
-
+            <div class="layui-form-item layui-row layui-col-xs12">
+                <label class="layui-form-label">是否显示<span style="color: red;">*</span></label>
+                <div class="layui-input-block">
+                    <input type="checkbox" name="hidden" lay-skin="switch" lay-text="显示|隐藏" value="1">
+                </div>
+            </div>
             <div class="layui-form-item layui-row layui-col-xs12">
                 <div class="layui-input-block">
-                    <button class="layui-btn layui-btn" lay-submit="" lay-filter="public">确认</button>
+                    <button class="layui-btn layui-btn-sm" lay-submit="" lay-filter="public">确认</button>
                 </div>
             </div>
         </div>
     </form>
 
     <script type="text/javascript" src="../../layui/layui.js"></script>
-    <script type="text/javascript" src="configEdit.js"></script>
+    <script type="text/javascript" src="swiperEdit.js"></script>
 </body>
 
 </html>

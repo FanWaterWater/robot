@@ -6,6 +6,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Redis;
+use App\Http\Requests\App\UserRequest;
 
 class UserController extends Controller
 {
@@ -16,7 +17,11 @@ class UserController extends Controller
         $userId = $request->user_id;
         $levelId = $request->level_id;
         $nickname = $request->nickname;
-        $recommend = $request->recommend;
+        $recommendId = -1;
+        if(isset($request->recommend)) {
+            $recommend = User::where('username', $request->recommend)->first(['id']);
+            $recommendId = isset($recommend) ? $recommend->id : 0;
+        }
         $status = $request->status;
         $startDate = $request->startDate;
         $endDate = $request->endDate ? $request->endDate . ' 23:59:59' : null;;
@@ -31,34 +36,43 @@ class UserController extends Controller
             return $query->where('level_id', $levelId);
         })->when($status > 0, function ($query) use ($status) {
             return $query->where('status', $status);
-        })->when($recommend > 0, function ($query) use ($recommend) {
-            return $query->where('invite_id', $recommend);
+        })->when($recommendId > -1, function ($query) use ($recommendId) {
+            return $query->where('invite_id', $recommendId);
         })->when($startDate, function ($query) use ($startDate) {
             return $query->where('created_at', '>=', $startDate);
         })->when($endDate, function ($query) use ($endDate) {
             return $query->where('created_at', '<=', $endDate);
-        })->with(['level', 'recommend'])->orderBy('created_at', $orderBy)->paginate($limit);
+        })->with(['level:id,name', 'recommend:id,username'])->orderBy('id', $orderBy)->paginate($limit);
 
         foreach ($users as &$user) {
-            $user->direct_user_count = Redis::scard('direct_user'. $user->id) ?? 0;
-            $user->indirect_user_count = Redis::scard('indirect_user'. $user->id) ?? 0;
-            $user->teamCount = Redis::scard('team_user'. $user->id) ?? 0;
+            $user->direct_users_count = Redis::scard('direct_user'. $user->id) ?? 0;
+            $user->indirect_users_count = Redis::scard('indirect_user'. $user->id) ?? 0;
+            $user->team_users_count = Redis::scard('team_user'. $user->id) > 0 ? Redis::scard('team_user'. $user->id) + $user->direct_users_count +  $user->indirect_users_count : 0;
         }
+        // $users = $users->sortByDesc('direct_user_count');
         return success($users);
     }
 
     public function show(Request $request, $id)
     {
-        $user = User::find($id);
+        $user = User::with(['level:id,name', 'recommend:id,username'])->find($id);
         return success($user);
     }
 
-    public function store(Request $request)
+    public function store(UserRequest $request)
     {
         $data = $request->all();
+        $user = User::where('username', $data['recommend'])->first(['id']);
+        if(isset($user)) {
+            $data['invite_id'] = $user->id;
+            unset($data['recommend']);
+        }else {
+            return error('推荐人不存在', 200, 400);
+        }
         if(isset($data['password'])) {
             $data['password'] = bcrypt($data['password']);
         }
+        $data['invite_code'] = str_random(6);
         if (User::create($data)) {
             return success();
         }
@@ -68,6 +82,13 @@ class UserController extends Controller
     public function update(Request $request, $id)
     {
         $data = $request->all();
+        $user = User::where('username', $data['recommend'])->first(['id']);
+        if(isset($user)) {
+            $data['invite_id'] = $user->id;
+            unset($data['recommend']);
+        }else {
+            return error('推荐人不存在', 200, 400);
+        }
         if(isset($request->password)) {
             $data['password'] = bcrypt($request->password);
         }
@@ -146,7 +167,7 @@ class UserController extends Controller
             return $query->where('created_at', '<=', $endDate);
         })->when($realname, function ($query) {
             return $query->where('realname_verify_id', '>', 0);
-        })->with(['level', 'transactionSetting', 'realname', 'recommend'])->orderBy('created_at', $orderBy)->get();
+        })->with(['level', 'transactionSetting', 'realname', 'recommend'])->orderBy('id', $orderBy)->get();
 
         $data = [];
 

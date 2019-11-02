@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateSwiperGroupsTable extends Migration
+class CreateIncomesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,12 @@ class CreateSwiperGroupsTable extends Migration
      */
     public function up()
     {
-        Schema::create('swiper_groups', function (Blueprint $table) {
+        Schema::create('incomes', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('name',50)->default('')->comment('轮播图名');
-            $table->tinyInteger('display')->default(0)->comment('是否显示');
+            $table->bigInteger('user_id')->comment('用户ID');
+            $table->decimal('income', 10, 2)->comment('收益金额');
             $table->timestamps();
+            $table->index(['id', 'user_id', 'income']);
         });
     }
 
@@ -28,6 +29,6 @@ class CreateSwiperGroupsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('swiper_groups');
+        Schema::dropIfExists('incomes');
     }
 }

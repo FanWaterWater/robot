@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <META HTTP-EQUIV="pragma" CONTENT="no-cache">
+    <META HTTP-EQUIV="Cache-Control" CONTENT="no-cache, must-revalidate">
+    <META HTTP-EQUIV="expires" CONTENT="0">
+    <title></title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <link rel="stylesheet" href="../../layui/css/layui.css" media="all" />
+    <link rel="stylesheet" href="../../css/public.css" media="all" />
+    <link rel="stylesheet" href="../../css/june.css" media="all" />
+    <style>
+        .layui-disabled,
+        .layui-disabled:hover {
+            color: #23262e !important;
+        }
+
+    </style>
+</head>
+
+<body class="childrenBody">
+    <form class="layui-form">
+        <blockquote class="layui-elem-quote quoteBox" lay-filter="configList">
+            <div class="layui-inline">
+                <a class="layui-btn add_btn">添加配置</a>
+                <!-- <a class="layui-btn layui-btn-normal add_btn">添加会员等级</a> -->
+            </div>
+            <div class="layui-inline" style="display:none">
+                <label class="layui-inline">ID<span id="configId" style="font-size: 20px;color:#FF5722"></span></label>
+            </div>
+            <div class="layui-inline" style="margin-left:30px;">
+                <label class="layui-inline">当前机器收益开关：<span id="incomeSwitch"
+                        style="font-size: 20px;color:#FF5722"></span></label>
+            </div>
+            <div class="layui-inline" style="margin-left:30px;">
+                <label class="layui-inline">当前机器模式：<span id="type" style="font-size: 20px;color:#FF5722"></span></label>
+            </div>
+            <div class="layui-inline" style="margin-left:30px;">
+                <label class="layui-inline">当前机器收益：<span id="income"
+                        style="font-size: 20px;color:#FF5722"></span></label>
+            </div>
+            <div class="layui-inline" style="margin-left:30px;">
+                <label class="layui-inline">当前机器价格：<span id="price"
+                        style="font-size: 20px;color:#FF5722"></span></label>
+            </div>
+            <div class="layui-inline" style="margin-left:30px;">
+                <label class="layui-inline">当前周期时限：<span id="limit"
+                        style="font-size: 20px;color:#FF5722"></span></label>
+            </div>
+        </blockquote>
+        <table id="listTable" lay-filter="list"></table>
+        <!--操作-->
+        <script type="text/html" id="listBar">
+            <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+            <a class="layui-btn layui-btn-xs layui-btn-danger" lay-event="del">删除</a>
+        </script>
+    </form>
+
+    <script type="text/javascript" src="../../layui/layui.js"></script>
+    <script type="text/javascript" src="configList.js"></script>
+
+</body>
+
+</html>

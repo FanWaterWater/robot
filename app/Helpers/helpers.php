@@ -48,7 +48,8 @@ function error($message = '操作失败', $code = 200, $error_code = null)
     } else {
         $res = [
             'msg' => $message,
-            'status' => 'error'
+            'status' => 'error',
+            'code' => $code,
         ];
     }
     throw new HttpResponseException(response()->json($res)->setStatusCode($code));

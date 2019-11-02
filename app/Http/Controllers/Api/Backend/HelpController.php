@@ -15,7 +15,7 @@ class HelpController extends Controller
         $orderBy = $request->orderBy ? 'asc' : 'desc';
         $helps = Help::when($title, function ($query) use ($title) {
             return $query->where('title', 'like', '%' . $title . '%');
-        })->orderBy('created_at', $orderBy)->paginate($limit);
+        })->orderBy('id', $orderBy)->paginate($limit);
         return success($helps);
     }
 

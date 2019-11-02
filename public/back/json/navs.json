@@ -10,26 +10,10 @@
             }]
         },
         {
-            "title": "会员中心",
+            "title": "用户中心",
             "icon": "icon-text",
             "spread": false,
-            "children": [{
-                "title": "会员列表",
-                "icon": "icon-text",
-                "href": "page/customer/customerList.html"
-            }, {
-                "title": "会员等级",
-                "icon": "icon-text",
-                "href": "page/customer/levelsList.html"
-            }, {
-                "title": "会员权限",
-                "icon": "icon-text",
-                "href": "page/customer/permissionsList.html"
-            }, {
-                "title": "VIP激活码",
-                "icon": "icon-text",
-                "href": "page/customer/vipcodeList.html"
-            }]
+            "href": "page/user/userList.html"
         },
         {
             "title": "财务列表",
@@ -57,6 +41,10 @@
                 "title": "机器列表",
                 "icon": "icon-text",
                 "href": "page/robot/robotList.html"
+            },{
+                "title": "机器配置",
+                "icon": "icon-text",
+                "href": "page/robot/configList.html"
             }, {
                 "title": "激活码",
                 "icon": "icon-text",
@@ -74,6 +62,12 @@
             "icon": "icon-text",
             "spread": false,
             "href": "page/withdrawal/withdrawalList.html"
+        },
+        {
+            "title": "轮播图管理",
+            "icon": "icon-text",
+            "spread": false,
+            "href": "page/swiper/swiperList.html"
         },
         {
             "title": "公告管理",

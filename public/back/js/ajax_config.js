@@ -199,6 +199,26 @@ layui.define(["form", "jquery"], function (exports) {
             method: "POST"
         },
 
+        //轮播图
+        "swipersList": host + "/swipers", //轮播图列表
+        "swipersAdd": { //新增轮播图
+            url: host + "/swipers",
+            method: "POST"
+        },
+        "swipersEdit": { //编辑轮播图
+            url: host + "/swipers",
+            method: "PUT"
+        },
+        "swipersDelete": { //删除轮播图
+            url: host + "/swipers",
+            method: "DELETE"
+        },
+        "swipersDisplay": { //删除轮播图
+            url: host + "/swipers/display",
+            method: "GET"
+        },
+
+
 
         //公告
         "noticesList": host + "/notices", //公告列表
@@ -382,14 +402,25 @@ layui.define(["form", "jquery"], function (exports) {
             url: host + "/robots",
             method: "DELETE"
         },
-        "robotsConfig": {
-            url: host + "/robots/config",
-            method: "GET"
-        },
-        "robotsConfigUpdate": {
-            url: host + "/robots/config/update",
+
+        "robotConfigsList": host + "/robot-configs",
+        "robotConfigsAdd": {
+            url: host + "/robot-configs",
             method: "POST"
         },
+        "robotConfigsEdit": {
+            url: host + "/robot-configs",
+            method: "PUT"
+        },
+        "robotConfigsDelete": {
+            url: host + "/robot-configs",
+            method: "DELETE"
+        },
+        "robotConfigsCurrent": {
+            url: host + "/robot-configs/current",
+            method: "GET"
+        },
+
 
 
 

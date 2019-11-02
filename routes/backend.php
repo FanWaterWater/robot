@@ -1,23 +1,26 @@
 <?php
 
+Route::post('backend/admins/login', 'Api\Backend\AdminController@login');
+
+
 Route::group(['prefix' => 'backend'], function () {
-    Route::post('admins/login', 'Api\Backend\AdminController@login');
     Route::post('admins/logout', 'Api\Backend\AdminController@logout');
     Route::apiResource('admins', 'Api\Backend\AdminController');
+
+    Route::apiResource('users', 'Api\Backend\UserController');
+
 
     //机器激活码管理
     Route::get('robot-codes/export', 'Api\Backend\RobotCodeController@export');  //导出
     Route::apiResource('robot-codes', 'Api\Backend\RobotCodeController');
     //机器管理
-    Route::get('robots/config', 'Api\Backend\RobotController@config');
-    Route::post('robots/config/update', 'Api\Backend\RobotController@updateConfig');
     Route::apiResource('robots', 'Api\Backend\RobotController');
+    //机器配置
+    Route::get('robot-configs/current', 'Api\Backend\RobotConfigController@currentConfig');
+    Route::apiResource('robot-configs', 'Api\Backend\RobotConfigController');
     //轮播图
+    Route::get('swipers/display', 'Api\Backend\SwiperController@display');
     Route::apiResource('swipers', 'Api\Backend\SwiperController');
-    //轮播图组
-    Route::get('swiper-groups/{swiper-group}/change', 'Api\Backend\SwiperGroupController@change');
-    Route::get('swiper-groups/display', 'Api\Backend\SwiperGroupController@display');
-    Route::apiResource('swiper-groups', 'Api\Backend\SwiperGroupController');
     //帮助中心管理
     Route::post('helps/delete/batch', 'Api\Backend\HelpController@batchDel');
     Route::apiResource('helps', 'Api\Backend\HelpController');

@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <META HTTP-EQUIV="pragma" CONTENT="no-cache">
+    <META HTTP-EQUIV="Cache-Control" CONTENT="no-cache, must-revalidate">
+    <META HTTP-EQUIV="expires" CONTENT="0">
+    <title>1</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <link rel="stylesheet" href="../../layui/css/layui.css" media="all" />
+    <link rel="stylesheet" href="../../css/public.css" media="all" />
+    <link rel="stylesheet" href="../../css/june.css" media="all" />
+</head>
+
+<body>
+
+    <div class="layui-carousel" id="swiper" lay-filte="swiper">
+        <div carousel-item id="carousel-item" class="carousel-item">
+
+        </div>
+    </div>
+    <!-- 条目中可以是任意内容，如：<img src=""> -->
+    <script type="text/javascript" src="../../layui/layui.js"></script>
+    <script>
+        layui.config({
+            base: "../../js/"
+        }).extend({
+            "ajaxUrl": "ajax_config"
+        });
+        layui.use(['layer', 'carousel', 'ajaxUrl'], function () {
+            var layer = parent.layer === undefined ? layui.layer : top.layer,
+                carousel = layui.carousel;
+            $ = layui.jquery;
+            var ajaxArr = layui.ajaxUrl;
+
+            var ajaxUrl = ajaxArr.swipersDisplay.url;
+            var loading = layer.load();
+            $.ajax({
+                url: ajaxUrl,
+                async: true,
+                dataType: "json",
+                headers: {
+                    'token': token
+                },
+                success: function (res) {
+                    if (res.code == 200) {
+                        var data = res.data
+                        for (var i = 0; i < data.length; i++) {
+                            var html = "<div><img src=" + data[i].image + " data-url=" + data[i]
+                                .url + "></div>"
+                            $('#carousel-item').append(html)
+                        }
+                        carousel.render({
+                            elem: '#swiper',
+                            width: '100%', //设置容器宽度
+                            arrow: 'always', //始终显示箭头
+                            height: '400px',
+                        });
+                        // layer.msg(res.msg);
+                    }
+                },
+                complete: function () {
+                    layer.close(loading);
+                }
+            })
+
+            $('.carousel-item').click(function (e) {
+                var url = e.toElement.dataset.url
+                if (url == 'null' || url == '' || url == null) {
+                    layer.msg('未设置跳转链接');
+                    return
+                }else  {
+                    window.location.href = url
+                }
+
+            });
+
+        })
+
+    </script>
+</body>
+
+</html>
