@@ -19,5 +19,8 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::post('upload', 'Api\UploadController@upload');
 
+Route::post('verification-code', 'Api\SmsController@verifyCode');
+
+
 include_once('backend.php');
 include_once('app.php');

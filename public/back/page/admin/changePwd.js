@@ -56,8 +56,8 @@ layui.use(['form','layer','laydate','table','laytpl','ajaxUrl'],function(){
                 },2000)
 
             }else{
-                console.log(JSON.stringify(res.msg.error[0]));
-                 layer.msg(JSON.stringify(res.msg.error[0]));
+                console.log(JSON.stringify(res.msg));
+                 layer.msg(JSON.stringify(res.msg));
             }
 
         },"json");*/

@@ -361,7 +361,7 @@ layui.use(['form', 'layer', 'laydate', 'table', 'laytpl', 'ajaxUrl'], function (
                         tableIns.reload();
                         layer.close(loading);
                     }else {
-                        layer.msg(res.msg.error[0]);
+                        layer.msg(res.msg);
                     }
                 },
                 complete: function() {

@@ -68,7 +68,12 @@ layui.use(['form', 'layer', 'laydate', 'table', 'laytpl', 'ajaxUrl'], function (
                     minWidth: 100,
                     align: "center",
                     templet: function (d) {
-                        return d.user.username;
+                        if(d.user != null) {
+                            console.log(112)
+                            return d.user.username;
+                        }else {
+                            return '未知';
+                        }
                     }
                 },
                 {

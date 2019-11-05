@@ -113,7 +113,7 @@ layui.use(['form', 'layer', 'laydate', 'table', 'laytpl', 'ajaxUrl'], function (
                     }
                 },
                 {
-                    field: 'direct_marketings_count',
+                    field: 'direct_users_count',
                     title: '直推数量',
                     minWidth: 130,
                     align: "center",
@@ -124,8 +124,8 @@ layui.use(['form', 'layer', 'laydate', 'table', 'laytpl', 'ajaxUrl'], function (
                     }
                 },
                 {
-                    field: 'direct_marketings_count',
-                    title: '直推数量',
+                    field: 'indirect_users_count',
+                    title: '间推数量',
                     minWidth: 130,
                     align: "center",
                     templet: function (d) {
@@ -135,7 +135,7 @@ layui.use(['form', 'layer', 'laydate', 'table', 'laytpl', 'ajaxUrl'], function (
                     }
                 },
                 {
-                    field: 'teamCount',
+                    field: 'direct_users_count',
                     title: '团队数量',
                     minWidth: 100,
                     align: "center",
@@ -146,15 +146,15 @@ layui.use(['form', 'layer', 'laydate', 'table', 'laytpl', 'ajaxUrl'], function (
                     }
                 },
                 {
-                    field: 'amount_total',
+                    field: 'robots_count',
                     title: '机器数量',
                     minWidth: 100,
                     align: "center"
                 },
                 {
-                    field: 'amount_total',
+                    field: 'team_robots_count',
                     title: '团队机器数量',
-                    minWidth: 100,
+                    minWidth: 150,
                     align: "center"
                 },
                 {

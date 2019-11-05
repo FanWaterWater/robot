@@ -181,13 +181,18 @@ layui.use(['form', 'layer', 'laydate', 'table', 'laytpl', 'ajaxUrl'], function (
             success: function (layero, index) {
                 var body = layui.layer.getChildFrame('body', index);
                 if (data) {
+                    console.log(data)
                     body.find("*[name=id]").val(data.id);
                     body.find("*[name=name]").val(data.name);
-                    body.find("*[name=wechat]").val(data.wechat);
-                    if(data.type == 1) {
-                        body.find("*[name=type]").attr('checked', true);
-                    }
-
+                    body.find("*[name=direct_reward]").val(data.direct_reward);
+                    body.find("*[name=indirect_reward]").val(data.indirect_reward);
+                    body.find("*[name=income_reward_direct]").val(data.income_reward.direct);
+                    body.find("*[name=income_reward_indirect]").val(data.income_reward.indirect);
+                    body.find("*[name=income_reward_team]").val(data.income_reward.team);
+                    body.find("*[name=upgrade_direct]").val(data.upgrade.direct);
+                    body.find("*[name=upgrade_indirect]").val(data.upgrade.indirect);
+                    body.find("*[name=upgrade_team]").val(data.upgrade.team);
+                    body.find("*[name=sort]").val(data.sort);
                     form.render();
                 }
             }

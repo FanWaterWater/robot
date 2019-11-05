@@ -13,24 +13,14 @@
             "title": "用户中心",
             "icon": "icon-text",
             "spread": false,
-            "href": "page/user/userList.html"
-        },
-        {
-            "title": "财务列表",
-            "icon": "icon-text",
-            "spread": false,
             "children": [{
-                "title": "会员开通记录",
+                "title": "用户列表",
                 "icon": "icon-text",
-                "href": "page/finance/userRechargesList.html"
+                "href": "page/user/userList.html"
             }, {
-                "title": "会员收益",
+                "title": "用户资金",
                 "icon": "icon-text",
-                "href": "page/finance/balancesList.html"
-            }, {
-                "title": "会员账单",
-                "icon": "icon-text",
-                "href": "page/finance/billsList.html"
+                "href": "page/user/fundList.html"
             }]
         },
         {

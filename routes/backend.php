@@ -8,8 +8,8 @@ Route::group(['prefix' => 'backend'], function () {
     Route::apiResource('admins', 'Api\Backend\AdminController');
 
     Route::apiResource('users', 'Api\Backend\UserController');
-
-
+    //用户资金记录
+    Route::get('user-funds', 'Api\Backend\UserFundController@index');
     //机器激活码管理
     Route::get('robot-codes/export', 'Api\Backend\RobotCodeController@export');  //导出
     Route::apiResource('robot-codes', 'Api\Backend\RobotCodeController');

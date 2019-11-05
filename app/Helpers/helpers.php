@@ -37,7 +37,7 @@ function success($data = [], $message = '操作成功', $code = 200)
 
 
 //对返回给前端前对数据进行格式处理
-function error($message = '操作失败', $code = 200, $error_code = null)
+function error($message = '操作失败', $code = 400, $error_code = null)
 {
     if ($error_code) {
         $res = [
@@ -52,7 +52,7 @@ function error($message = '操作失败', $code = 200, $error_code = null)
             'code' => $code,
         ];
     }
-    throw new HttpResponseException(response()->json($res)->setStatusCode($code));
+    throw new HttpResponseException(response()->json($res)->setStatusCode(200));
 }
 
 function errorMsg($message = '操作失败')
@@ -63,4 +63,10 @@ function errorMsg($message = '操作失败')
 function getOrderNo()
 {
     return strtoupper(str_random(6)) . date('YdmHis', time());
+}
+
+function getRobotOrderNo($type = 0)
+{
+    $firstNo = $type == 0 ? 'A' : 'B';
+    return $firstNo . strtoupper(str_random(5)) . date('YdmHis');
 }

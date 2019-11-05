@@ -21,12 +21,12 @@ layui.use(['form', 'layer', 'layedit', 'laydate', 'upload', 'ajaxUrl'], function
 		if(r != null) return unescape(r[2]);
 		return null; //返回参数值
 	}
-	
+
 	form.verify({
 	  min8: [
 	    /^[\S]{8,8}$/
 	    ,'请输入8位数！'
-	  ] 
+	  ]
 	});
 
 
@@ -99,7 +99,7 @@ layui.use(['form', 'layer', 'layedit', 'laydate', 'upload', 'ajaxUrl'], function
                     parent.location.reload();
                     layer.msg(res.msg);
                 } else {
-                    layer.msg(res.msg.error[0]);
+                    layer.msg(res.msg);
                 }
                 //console.log(res);
             },

@@ -67,14 +67,18 @@ layui.define(["form", "jquery"], function (exports) {
             url: host + "/users",
             method: "DELETE"
         },
-        "getDirectMarketings": {
-            url: host + "/users/getDirectMarketings", //获取直推用户的信息
-            method: "GET"
+        "userFundList": { //会员资金
+            url: host + "/user-funds",
+            method: "DELETE"
         },
-        "getTeams": {
-            url: host + "/users/getTeams", //获取团队用户的信息
-            method: "GET"
-        },
+        // "getDirectMarketings": {
+        //     url: host + "/users/getDirectMarketings", //获取直推用户的信息
+        //     method: "GET"
+        // },
+        // "getTeams": {
+        //     url: host + "/users/getTeams", //获取团队用户的信息
+        //     method: "GET"
+        // },
 
 
         //会员等级列表

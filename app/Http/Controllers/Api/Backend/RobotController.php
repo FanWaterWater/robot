@@ -26,9 +26,9 @@ class RobotController extends Controller
         })->when($robotNo, function ($query) use ($robotNo) {
             return $query->where('robot_no', $robotNo);
         })->when($startDate, function ($query) use ($startDate) {
-            return $query->where('created_at', '>=', $startDate);
+            return $query->where('start_time', '>=', $startDate);
         })->when($endDate, function ($query) use ($endDate) {
-            return $query->where('created_at', '<=', $endDate);
+            return $query->where('start_time', '<=', $endDate);
         })->with('user:id,username')->orderBy('id', 'desc')->paginate($pagesize);
         return success($robots);
     }

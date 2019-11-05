@@ -18,7 +18,7 @@ class UserController extends Controller
         $levelId = $request->level_id;
         $nickname = $request->nickname;
         $recommendId = -1;
-        if(isset($request->recommend)) {
+        if (isset($request->recommend)) {
             $recommend = User::where('username', $request->recommend)->first(['id']);
             $recommendId = isset($recommend) ? $recommend->id : 0;
         }
@@ -45,9 +45,13 @@ class UserController extends Controller
         })->with(['level:id,name', 'recommend:id,username'])->orderBy('id', $orderBy)->paginate($limit);
 
         foreach ($users as &$user) {
-            $user->direct_users_count = Redis::scard('direct_user'. $user->id) ?? 0;
-            $user->indirect_users_count = Redis::scard('indirect_user'. $user->id) ?? 0;
-            $user->team_users_count = Redis::scard('team_user'. $user->id) > 0 ? Redis::scard('team_user'. $user->id) + $user->direct_users_count +  $user->indirect_users_count : 0;
+            $user->direct_users_count = Redis::scard('direct_user' . $user->id);
+            $user->indirect_users_count = Redis::scard('indirect_user' . $user->id);
+            $user->team_users_count = Redis::scard('team_user' . $user->id) + $user->direct_users_count +  $user->indirect_users_count;
+            $user->robots_count = Redis::scard('robot' . $user->id) ?? 0;
+            // $user->direct_robots_count = Redis::scard('direct_robot' . $user->id) ?? 0;
+            // $user->indirect_robots_count = Redis::scard('indirect_robot' . $user->id) ?? 0;
+            $user->team_robots_count = Redis::scard('team_robot_total' . $user->id) ?? 0;
         }
         // $users = $users->sortByDesc('direct_user_count');
         return success($users);
@@ -63,13 +67,13 @@ class UserController extends Controller
     {
         $data = $request->all();
         $user = User::where('username', $data['recommend'])->first(['id']);
-        if(isset($user)) {
+        if (isset($user)) {
             $data['invite_id'] = $user->id;
             unset($data['recommend']);
-        }else {
+        } else {
             return error('推荐人不存在', 200, 400);
         }
-        if(isset($data['password'])) {
+        if (isset($data['password'])) {
             $data['password'] = bcrypt($data['password']);
         }
         $data['invite_code'] = str_random(6);
@@ -83,13 +87,13 @@ class UserController extends Controller
     {
         $data = $request->all();
         $user = User::where('username', $data['recommend'])->first(['id']);
-        if(isset($user)) {
+        if (isset($user)) {
             $data['invite_id'] = $user->id;
             unset($data['recommend']);
-        }else {
+        } else {
             return error('推荐人不存在', 200, 400);
         }
-        if(isset($request->password)) {
+        if (isset($request->password)) {
             $data['password'] = bcrypt($request->password);
         }
         if (User::find($id)->update($data)) {
@@ -186,18 +190,18 @@ class UserController extends Controller
             } else {
                 $user->realname_verify_id = '已认证';
             }
-            if(!$user->transactionSetting) {
+            if (!$user->transactionSetting) {
                 $wechatPay = '未设置';
                 $alipay = '未设置';
-            }else {
+            } else {
                 $wechatPay = $user->transactionSetting->wechat_pay;
                 $alipay = $user->transactionSetting->alipay;
             }
 
-            if(!$user->recommend) {
+            if (!$user->recommend) {
                 $recommend = '未设置';
-            }else {
-                $recommend = $user->recommend->nickname . '(' . $user->recommend->phone .')';
+            } else {
+                $recommend = $user->recommend->nickname . '(' . $user->recommend->phone . ')';
             }
             array_push($data, [$user->id, $user->nickname, $user->avatar, $user->phone, $user->level->name, $user->realname_verify_id, $wechatPay, $alipay, $recommend, $user->status, $user->integral, $user->mine_pool, $user->available_stone, $user->put_in_stone, $user->available_balance, $user->used_balance, $user->money, $user->created_at, $user->updated_at]);
         }

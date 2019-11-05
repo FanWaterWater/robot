@@ -2,11 +2,13 @@
 
 namespace App\Models;
 
+use App\Utils\FundType;
+use App\Utils\TeamRole;
+use App\Utils\AccountType;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Redis;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use App\Utils\TeamRole;
-use Illuminate\Support\Facades\Redis;
-use App\Utils\AccountType;
 
 class User extends Authenticatable implements JWTSubject
 {
@@ -18,12 +20,16 @@ class User extends Authenticatable implements JWTSubject
     {
         parent::boot();
 
-        static::created (function ($model) {
+        static::created(function ($model) {
             $model->joinTeam();
         });
 
         static::deleted(function ($model) {
             $model->quitTeam();
+        });
+
+        static::updated(function ($model) {
+            Cache::forget('user_' . $model->id);
         });
     }
 
@@ -134,6 +140,61 @@ class User extends Authenticatable implements JWTSubject
     }
 
     /**
+     * 直推间推购买机器的奖励
+     *
+     * @param [type] $type
+     * @return void
+     */
+    public function incomeReward($type)
+    {
+        $user = User::with('level')->find($this->id);
+        if ($type == TeamRole::DIRECT) {
+            $reward = $user->level->direct_reward;
+            $type = '直推';
+        } else if ($type == TeamRole::INDIRECT) {
+            $reward = $user->level->indirect_reward;
+            $type = '间推';
+        }
+        $user->increment('amount', $reward);    //增加可用收益
+        $user->increment('amount_total', $reward);  //增加总收益
+        UserFund::create([
+            'user_id' => $user->id,
+            'type' => FundType::INVITE_INCOME,
+            'change_amount' => $reward,
+            'after_amount' => $user->amount,
+            'content' => $type . '用户购买机器，奖励' . $reward . '元',
+            'remark' => '邀请用户购买机器奖励'
+        ]);
+    }
+
+    /**
+     * 更新今日机器数量
+     *
+     * @return void
+     */
+    public function updateTodayRobotCount()
+    {
+        $myRobots = Redis::smembers('robot' . $this->id);
+        $directRobots = Redis::smembers('direct_robot' . $this->id);
+        $indirectRobots = Redis::smembers('indirect_robot' . $this->id);
+        $teamRobots = Redis::smembers('team_robot' . $this->id);
+        // $teamRobotTotals = Redis::smembers('team_robot_total' . $this->id);
+        if(count($myRobots)) {
+            Redis::sadd('today_robot'. $this->id, $myRobots);
+        }
+        if(count($directRobots)) {
+            Redis::sadd('today_direct_robot'. $this->id, $directRobots);
+        }
+        if(count($indirectRobots)) {
+            Redis::sadd('today_indirect_robot'. $this->id, $indirectRobots);
+        }
+        if(count($teamRobots)) {
+            Redis::sadd('today_team_robot'. $this->id, $teamRobots);
+        }
+        // Redis::sadd('today_team_robot_total'. $this->id, $teamRobotTotals);
+    }
+
+    /**
      * 入团
      *
      * @return void
@@ -141,13 +202,15 @@ class User extends Authenticatable implements JWTSubject
     public function joinTeam()
     {
         $superiors = $this->superiors();
-        foreach ($superiors as $index => $superior) {
-            if ($index == TeamRole::DIRECT) {  //直推
-                Redis::sadd('direct_user' . $superior->id, $this->id);
-            } else if ($index == TeamRole::INDIRECT) { //间推
-                Redis::sadd('indirect_user' . $superior->id, $this->id);
-            } else {  //团队
-                Redis::sadd('team_user' . $superior->id, $this->id);
+        if (isset($superiors)) {
+            foreach ($superiors as $index => $superior) {
+                if ($index == TeamRole::DIRECT) {  //直推
+                    Redis::sadd('direct_user' . $superior->id, $this->id);
+                } else if ($index == TeamRole::INDIRECT) { //间推
+                    Redis::sadd('indirect_user' . $superior->id, $this->id);
+                } else {  //团队
+                    Redis::sadd('team_user' . $superior->id, $this->id);
+                }
             }
         }
     }
@@ -160,13 +223,15 @@ class User extends Authenticatable implements JWTSubject
     public function quitTeam()
     {
         $superiors = $this->superiors();
-        foreach ($superiors as $index => $superior) {
-            if ($index == TeamRole::DIRECT) {  //直推
-                Redis::srem('direct_user' . $superior->id, $this->id);
-            } else if ($index == TeamRole::INDIRECT) { //间推
-                Redis::srem('indirect_user' . $superior->id, $this->id);
-            } else {  //团队
-                Redis::srem('team_user' . $superior->id, $this->id);
+        if (isset($superiors)) {
+            foreach ($superiors as $index => $superior) {
+                if ($index == TeamRole::DIRECT) {  //直推
+                    Redis::srem('direct_user' . $superior->id, $this->id);
+                } else if ($index == TeamRole::INDIRECT) { //间推
+                    Redis::srem('indirect_user' . $superior->id, $this->id);
+                } else {  //团队
+                    Redis::srem('team_user' . $superior->id, $this->id);
+                }
             }
         }
     }

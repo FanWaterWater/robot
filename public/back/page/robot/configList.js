@@ -230,8 +230,8 @@ layui.use(['form', 'layer', 'laydate', 'table', 'laytpl', 'ajaxUrl'], function (
             icon: 3,
             title: '提示信息'
         }, function (index) {
-            var ajaxUrl = ajaxArr.robotsDelete.url;
-            var ajaxType = ajaxArr.robotsDelete.method;
+            var ajaxUrl = ajaxArr.robotConfigsDelete.url;
+            var ajaxType = ajaxArr.robotConfigsDelete.method;
             var loading = layer.load();
             $.ajax({
                 url: ajaxUrl + '/' + data.id,

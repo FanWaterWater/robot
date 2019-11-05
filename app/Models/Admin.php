@@ -10,6 +10,15 @@ class Admin extends Authenticatable implements JWTSubject
     protected $table = 'admins';
     protected $guarded = [];
     protected $hidden = ['password'];
+
+    public static function boot()
+    {
+        parent::boot();
+        static::updated(function ($model) {
+            Cache::forget('admin_' . $model->id);
+        });
+    }
+
     /**
      * Get the identifier that will be stored in the subject claim of the JWT.
      *

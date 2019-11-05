@@ -74,7 +74,7 @@ layui.use(['form', 'layer', 'layedit', 'laydate', 'upload', 'ajaxUrl'], function
                     parent.location.reload();
                     layer.msg(res.msg);
                 } else {
-                    layer.msg(res.msg.error[0]);
+                    layer.msg(res.msg);
                 }
                 //console.log(res);
             },

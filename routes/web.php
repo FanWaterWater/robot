@@ -1,5 +1,8 @@
 <?php
 
+use App\Models\User;
+use Illuminate\Support\Facades\Redis;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -16,6 +19,21 @@ Route::get('/', function () {
 });
 
 Route::get('test', function () {
-    $user = \App\Models\User::find(request('id'));
-    return $user->superiors()[0]['id'];
+    $arrs = range(0, 30);
+    $count = 0;
+    foreach ($arrs as $index => $arr) {
+        $count += Redis::srem('robot' . $index, $arrs);
+        $count += Redis::srem('direct_robot' . $index, $arrs);
+        $count += Redis::srem('indirect_robot' . $index, $arrs);
+        $count += Redis::srem('team_robot' . $index, $arrs);
+        $count += Redis::srem('team_robot_total' . $index, $arrs);
+    }
+    return $count;
+});
+
+Route::get('user', function () {
+    $userId = request('user_id');
+    return Redis::smembers('team_robot_total' . $userId);
+    // $user = User::find($userId);
+    // return success($user->superiors());
 });
