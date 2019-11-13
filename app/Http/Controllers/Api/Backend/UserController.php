@@ -66,12 +66,14 @@ class UserController extends Controller
     public function store(UserRequest $request)
     {
         $data = $request->all();
-        $user = User::where('username', $data['recommend'])->first(['id']);
-        if (isset($user)) {
-            $data['invite_id'] = $user->id;
-            unset($data['recommend']);
-        } else {
-            return error('推荐人不存在', 200, 400);
+        if (isset($data['recommend'])) {
+            $user = User::where('username', $data['recommend'])->first(['id']);
+            if (isset($user)) {
+                $data['invite_id'] = $user->id;
+                unset($data['recommend']);
+            } else {
+                return error('推荐人不存在', 200, 400);
+            }
         }
         if (isset($data['password'])) {
             $data['password'] = bcrypt($data['password']);
