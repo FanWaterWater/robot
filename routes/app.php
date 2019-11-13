@@ -28,8 +28,6 @@ Route::group(['prefix' => 'app', 'middleware' => ['token.user']], function () {
 
     });
 
-
-
     Route::group(['prefix' => 'users'], function () {
         Route::get('info', 'Api\App\UserController@info');
         Route::get('fund', 'Api\App\UserController@fund');

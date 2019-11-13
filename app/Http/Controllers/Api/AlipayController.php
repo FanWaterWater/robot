@@ -84,7 +84,7 @@ class AlipayController extends Controller
         ];
         $payId = mt_rand(1, 2);
         $config = config('alipay.pay' . $payId);
-        $config['notify_url'] = 'https://smfet.com/alipay/verify-notify';
+        $config['notify_url'] = 'https://dawnll.com/alipay/verify-notify';
         return Pay::alipay($config)->wap($aliPayOrder);
     }
 

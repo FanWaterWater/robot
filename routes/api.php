@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,6 +19,16 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::post('upload', 'Api\UploadController@upload');
+
+Route::get('config', function() {
+    return success(Cache::get('system_config'));
+});
+
+Route::group(['prefix' => 'chat'], function () {
+    Route::post('save', 'ChatController@save');
+    Route::post('load', 'ChatController@load');
+    Route::post('unRead', 'ChatController@unRead');
+});
 
 Route::post('verification-code', 'Api\SmsController@verifyCode');
 

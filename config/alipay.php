@@ -4,9 +4,9 @@ return [
         // APPID
         'app_id' => '2019041563854921',
         // 支付宝 支付成功后 主动通知商户服务器地址  注意 是post请求
-        'notify_url' => 'https://smfet.com/alipay/notify',
+        'notify_url' => 'https://dawnll.com/alipay/notify',
         // 支付宝 支付成功后 回调页面 get
-        'return_url' => 'https://smfet.com/pay-success',
+        'return_url' => 'https://dawnll.com/pay-success',
         // 公钥（注意是支付宝的公钥，不是商家应用公钥）
         'ali_public_key' => 'MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAg2OV8CCPmx6vtwSFbdB73L515YoklMw/tvT5Qmdeiwh4o1eI5lVgl6AmGO4pJAvy9mTI4MUZmDcrxF3rey7TO2IhnU4fXyVNsfIIwD5RTfWLejeYGnWo1DiRlplLU6gFC+fDgKsT6HkEGndE4FOvLGWfRcp8wMiFBa0fuNeEfw5AhARwDlrfuZzoMCHhnNbowzo6O4/SM1ngyswUozpyz5bzh69shrhNsIgAGu+sND0IP/IC/+SCYmdpd/1LF/6ODHD9lrT/g8Eol3+go8TlZ0EG1UEhYsxHJjubARkqTGe4GuBqedTEidhVwKWZT3EeexrSs7w+xWkZkrv/bYeWGQIDAQAB',
         // 加密方式： **RSA2** 私钥 商家应用私钥
@@ -28,9 +28,9 @@ return [
         // APPID
         'app_id' => '2019041563831964',
         // 支付宝 支付成功后 主动通知商户服务器地址  注意 是post请求
-        'notify_url' => 'https://smfet.com/alipay/notify',
+        'notify_url' => 'https://dawnll.com/alipay/notify',
         // 支付宝 支付成功后 回调页面 get
-        'return_url' => 'https://smfet.com/pay-success',
+        'return_url' => 'https://dawnll.com/pay-success',
         // 公钥（注意是支付宝的公钥，不是商家应用公钥）
         'ali_public_key' => 'MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA23NrboDJ8BVnSP3SQRkckZsZrOkzL8Eesr9mxd7R6QD8ms5xcDezyO/BAIkdoo68axeIU8A9YHnuLslp9/XHE1+cmqVXMSdKNilrJC9+wivzUU4CwvOX30/d/ERtXMeZkWcDIf47UNDW6ySHSN0emqynWVyxkE9DE9zycKbs9Z2jICIPa0xhXoX4u9apTKLJ6AmoQiytiNHrnzwGVnvM+Hmq13C73rUYpn16xg2KZWwxWChPW747izwVCFSWNXywGKqpBNwfV7ClskLdTDQtiETeQmXiEjqY1jKqFGshnwHvOKZzICHbrtnNcCUKtLjIALqfSIMlOXKyIZyRv4LJtwIDAQAB',
         // 加密方式： **RSA2** 私钥 商家应用私钥

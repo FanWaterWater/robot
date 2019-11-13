@@ -23,7 +23,7 @@ function getLangDate(){
 
     var backUserName;
     if(sessionStorage.getItem("token") == null){
-        // window.location.href ="https://smfet.com/back/page/login/login.html"
+        // window.location.href ="https://dawnll.com/back/page/login/login.html"
          //top.location.href ="http://192.168.1.43/five_elements/laravel56/public/back/page/login/login.html"
     }else {
         backUserName=JSON.parse(sessionStorage.getItem("user")).username;

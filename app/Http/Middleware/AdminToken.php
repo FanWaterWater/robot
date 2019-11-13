@@ -20,8 +20,8 @@ class AdminToken
     public function handle($request, Closure $next)
     {
         $token = $request->header('Authorization');
-        if($token == null && $token == 'null') {
-            $token == false;
+        if($token == null || $token == 'null' || $token == '') {
+            $token = false;
         }
         if ($token && JWTAuth::parseToken()->check()) {
             $guard = JWTAuth::parseToken()->getPayload()['role'];
