@@ -20,7 +20,7 @@ class ChatController extends Controller
         $from_id = $request->from_id;
         $data = Chat::where(['to_id' => $from_id, 'is_read' => 0])->get();
         Chat::where(['to_id' => $from_id, 'is_read' => 0])->update(['is_read' => 1]);
-        return responseSuccess($data);
+        return success($data);
     }
 
     public function save(Request $request)
@@ -29,14 +29,14 @@ class ChatController extends Controller
         $data['add_time'] = time();
         $chat = DB::table('chats')->insert($data);
         if ($chat)
-            return responseSuccess();
-        return responseError();
+            return success();
+        return error();
     }
 
     public function unRead(Request $request)
     {
         $from_id = $request->from_id;
         $data = Chat::where(['to_id' => $from_id, 'is_read' => 0])->count();
-        return responseSuccess($data);
+        return success($data);
     }
 }
