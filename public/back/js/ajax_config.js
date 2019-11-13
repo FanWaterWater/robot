@@ -2,8 +2,8 @@ var token = sessionStorage.getItem("token");
 layui.define(["form", "jquery"], function (exports) {
     var host = "http://dawnll.com/api/backend";
     var baseurl = "http://dawnll.com";
-    // var host='http://192.168.1.43/five_elements/laravel56/public/web';
-    // var baseurl="http://192.168.1.43/five_elements/laravel56/public";
+    // var host = "http://localhost/robot/public/api/backend";
+    // var baseurl = "http://localhost/robot/public";
     var $ = layui.jquery;
     // 判断token过期
     $(document).ajaxSuccess(function (event, xhr, opts) {
