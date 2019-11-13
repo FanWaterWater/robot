@@ -25,9 +25,9 @@ Route::get('config', function() {
 });
 
 Route::group(['prefix' => 'chat'], function () {
-    Route::post('save', 'ChatController@save');
-    Route::post('load', 'ChatController@load');
-    Route::post('unRead', 'ChatController@unRead');
+    Route::post('save', 'Api\ChatController@save');
+    Route::post('load', 'Api\ChatController@load');
+    Route::post('unRead', 'Api\ChatController@unRead');
 });
 
 Route::post('verification-code', 'Api\SmsController@verifyCode');
