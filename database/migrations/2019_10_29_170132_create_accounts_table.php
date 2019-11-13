@@ -16,8 +16,8 @@ class CreateAccountsTable extends Migration
         Schema::create('alipay_accounts', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->bigInteger('user_id')->comment('用户ID');
-            $table->bigInteger('name')->comment('账号名称');
-            $table->bigInteger('account')->comment('账号');
+            $table->string('name', 20)->comment('账号名称');
+            $table->string('account', 30)->comment('账号');
             $table->timestamps();
             $table->index(['id', 'user_id']);
         });
@@ -26,8 +26,8 @@ class CreateAccountsTable extends Migration
             $table->bigIncrements('id');
             $table->bigInteger('user_id')->comment('用户ID');
             $table->string('bank', 30)->comment('银行名称');
-            $table->bigInteger('name')->comment('账号名称');
-            $table->bigInteger('account')->comment('账号');
+            $table->string('name', 20)->comment('账号名称');
+            $table->string('account', 30)->comment('账号');
             $table->timestamps();
             $table->index(['id', 'user_id']);
         });

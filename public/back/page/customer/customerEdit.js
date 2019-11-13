@@ -23,7 +23,7 @@ layui.use(['form', 'layer', 'layedit', 'laydate', 'upload', 'ajaxUrl'], function
 		upload.render({
 			elem: container,
 			url: ajaxArr.upload,
-            headers:{'token':token},
+            headers:{'Authorization':token},
 			method: "post",
 			multiple: true, //是否允许多文件上传。设置 true即可开启。不支持ie8/9
 			accept: 'file', //允许上传的文件类型
@@ -65,7 +65,7 @@ layui.use(['form', 'layer', 'layedit', 'laydate', 'upload', 'ajaxUrl'], function
         data: {},
         async: true,
         dataType: "json",
-        headers:{'token':token},
+        headers:{'Authorization':token},
         success: function(res) {
             if(res.code == 200){
                 for(var i =0;i<res.data.length;i++){
@@ -93,7 +93,7 @@ layui.use(['form', 'layer', 'layedit', 'laydate', 'upload', 'ajaxUrl'], function
         data: {},
         async: true,
         dataType: "json",
-        headers:{'token':token},
+        headers:{'Authorization':token},
         success: function(res) {
             if(res.code == 200){
                 for(var i =0;i<res.data.length;i++){
@@ -174,7 +174,7 @@ layui.use(['form', 'layer', 'layedit', 'laydate', 'upload', 'ajaxUrl'], function
 			data: params,
 			async: true,
 			dataType: "json",
-            headers:{'token':token},
+            headers:{'Authorization':token},
 			success: function(res) {
 				if(res.code == 200) {
 					parent.location.reload();

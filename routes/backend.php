@@ -3,7 +3,7 @@
 Route::post('backend/admins/login', 'Api\Backend\AdminController@login');
 
 
-Route::group(['prefix' => 'backend'], function () {
+Route::group(['prefix' => 'backend', 'middleware' => ['token.admin']], function () {
     Route::post('admins/logout', 'Api\Backend\AdminController@logout');
     Route::apiResource('admins', 'Api\Backend\AdminController');
 

@@ -52,7 +52,7 @@ layui.use(['form', 'layer', 'laydate', 'table', 'laytpl', 'ajaxUrl'], function (
         data: {},
         async: true,
         dataType: "json",
-        headers:{'token':token},
+        headers:{'Authorization':token},
         success: function(res) {
             $('#curPrice').text(res.data[0].price);
             $('#curCount').text(res.data[0].count);
@@ -75,7 +75,7 @@ layui.use(['form', 'layer', 'laydate', 'table', 'laytpl', 'ajaxUrl'], function (
                 data: params,
                 async: true,
                 dataType: "json",
-                headers:{'token':token},
+                headers:{'Authorization':token},
                 success: function(res) {
                     if(res.code == 200) {
                         layer.msg(res.msg);
@@ -119,7 +119,7 @@ layui.use(['form', 'layer', 'laydate', 'table', 'laytpl', 'ajaxUrl'], function (
                     traditional:true,
                     async:true,
                     dataType:'json',
-                    headers:{'token':token},
+                    headers:{'Authorization':token},
                     success:function(res){
 
                         layer.close(index);
@@ -156,7 +156,7 @@ layui.use(['form', 'layer', 'laydate', 'table', 'laytpl', 'ajaxUrl'], function (
                     type: ajaxType,
                     async: true,
                     dataType: "json",
-                    headers:{'token':token},
+                    headers:{'Authorization':token},
                     success: function(res) {
                         layer.msg(res.msg);
                         tableIns.reload();

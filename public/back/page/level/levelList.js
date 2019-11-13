@@ -18,6 +18,9 @@ layui.use(['form', 'layer', 'laydate', 'table', 'laytpl', 'ajaxUrl'], function (
         elem: '#listTable',
         method: "get",
         url: ajaxUrl,
+        headers: {
+            'Authorization': token
+        },
         cellMinWidth: 95,
         page: true,
         height: "full-125",
@@ -220,7 +223,7 @@ layui.use(['form', 'layer', 'laydate', 'table', 'laytpl', 'ajaxUrl'], function (
                 async: true,
                 dataType: "json",
                 headers: {
-                    'token': token
+                    'Authorization': token
                 },
                 success: function (res) {
                     layer.msg(res.msg);
@@ -267,7 +270,7 @@ layui.use(['form', 'layer', 'laydate', 'table', 'laytpl', 'ajaxUrl'], function (
                     async: true,
                     dataType: 'json',
                     headers: {
-                        'token': token
+                        'Authorization': token
                     },
                     success: function (res) {
 

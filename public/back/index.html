@@ -145,7 +145,7 @@
 				},
 			    async: false,
 			    dataType: "json",
-                headers:{'token':token},
+                headers:{'Authorization':token},
 			    success: function(res) {
 					if(res.data>0){
 						if(window.unRead!=res.data){

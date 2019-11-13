@@ -122,7 +122,7 @@ layui.use(['bodyTab','form','element','layer','jquery','ajaxUrl'],function(){
             data: {},
             async: true,
             dataType: "json",
-            headers:{'token':token},
+            headers:{'Authorization':token},
             success: function(res) {
                 if(res.code == 200) {
                     window.location.href =ajaxArr.goLogin;

@@ -108,7 +108,7 @@ layui.use(['form', 'layer', 'laydate', 'table', 'laytpl', 'ajaxUrl'], function (
     //     limit: 10,
     //     limits: [10, 15, 20, 25],
     //     headers: {
-    //         'token': token
+    //         'Authorization': token
     //     },
     //     success: function (res) {
 
@@ -235,7 +235,7 @@ layui.use(['form', 'layer', 'laydate', 'table', 'laytpl', 'ajaxUrl'], function (
                 async: true,
                 dataType: "json",
                 headers: {
-                    'token': token
+                    'Authorization': token
                 },
                 success: function (res) {
                     layer.msg(res.msg);

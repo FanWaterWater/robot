@@ -57,7 +57,7 @@ layui.use(['form','element','layer','jquery'],function(){
             url : "../json/systemParameter.json",
             type : "get",
             dataType : "json",
-            headers:{'token':token},
+            headers:{'Authorization':token},
             success : function(data){
                 fillParameter(data);
             }

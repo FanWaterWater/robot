@@ -59,7 +59,7 @@ layui.use(['form', 'layer', 'laydate', 'table', 'laytpl', 'ajaxUrl'], function (
         data: {},
         async: true,
         dataType: "json",
-        headers:{'token':token},
+        headers:{'Authorization':token},
         success: function(res) {
             if(res.code == 200){
                 for(var i =0;i<res.data.length;i++){

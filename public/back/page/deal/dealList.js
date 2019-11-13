@@ -188,7 +188,7 @@ layui.use(['form', 'layer', 'laydate', 'table', 'laytpl', 'ajaxUrl'], function (
         data: {},
         async: true,
         dataType: "json",
-        headers:{'token':token},
+        headers:{'Authorization':token},
         success: function(res) {
             if(res.code == 200){
                 $('#buyCount').text(res.data.buyCount);
@@ -211,7 +211,7 @@ layui.use(['form', 'layer', 'laydate', 'table', 'laytpl', 'ajaxUrl'], function (
         data: {},
         async: true,
         dataType: "json",
-        headers:{'token':token},
+        headers:{'Authorization':token},
         success: function(res) {
 
             if(res.code == 200){
@@ -238,7 +238,7 @@ layui.use(['form', 'layer', 'laydate', 'table', 'laytpl', 'ajaxUrl'], function (
         data: {},
         async: true,
         dataType: "json",
-        headers:{'token':token},
+        headers:{'Authorization':token},
         success: function(res) {
             if(res.code == 200){
                 $('#curTimeLimit').text(res.data.time_limit).attr('data-id',res.data.id);
@@ -265,7 +265,7 @@ layui.use(['form', 'layer', 'laydate', 'table', 'laytpl', 'ajaxUrl'], function (
                 },
                 async: true,
                 dataType: "json",
-                headers:{'token':token},
+                headers:{'Authorization':token},
                 success: function(res) {
                     if(res.code == 200){
                         layer.msg(res.msg);
@@ -354,7 +354,7 @@ layui.use(['form', 'layer', 'laydate', 'table', 'laytpl', 'ajaxUrl'], function (
                 },
                 async: true,
                 dataType: "json",
-                headers:{'token':token},
+                headers:{'Authorization':token},
                 success: function(res) {
                     if(res.code == 200) {
                         layer.msg(res.msg);

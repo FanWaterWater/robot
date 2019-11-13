@@ -3,12 +3,9 @@
 namespace App\Http\Middleware;
 
 use Closure;
-use App\Services\Token;
 use Tymon\JWTAuth\Facades\JWTAuth;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Cache;
 
-class AdminToken
+class UserToken
 {
     /**
      * Handle an incoming request.
@@ -25,7 +22,7 @@ class AdminToken
         }
         if ($token && JWTAuth::parseToken()->check()) {
             $guard = JWTAuth::parseToken()->getPayload()['role'];
-            if ($guard == 'admin') {
+            if ($guard == 'user') {
                 $response = $next($request);
                 return $response;
             }

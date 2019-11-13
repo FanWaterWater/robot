@@ -124,7 +124,7 @@ layui.use(['form', 'layer', 'laydate', 'table', 'laytpl', 'ajaxUrl'], function (
         dataType: "json",
         height: "full-125",
         headers: {
-            'token': token
+            'Authorization': token
         },
         success: function (res) {
 
@@ -240,7 +240,7 @@ layui.use(['form', 'layer', 'laydate', 'table', 'laytpl', 'ajaxUrl'], function (
                 async: true,
                 dataType: "json",
                 headers: {
-                    'token': token
+                    'Authorization': token
                 },
                 success: function (res) {
                     layer.msg(res.msg);

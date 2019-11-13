@@ -107,7 +107,7 @@ layui.use(['form', 'layer', 'laydate', 'table', 'laytpl', 'ajaxUrl'], function (
         data: {},
         async: true,
         dataType: "json",
-        headers:{'token':token},
+        headers:{'Authorization':token},
         success: function(res) {
             if(res.code == 200){
                 $('#userRechargesCount').text(res.count);
@@ -126,7 +126,7 @@ layui.use(['form', 'layer', 'laydate', 'table', 'laytpl', 'ajaxUrl'], function (
         data: {},
         async: true,
         dataType: "json",
-        headers:{'token':token},
+        headers:{'Authorization':token},
         success: function(res) {
 
             if(res.code == 200){
@@ -150,7 +150,7 @@ layui.use(['form', 'layer', 'laydate', 'table', 'laytpl', 'ajaxUrl'], function (
         data: {},
         async: true,
         dataType: "json",
-        headers:{'token':token},
+        headers:{'Authorization':token},
         success: function(res) {
             if(res.code == 200){
               if(res.data.status == 1){
@@ -174,7 +174,7 @@ layui.use(['form', 'layer', 'laydate', 'table', 'laytpl', 'ajaxUrl'], function (
             data: {},
             async: true,
             dataType: "json",
-            headers:{'token':token},
+            headers:{'Authorization':token},
             success: function(res) {
                 if(res.code == 200){
                     layer.msg('设置成功');
@@ -207,7 +207,7 @@ layui.use(['form', 'layer', 'laydate', 'table', 'laytpl', 'ajaxUrl'], function (
             },
             async: true,
             dataType: "json",
-            headers:{'token':token},
+            headers:{'Authorization':token},
             success: function(res) {
                 if(res.code == 200){
                     $('#userRechargesCount').text(res.count);

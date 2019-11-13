@@ -24,7 +24,7 @@ layui.use(['form', 'layer', 'layedit', 'laydate', 'upload', 'ajaxUrl'], function
         data: {},
         async: true,
         dataType: "json",
-        headers:{'token':token},
+        headers:{'Authorization':token},
         success: function(res) {
 
             if(res.code == 200){
@@ -75,7 +75,7 @@ layui.use(['form', 'layer', 'layedit', 'laydate', 'upload', 'ajaxUrl'], function
             data: params,
             async: true,
             dataType: "json",
-            headers:{'token':token},
+            headers:{'Authorization':token},
             success: function(res) {
                 if(res.code == 200) {
                     parent.location.reload();

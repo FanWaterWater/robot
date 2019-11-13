@@ -14,13 +14,13 @@ use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Redis;
+use App\Models\RobotConfig;
 
 class RobotController extends Controller
 {
     public function index()
     {
-        $userId = request('user_id');
-        // $userId = Token::id();
+        $userId = Token::id();
         $user = User::with('level:id,income_reward')->find($userId);
         $robotCount = Redis::scard('robot' . $userId);
         $config = Cache::get('robot_config');
@@ -42,6 +42,33 @@ class RobotController extends Controller
     }
 
     /**
+     * 获取列表
+     *
+     * @return void
+     */
+    public function list(Request $request)
+    {
+        $type = $request->type;
+        if ($type == 0) {
+            $robots = Robot::where('user_id', Token::id())->paginate(config('common.pagesize'));
+        } else {
+            $robots = Robot::onlyTrashed()->where('user_id', Token::id())->paginate(config('common.pagesize'));
+        }
+        return success($robots);
+    }
+
+    /**
+     * 获取配置
+     *
+     * @return void
+     */
+    public function config()
+    {
+        $config = RobotConfig::orderBy('id', 'desc')->first();
+        return success($config);
+    }
+
+    /**
      * 购买
      *
      * @return void
@@ -49,6 +76,10 @@ class RobotController extends Controller
     public function buy()
     {
         $userId = Token::id();
+        $robotCount = Redis::scard('robot' . $userId);
+        if ($robotCount >= 100) {
+            return error('持有机器已到上限');
+        }
         $order = RobotOrder::create([
             'order_no' => getOrderNo(),
             'user_id' => $userId,
@@ -65,9 +96,11 @@ class RobotController extends Controller
      */
     public function activate(Request $request)
     {
-        // $userId = Token::id();
-        $userId = $request->user_id;
-
+        $userId = Token::id();
+        $robotCount = Redis::scard('robot' . $userId);
+        if ($robotCount >= 100) {
+            return error('持有机器已到上限');
+        }
         $code = $request->code;
         DB::beginTransaction();  //开启事务
         try {

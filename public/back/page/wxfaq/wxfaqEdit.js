@@ -21,11 +21,11 @@ layui.use(['form', 'layer', 'layedit', 'laydate', 'upload', 'ajaxUrl'], function
 		if(r != null) return unescape(r[2]);
 		return null; //返回参数值
 	}
-	
+
 	form.verify({
-	  min8: [/^[\S]{8,8}$/,'请输入8位数'] 
-	}); 
-	
+	  min8: [/^[\S]{8,8}$/,'请输入8位数']
+	});
+
 
 	/*
 	 获取页面类型
@@ -57,7 +57,7 @@ layui.use(['form', 'layer', 'layedit', 'laydate', 'upload', 'ajaxUrl'], function
 			data: params,
 			async: true,
 			dataType: "json",
-            headers:{'token':token},
+            headers:{'Authorization':token},
 			success: function(res) {
 				if(res.code == 200) {
 					parent.location.reload();

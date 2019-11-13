@@ -156,7 +156,7 @@ layui.use(['form', 'layer', 'laydate', 'table', 'laytpl', 'ajaxUrl'], function (
         data: {},
         async: true,
         dataType: "json",
-        headers:{'token':token},
+        headers:{'Authorization':token},
         success: function(res) {
             if(res.code == 200){
                 $('#userCount').text(res.data.userCount);
@@ -178,7 +178,7 @@ layui.use(['form', 'layer', 'laydate', 'table', 'laytpl', 'ajaxUrl'], function (
         data: {},
         async: true,
         dataType: "json",
-        headers:{'token':token},
+        headers:{'Authorization':token},
         success: function(res) {
             if(res.code == 200){
                 for(var i =0;i<res.data.length;i++){
@@ -200,7 +200,7 @@ layui.use(['form', 'layer', 'laydate', 'table', 'laytpl', 'ajaxUrl'], function (
         data: {},
         async: true,
         dataType: "json",
-        headers:{'token':token},
+        headers:{'Authorization':token},
         success: function(res) {
             if(res.code == 200){
                 for(var i =0;i<res.data.length;i++){
@@ -250,7 +250,7 @@ layui.use(['form', 'layer', 'laydate', 'table', 'laytpl', 'ajaxUrl'], function (
             },
             async: true,
             dataType: "json",
-            headers:{'token':token},
+            headers:{'Authorization':token},
             success: function(res) {
                 if(res.code == 200){
                     $('#userCount').text(res.data.userCount);
@@ -378,7 +378,7 @@ layui.use(['form', 'layer', 'laydate', 'table', 'laytpl', 'ajaxUrl'], function (
                     data: {},
                     async: true,
                     dataType: "json",
-                    headers:{'token':token},
+                    headers:{'Authorization':token},
                     success: function(res) {
                         var data = res.data;
                         layer.close(loading);
@@ -505,7 +505,7 @@ layui.use(['form', 'layer', 'laydate', 'table', 'laytpl', 'ajaxUrl'], function (
                     // data: data.id,
                     async: true,
                     dataType: "json",
-                    headers:{'token':token},
+                    headers:{'Authorization':token},
                     success: function(res) {
                         layer.msg(res.msg);
                         tableIns.reload();

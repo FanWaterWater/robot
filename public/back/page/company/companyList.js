@@ -110,7 +110,7 @@ layui.use(['form', 'layer', 'laydate', 'table', 'laytpl', 'ajaxUrl'], function (
                 type: ajaxType,
                 async: true,
                 dataType: "json",
-                headers:{'token':token},
+                headers:{'Authorization':token},
                 success: function(res) {
                     layer.msg(res.msg);
                     tableIns.reload();
@@ -151,7 +151,7 @@ layui.use(['form', 'layer', 'laydate', 'table', 'laytpl', 'ajaxUrl'], function (
                     traditional:true,
                     async:true,
                     dataType:'json',
-                    headers:{'token':token},
+                    headers:{'Authorization':token},
                     success:function(res){
 
                         layer.close(index);

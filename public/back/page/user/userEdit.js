@@ -24,7 +24,7 @@ layui.use(['form', 'layer', 'layedit', 'laydate', 'upload', 'ajaxUrl'], function
             elem: container,
             url: ajaxArr.upload,
             headers: {
-                'token': token
+                'Authorization': token
             },
             method: "post",
             multiple: true, //是否允许多文件上传。设置 true即可开启。不支持ie8/9
@@ -68,7 +68,7 @@ layui.use(['form', 'layer', 'layedit', 'laydate', 'upload', 'ajaxUrl'], function
         async: true,
         dataType: "json",
         headers: {
-            'token': token
+            'Authorization': token
         },
         success: function (res) {
             if (res.code == 200) {
@@ -149,7 +149,7 @@ layui.use(['form', 'layer', 'layedit', 'laydate', 'upload', 'ajaxUrl'], function
             async: true,
             dataType: "json",
             headers: {
-                'token': token
+                'Authorization': token
             },
             success: function (res) {
                 if (res.code == 200) {

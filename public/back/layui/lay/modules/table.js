@@ -105,7 +105,7 @@
                 url: n.url,
                 data: t.extend(c, n.where),
                 dataType: "json",
-                headers:{'token':token},
+                headers:{'Authorization':token},
                 success: function (t) {
                     t[r.statusName] != r.statusCode ? (a.renderForm(), a.layMain.html('<div class="' + f + '">' + (t[r.msgName] || "返回的数据状态异常") + "</div>")) : (a.renderData(t, e, t[r.countName]), d(), n.time = (new Date).getTime() - a.startTime + " ms"), i && l.close(i), "function" == typeof n.done && n.done(t, e, t[r.countName])
                 },

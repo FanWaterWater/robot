@@ -116,7 +116,7 @@ class User extends Authenticatable implements JWTSubject
      */
     public function robots()
     {
-        return $this->hasMany(Robot::class, 'id', 'user_id');
+        return $this->hasMany(Robot::class, 'user_id', 'id');
     }
 
     /**
@@ -126,7 +126,7 @@ class User extends Authenticatable implements JWTSubject
      */
     public function alipay()
     {
-        return $this->hasOne(Account::class)->where('type', AccountType::ALIPAY);
+        return $this->hasOne(AlipayAccount::class, 'id', 'alipay_account_id');
     }
 
     /**
@@ -136,7 +136,7 @@ class User extends Authenticatable implements JWTSubject
      */
     public function bank()
     {
-        return $this->hasOne(Account::class)->where('type', AccountType::BANK);
+        return $this->hasOne(BankAccount::class, 'id', 'bank_account_id');
     }
 
     /**

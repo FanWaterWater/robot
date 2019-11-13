@@ -27,11 +27,11 @@
 			}
 		</style>
 	</head>
-	
+
 	<body>
 		<script type="text/javascript" src="../../js/jquery-1.9.1.min.js"></script>
 		<script type="text/javascript" src="../../layui/layui.js"></script>
-		
+
 		<script>
 			var kid = 'k001';
 			var name = '客服';
@@ -52,7 +52,7 @@
 					'face[黑线]  你慢慢说，别急……',
 					'(*^__^*) face[嘻嘻] ，是贤心吗？'
 				];
-				
+
 				//连接端口
 				// var socket = new WebSocket('ws://192.168.1.43:2000');
 				var socket = new WebSocket('wss://smfet.com:9501');
@@ -127,7 +127,7 @@
                             async:false,
                             url: host+'/common/chat/save',
                             data:params,
-                            headers:{'token':token},
+                            headers:{'Authorization':token},
                             success: function (res) {
 
                             },
@@ -182,8 +182,8 @@
 					/* ,uploadImage: {
 					   url: '/upload/image' //（返回的数据格式见下文）
 					   ,type: '' //默认post
-					 } 
-					 
+					 }
+
 					 //上传文件接口
 					 ,uploadFile: {
 					   url: '/upload/file' //（返回的数据格式见下文）
@@ -306,13 +306,13 @@
 					}
 				});
 			});
-			
+
 			//点击用户去除新消息红点
 			$(document).on(".layim-chat-list li","click",function(){
 				var $this=$(this);
 				$this.removeClass("hasNew");
 			})
-			
+
 		</script>
 	</body>
 

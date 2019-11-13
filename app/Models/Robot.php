@@ -7,9 +7,11 @@ use App\Utils\TeamRole;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Redis;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Robot extends Model
 {
+    use SoftDeletes;
 
     public static function boot()
     {
