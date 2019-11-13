@@ -22,8 +22,8 @@ class ChatController extends Controller
         $data = $request->all();
         $data['add_time'] = time();
         $chat = DB::table('chats')->insert($data);
-        if ($chat)
-            return success();
+        if (isset($chat))
+            return success($chat);
         return error();
     }
 
