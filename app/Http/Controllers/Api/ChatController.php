@@ -11,9 +11,9 @@ class ChatController extends Controller
 {
     public function load(Request $request)
     {
-        $from_id = $request->from_id;
+        $from_id = $request->from_id . '';
         $data = Chat::where(['to_id' => $from_id, 'is_read' => 0])->get();
-        Chat::where(['to_id' => $from_id, 'is_read' => 0])->update(['is_read' => 1]);
+        Chat::where('to_id', $from_id)->where('is_read', 0)->update(['is_read' => 1]);
         return success($data);
     }
 
@@ -29,7 +29,7 @@ class ChatController extends Controller
 
     public function unRead(Request $request)
     {
-        $from_id = $request->from_id;
+        $from_id = $request->from_id . '';
         $data = Chat::where(['to_id' => $from_id, 'is_read' => 0])->count();
         return success($data);
     }

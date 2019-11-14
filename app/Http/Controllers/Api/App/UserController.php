@@ -90,6 +90,12 @@ class UserController extends Controller
         }
     }
 
+    public function user(Request $request)
+    {
+        $user = User::find($request->user_id, ['id', 'nickname', 'username', 'avatar']);
+        return success($user);
+    }
+
     public function logout()
     {
         if (\Auth::guard('admin')->check()) {

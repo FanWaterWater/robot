@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Redis;
 */
 
 Route::get('/', function () {
-    return view('layout.header');
+    return view('welcome');
 });
 
 Route::get('test', function () {

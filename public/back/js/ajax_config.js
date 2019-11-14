@@ -1,7 +1,7 @@
 var token = sessionStorage.getItem("token");
 layui.define(["form", "jquery"], function (exports) {
-    // var host = "http://dawnll.com/api/backend";
-    // var baseurl = "http://dawnll.com";
+    // var host = "https://dawnll.com/api/backend";
+    // var baseurl = "https://dawnll.com";
     var host = "http://localhost/robot/public/api/backend";
     var baseurl = "http://localhost/robot/public";
     var $ = layui.jquery;

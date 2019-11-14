@@ -125,18 +125,18 @@
 			msgTimer();
 		})
 		//客户消息计时器
-		// function msgTimer(){
-		// 	setTimeout(function(){
-		// 		getNewMsg();
-		// 	},5000)
-		// }
+		function msgTimer(){
+			setTimeout(function(){
+				getNewMsg();
+			},5000)
+		}
 		window.unRead=0;
 
 		//客户消息提示
 		function getNewMsg(){
 			//监听收到的消息
-			  var ajaxUrl ='https://dawnll.com/common/chat/unRead';
-			//var ajaxUrl ='http://192.168.1.43/five_elements/laravel56/public/common/chat/unRead';
+			//   var ajaxUrl ='https://dawnll.com/api/chat/unRead';
+			var ajaxUrl ='http://localhost/robot/public/api/chat/unRead';
 			  $.ajax({
 			    url: ajaxUrl,
 			    type:'post',

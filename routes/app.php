@@ -3,7 +3,7 @@
 Route::post('app/users/register', 'Api\App\UserController@register');
 Route::post('app/users/login', 'Api\App\UserController@login');
 Route::post('app/users/forget-password', 'Api\App\UserController@forgetPassword');
-// Route::post('app/users/register', 'Api\App\UserController@register');
+Route::get('app/users/user', 'Api\App\UserController@user');
 
 
 Route::group(['prefix' => 'app', 'middleware' => ['token.user']], function () {

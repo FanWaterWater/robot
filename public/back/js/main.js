@@ -26,8 +26,8 @@ function getLangDate(){
         // window.location.href ="https://dawnll.com/back/page/login/login.html"
          //top.location.href ="http://192.168.1.43/five_elements/laravel56/public/back/page/login/login.html"
     }else {
-        backUserName=JSON.parse(sessionStorage.getItem("user")).username;
-        document.getElementById("nowTime").innerHTML = "親愛的"+backUserName+"，"+timeValue+"好！ 歡迎使用後台管理。當前時間為： "+newDate+"　"+week;
+        // backUserName=JSON.parse(sessionStorage.getItem("user")).username;
+        // document.getElementById("nowTime").innerHTML = "親愛的"+backUserName+"，"+timeValue+"好！ 歡迎使用後台管理。當前時間為： "+newDate+"　"+week;
     }
     setTimeout("getLangDate()",1000);
 }
