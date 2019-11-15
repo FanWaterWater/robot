@@ -74,9 +74,9 @@ class RobotController extends Controller
      *
      * @return void
      */
-    public function buy()
+    public function buy(Request $request)
     {
-        $userId = 1;
+        $userId = $request->user_id;
         $robotCount = Redis::scard('robot' . $userId);
         if ($robotCount >= Cache::get('system_config')['ROBOT_LIMIT']) {
             return error('持有机器已到上限');
