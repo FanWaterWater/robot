@@ -136,19 +136,25 @@ class UserController extends Controller
     {
         $price = $request->price;
         $type = $request->type;
-        if ($price < 10) {
-            return errorMsg('提现金额必须大于10');
+        if ($price < 10 || $price % 10 != 0) {
+            return errorMsg('提现金额必须是10的倍数');
         }
+        //计算手续费
+        $fee = 2;
+        if (($price * 0.05) > 2) {
+            $fee = $price * 0.05;
+        }
+        $priceTotal = $price + $fee;
         DB::beginTransaction();
         try {
             $user = User::find(Token::id(), ['id', 'amount', 'alipay_account_id', 'bank_account_id']);
             if (!isset($user)) {
                 return errorMsg('用户不存在');
             }
-            if ($price > $user->amount) {
+            if ($priceTotal > $user->amount) {
                 return errorMsg('余额不足');
             }
-            $user->decrement('amount', $price);
+            $user->decrement('amount', $priceTotal);
             $accountId = $type == 0 ? $user->alipay_account_id : $user->bank_account_id;
             Withdraw::create([
                 'price' => $price,
@@ -159,9 +165,9 @@ class UserController extends Controller
             UserFund::create([
                 'user_id' => $user->id,
                 'type' => FundType::WITHDRAW,
-                'change_amount' => -$price,
+                'change_amount' => -$priceTotal,
                 'after_amount' => $user->amount,
-                'content' => '用户提现' . $price . '元',
+                'content' => '用户提现' . $price . '元，手续费' . $fee . '元',
                 'remark' => '用户提现'
             ]);
             DB::commit();
