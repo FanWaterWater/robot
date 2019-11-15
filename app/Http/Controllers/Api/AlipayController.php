@@ -31,7 +31,7 @@ class AlipayController extends Controller
 
     public function notify(Request $request)
     {
-        \Log::info($request->all());
+        \Log::info($request);
         $configs = config('alipay');
         $config = [];
         foreach ($configs as $value) {
