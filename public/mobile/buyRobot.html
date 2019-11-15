@@ -156,31 +156,40 @@
         </div>
         <div class="tips2" v-if="config.type == 0">购买机器有效期:永久</div>
         <!-- <div class="tips2" v-else>购买机器有效期:{{config.limit}}天</div> -->
-        <div class="margin-tb-sm text-center" style="margin-top: 20px;">
-            <button class="cu-btn round bg-white lg text-blue" form-type="submit">立即购买</button>
-        </div>
+        <form action='https://dawnll.com/api/app/robots/buy' method="POST">
+            <div class="margin-tb-sm text-center" style="margin-top: 20px;">
+                <button class="cu-btn round bg-white lg text-blue" form-type="submit">立即购买</button>
+            </div>
+        <form>
+
     </div>
     <div class="rule">
         <div class="rule-title">温馨提醒</div>
         <div class="rule-content">
-            <div>1.本页面购买只支持支付宝，一个账号最多持有100台；</div>
+            <div>1.本页面购买只支持支付宝，一个账号最多持有<span id="limit"></span>台；</div>
             <div>2.如需其他方式支付，请点开首页全民代理联系市代购买激活码；</div>
             <div>3.欢迎使用激活码方式激活机器，请向官方认证市代咨询购买；</div>
             <div>4.推广红利期间，机器有效期为“永久”，如有变动以当前购买机器有效期为准；</div>
         </div>
     </div>
-    <script src="js/plugin/qrcode.min.js"></script>
-    <script src="js/plugin/ZeroClipboard.js"></script>
-    <script src="js/plugin/html2canvas.min.js"></script>
-    <script src="js/plugin/jquery.validate.min.js"></script>
-    <script src="js/plugin/framework7.bundle.min.js"></script>
-    <script src="js/plugin/ajaxfileupload.js"></script>
-    <script src="js/plugin/echarts.common.min.js" type="text/javascript" charset="utf-8"></script>
-    <script src="js/my-app.js"></script>
-    <script src="js/wuxing.js"></script>
-    <script src="js/conan.js"></script>
-    <script src="js/june.js?v=1.0"></script>
-    <script src="js/savePayImg.js"></script>
 </body>
+<script src="js/plugin/jquery-1.10.1.min.js"></script>
+<script>
+    console.log(localStorage.getItem('user'))
+    $.ajax({
+        url: 'https://dawnll.com/api/config',
+        success(res) {
+            $('#limit').html(res.data.ROBOT_LIMIT)
+        }
+    })
+
+    $.ajax({
+        url: 'https://dawnll.com/api/robots/config',
+        success(res) {
+            $('#limit').html(res.data.ROBOT_LIMIT)
+        }
+    })
+
+</script>
 
 </html>

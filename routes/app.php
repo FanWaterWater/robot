@@ -5,8 +5,7 @@ Route::post('app/users/login', 'Api\App\UserController@login');
 Route::post('app/users/forget-password', 'Api\App\UserController@forgetPassword');
 Route::get('app/users/user', 'Api\App\UserController@user');
 Route::post('app/robots/buy', 'Api\App\RobotController@buy');
-
-
+Route::get('app/robots/config', 'Api\App\RobotController@config');
 
 Route::group(['prefix' => 'app', 'middleware' => ['token.user']], function () {
 
@@ -43,7 +42,6 @@ Route::group(['prefix' => 'app', 'middleware' => ['token.user']], function () {
     Route::group(['prefix' => 'robots'], function () {
         Route::get('index', 'Api\App\RobotController@index');
         Route::get('list', 'Api\App\RobotController@list');
-        Route::get('config', 'Api\App\RobotController@config');
         Route::post('activate', 'Api\App\RobotController@activate');
     });
 });
