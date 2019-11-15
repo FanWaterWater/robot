@@ -37,7 +37,9 @@
 
     <script type="text/javascript">
         $(".paySuccessBtn").click(function() {
-            uni.navigateBack();
+            uni.redirectTo({
+                url: '/pages/index/index'
+            });
         })
 
 	</script>
