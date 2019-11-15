@@ -86,7 +86,15 @@ class RobotController extends Controller
             'price' => Cache::get('robot_config')['price'],
             'status' => 0
         ]);
-        return success($order);
+        $aliPayOrder = [
+            'out_trade_no' => $order->order_no,
+            'total_amount' => $order->price, // 支付金额
+            'subject'      => '购买机器' // 备注
+        ];
+        $payId = 1;
+        $config = config('alipay.pay' . $payId);
+        return Pay::alipay($config)->wap($aliPayOrder);
+        // return success($order);
     }
 
     /**
