@@ -31,7 +31,6 @@ class AlipayController extends Controller
 
     public function notify(Request $request)
     {
-        \Log::info($request);
         $configs = config('alipay');
         $config = [];
         foreach ($configs as $value) {
@@ -40,8 +39,10 @@ class AlipayController extends Controller
             }
         }
         $alipay = Pay::alipay($config);
-        return $alipay->success();
         $verify = $alipay->verify();
+        \Log::info($verify);
+        return $alipay->success();
+
         if (isset($verify)) {
             $order = RobotOrder::where('order_no', $request->out_trade_no)->first();
             if ($request->trade_status == 'TRADE_SUCCESS' && $request->notify_type == 'trade_status_sync' && isset($order) && $order->status == 0) {
