@@ -4,7 +4,7 @@ return [
         // APPID
         'app_id' => '2019101368387245',
         // 支付宝 支付成功后 主动通知商户服务器地址  注意 是post请求
-        'notify_url' => 'https://dawnll.com/alipay/notify',
+        'notify_url' => 'https://dawnll.com/api/alipay/notify',
         // 支付宝 支付成功后 回调页面 get
         'return_url' => 'https://dawnll.com/mobile/paySuccess.html',
         // 公钥（注意是支付宝的公钥，不是商家应用公钥）
