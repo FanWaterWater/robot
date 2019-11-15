@@ -25,7 +25,9 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         $schedule->command('command:clean-expired-robot')->everyThirtyMinutes();
+        $schedule->command('command:clean-order')->hourly();
         $schedule->command('command:calc-robot-income')->hourly();
+
     }
 
     /**
