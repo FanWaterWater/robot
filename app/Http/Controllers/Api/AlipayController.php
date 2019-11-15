@@ -39,8 +39,8 @@ class AlipayController extends Controller
             }
         }
         $alipay = Pay::alipay($config);
+        \Log::info($alipay);
         $verify = $alipay->verify();
-        \Log::info($verify);
         if (isset($verify)) {
             $order = RobotOrder::where('order_no', $request->out_trade_no)->first();
             if ($request->trade_status == 'TRADE_SUCCESS' && $request->notify_type == 'trade_status_sync' && isset($order) && $order->status == 0) {
