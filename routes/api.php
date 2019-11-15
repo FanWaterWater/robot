@@ -24,6 +24,11 @@ Route::get('config', function() {
     return success(Cache::get('system_config'));
 });
 
+Route::group(['prefix' => 'alipay'], function () {
+    Route::post('pay', 'Api\AlipayController@pay');
+    Route::post('notify', 'Api\AlipayController@notify');
+});
+
 Route::group(['prefix' => 'chat'], function () {
     Route::post('save', 'Api\ChatController@save');
     Route::post('load', 'Api\ChatController@load');

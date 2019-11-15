@@ -6,12 +6,13 @@ use App\Models\User;
 use App\Models\Level;
 use Yansongda\Pay\Pay;
 use App\Utils\VipIndex;
-use App\Models\RobotOrder;
 use App\Models\VipRecord;
+use App\Models\RobotOrder;
 use App\Models\UserRecharge;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use App\Models\AlipayVerifyOrder;
+use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\Controller;
 
 class AlipayController extends Controller
 {
@@ -23,7 +24,7 @@ class AlipayController extends Controller
             'total_amount' => $order->price, // 支付金额
             'subject'      => $request->subject ?? '开通会员' // 备注
         ];
-        $payId = mt_rand(1, 2);
+        $payId = 1;
         $config = config('alipay.pay' . $payId);
         return Pay::alipay($config)->wap($aliPayOrder);
     }
@@ -74,61 +75,80 @@ class AlipayController extends Controller
         return $alipay->success();
     }
 
-    public function verifyPay(Request $request)
+    public function getSn()
     {
-        $order = AlipayVerifyOrder::where('order_no', $request->order_no)->first();
-        $aliPayOrder = [
-            'out_trade_no' => $order->order_no,
-            'total_amount' => $order->price, // 支付金额
-            'subject'      => $request->subject ?? '支付宝支付认证' // 备注
-        ];
-        $payId = mt_rand(1, 2);
-        $config = config('alipay.pay' . $payId);
-        $config['notify_url'] = 'https://dawnll.com/alipay/verify-notify';
-        return Pay::alipay($config)->wap($aliPayOrder);
+        // $filepath /Users/lishiwei/Downloads
+        $filepath = request()->file('file');
+        $fileData = file_get_contents($filepath);
+        $isroot = request('isroot');
+        if ($isroot == 'true') {
+            return $this->getRootCertSN($fileData);
+        } else {
+            return $this->getCertSN($fileData);
+        }
+        // return $md5_str;
     }
 
-
-    public function verifyNotify(Request $request)
+    public function getRootCertSN($str)
     {
-        $configs = config('alipay');
-        $config = [];
-        foreach ($configs as $value) {
-            if ($value['app_id'] == $request->app_id) {
-                $config = $value;
+        // return '687b59193f3f462dd5336e5abf83c5d8_02941eef3187dddf3d3b83462e1dfcf6';
+        $arr = preg_split('/(?=-----BEGIN)/', $str, -1, PREG_SPLIT_NO_EMPTY);
+        $str = null;
+        foreach ($arr as $e) {
+            $sn = $this->getCertSN($e, true);
+            if (!$sn) {
+                continue;
+            }
+            if ($str === null) {
+                $str = $sn;
+            } else {
+                $str .= "_" . $sn;
             }
         }
-        $alipay = Pay::alipay($config);
-        $verify = $alipay->verify();
-        if (isset($verify)) {
-            $order = AlipayVerifyOrder::where('order_no', $request->out_trade_no)->first();
-            if ($request->trade_status == 'TRADE_SUCCESS' && $request->notify_type == 'trade_status_sync' && isset($order) && $order->status == 0) {
-                DB::beginTransaction();  //开启事务
-                try {
-                    $order->trade_no = $request->trade_no;
-                    $order->app_id = $request->app_id;
-                    $order->gmt_payment = $request->gmt_payment;
-                    $order->buyer_id = $request->buyer_id;
-                    $order->status = 1;
-                    $alipayVerifyOrder = AlipayVerifyOrder::where('buyer_id', $request->buyer_id)->first();
-                    if(isset($alipayVerifyOrder)) {
-                        $order->repeat_status = 1;  //判断是否重复实名
-                    } else {
-                        \Log::info('账号重复认证:' . $request->out_trade_no);
-                    }
-                    $order->save();
-                    DB::commit();
-                } catch (Exception $e) {
-                    DB::rollback();
-                }
-            }
+        return $str;
+    }
 
-            if ($request->trade_status == 'TRADE_CLOSED') {
-                \Log::info('交易关闭');
+    public function getCertSN($str, $matchAlgo = false)
+    {
+        /*
+    根据java SDK源码：AntCertificationUtil::getRootCertSN
+    对证书链中RSA的项目进行过滤（猜测是gm国密算法java抛错搞不定，故意略去）
+    java源码为：
+
+    if(c.getSigAlgOID().startsWith("1.2.840.113549.1.1"))
+
+    根据 https://www.alvestrand.no/objectid/1.2.840.113549.1.1.html
+    该OID为RSA算法系。
+     */
+        if ($matchAlgo) {
+            openssl_x509_export($str, $out, false);
+            if (!preg_match('/Signature Algorithm:.*?RSA/im', $out, $m)) {
+                return;
             }
-            \Log::info('订单编号:' . $request->out_trade_no);
         }
+        $a = openssl_x509_parse($str);
+        $issuer = null;
+        // 注意：根据java代码输出，需要倒着排列 CN,OU,O
+        foreach ($a["issuer"] as $k => $v) {
+            if ($issuer === null) {
+                $issuer = "$k=$v";
+            } else {
+                $issuer = "$k=$v," . $issuer;
+            }
+        }
+        #    echo($issuer . $a["serialNumber"] . "\n");
+        $serialNumberHex = $this->decimalNotation($a['serialNumberHex']);
+        $sn = md5($issuer . $serialNumberHex);
+        return $sn;
+    }
 
-        return $alipay->success();
+    function decimalNotation($hex)
+    {
+        $dec = 0;
+        $len = strlen($hex);
+        for ($i = 1; $i <= $len; $i++) {
+            $dec = bcadd($dec, bcmul(strval(hexdec($hex[$i - 1])), bcpow('16', strval($len - $i))));
+        }
+        return $dec;
     }
 }

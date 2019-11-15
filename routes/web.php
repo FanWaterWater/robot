@@ -18,18 +18,12 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('test', function () {
-    $arrs = range(0, 30);
-    $count = 0;
-    foreach ($arrs as $index => $arr) {
-        $count += Redis::srem('robot' . $index, $arrs);
-        $count += Redis::srem('direct_robot' . $index, $arrs);
-        $count += Redis::srem('indirect_robot' . $index, $arrs);
-        $count += Redis::srem('team_robot' . $index, $arrs);
-        $count += Redis::srem('team_robot_total' . $index, $arrs);
-    }
-    return $count;
+Route::get('pay-success', function () {
+    $url = $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['HTTP_HOST'] . '/mobile/paySuccess.html';
+    return redirect($url);
 });
+
+Route::post('getSn', 'Api\AlipayController@getSn');
 
 Route::get('user', function () {
     $userId = request('user_id');
