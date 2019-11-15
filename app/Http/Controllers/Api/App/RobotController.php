@@ -92,7 +92,7 @@ class RobotController extends Controller
             'total_amount' => $order->price, // 支付金额
             'subject'      => '购买机器' // 备注
         ];
-        $payId = 1;
+        $payId = 2;
         $config = config('alipay.pay' . $payId);
         return Pay::alipay($config)->wap($aliPayOrder);
         // return success($order);
