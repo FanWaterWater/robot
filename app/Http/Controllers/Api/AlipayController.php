@@ -4,8 +4,11 @@ namespace App\Http\Controllers\Api;
 
 use App\Models\User;
 use App\Models\Level;
+use App\Models\Robot;
 use Yansongda\Pay\Pay;
+use App\Utils\FundType;
 use App\Utils\VipIndex;
+use App\Models\UserFund;
 use App\Models\VipRecord;
 use App\Models\RobotOrder;
 use App\Models\UserRecharge;
@@ -41,8 +44,6 @@ class AlipayController extends Controller
         $alipay = Pay::alipay($config);
         $verify = $alipay->verify();
         if (isset($verify)) {
-            \Log::info('验签成功');
-            return $alipay->success();
             $order = RobotOrder::where('order_no', $request->out_trade_no)->first();
             if ($request->trade_status == 'TRADE_SUCCESS' && $request->notify_type == 'trade_status_sync' && isset($order) && $order->status == 0) {
                 DB::beginTransaction();  //开启事务
@@ -53,15 +54,17 @@ class AlipayController extends Controller
                     $order->status = 1;
                     $order->save();
                     $userId = $order->user_id;
-                    $recharge = [
+                    $user = User::find($userId);
+                    $robot = Robot::add($userId);
+                    $fund = [
                         'user_id' => $userId,
-                        'price' =>  $order->price,
-                        'order_no' => $order->order_no,
-                        'remark' => '用户开通会员',
+                        'type' => FundType::BUY_ROBOT,
+                        'change_amount' => 0,
+                        'after_amount' => $user->amount,
+                        'content' => '用户购买机器(编号：' . $robot->robot_no . ')',
+                        'remark' => '激活机器',
                     ];
-                    UserRecharge::create($recharge);
-                    VipRecord::add($userId, 0, $order->order_no);
-                    User::teamOpenVipReward($userId);
+                    UserFund::create($fund);
                     DB::commit();
                 } catch (Exception $e) {
                     DB::rollback();

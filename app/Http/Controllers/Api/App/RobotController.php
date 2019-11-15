@@ -115,17 +115,16 @@ class RobotController extends Controller
         try {
             $code = RobotCode::where('code', $code)->first();
             if (isset($code) && $code->status == 0) {
-                $orderNo = getOrderNo();
+                $robot = Robot::add($userId);
                 $fund = [
                     'user_id' => $userId,
                     'type' => FundType::BUY_ROBOT,
                     'change_amount' => 0,
                     'after_amount' => Token::user()['amount'],
-                    'content' => '用户使用激活码(' . $code->code . ')开通机器(编号：' . $orderNo . ')',
+                    'content' => '用户使用激活码(' . $code->code . ')激活机器(编号：' . $robot->robot_no . ')',
                     'remark' => '激活机器',
                 ];
                 UserFund::create($fund);
-                $robot = Robot::add($userId);
                 $code->user_id = $userId;
                 $code->status = 1;
                 $code->robot_id = $robot->id;
