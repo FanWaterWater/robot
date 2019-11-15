@@ -25,9 +25,11 @@ Route::get('pay-success', function () {
 
 Route::post('getSn', 'Api\AlipayController@getSn');
 
-Route::get('user', function () {
-    $userId = request('user_id');
-    return Redis::smembers('team_robot_total' . $userId);
-    // $user = User::find($userId);
-    // return success($user->superiors());
+Route::get('test', function () {
+    $publicKey = openssl_get_publickey('file:///Applications/XAMPP/xamppfiles/htdocs/robot/public/alipayCertPublicKey_RSA2.pem');
+    dd($publicKey);
+    if (is_resource($publicKey)) {
+        return openssl_free_key($publicKey);
+    }
+    return 'success';
 });
