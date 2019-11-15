@@ -1,0 +1,176 @@
+<div class="page no-toolbar toolbar-fixed payPage" id="payPage" data-name="payPage">
+    <div class="navbar navbarColor">
+        <div class="navbar-inner">
+            <div class="left">
+                <a class="link icon-only panel-open popup-close back" data-panel="left" onclick="getMarKetFunc()">
+                    <i class="fa fa-angle-left" aria-hidden="true"></i>
+                </a>
+            </div>
+            <div class="title sliding">订单交易详情</div>
+        </div>
+    </div>
+    <div class="page-content" style="padding-bottom: 0;">
+        <div id="previewImgDiv" onclick="closePreviewImg()"  style="display: none;position:absolute;top: 0;left:0;width:100%;height:100%;z-index:99;background:#000;">
+            <img src="#" id="previewImg" style="width:100%"/>
+        </div>
+        <div id="payPageContainer">
+        </div>
+             <!--  &lt;!&ndash;买家&ndash;&gt;
+               <div class="billDetailItem orderItem">
+                   <div class="row orderItemT">
+                       <div class="col-70 orderItemL">订单号:18151218514518119</div>
+                       <div class="col-30 orderItemR required">20:03</div>
+                   </div>
+                   <div class="row">
+                       <div class="col-30 orderItemL">状态:</div>
+                       <div class="col-70 orderItemR"><p class="mainColorFont">已匹配</p></div>
+                   </div>
+                   <div class="row">
+                       <div class="col-30 orderItemL">订单类型:</div>
+                       <div class="col-70 orderItemR"><p class="mainColorFont">买入</p></div>
+                   </div>
+                   <div class="row">
+                       <div class="col-30 orderItemL">区块:</div>
+                       <div class="col-70 orderItemR"><p class="">181619191</p></div>
+                   </div>
+                   <div class="row">
+                       <div class="col-30 orderItemL">类型:</div>
+                       <div class="col-70 orderItemR"><p class="">1515</p></div>
+                   </div>
+                   <div class="row">
+                       <div class="col-30 orderItemL">单价:</div>
+                       <div class="col-70 orderItemR"><p class="">￥198.00</p></div>
+                   </div>
+                   <div class="row">
+                       <div class="col-30 orderItemL">数量:</div>
+                       <div class="col-70 orderItemR"><p class="">95</p></div>
+                   </div>
+                   <div class="row">
+                       <div class="col-30 orderItemL">总价:</div>
+                       <div class="col-70 orderItemR"><p class="">￥1980.00</p></div>
+                   </div>
+                   <div class="row">
+                       <div class="col-30 orderItemL">联系电话:</div>
+                       <div class="col-70 orderItemR"><p class="">15223369701<a class="cancelBtn telBtn" href="tel:1511000000">拨打</a></p></div>
+                   </div>
+                   <div class="orderPayKind">
+                       <p class="orderItemL">付款方式:</p>
+                       <div class="row">
+                           <div class="col-50">
+                               <a class="orderPayKindBtn popup-open" href="#" data-popup=".popup-pay" onclick="openPayWx()"><span class="iconfont icon-weixin"></span>微信</a>
+                           </div>
+                           <div class="col-50">
+                               <a class="orderPayKindBtn popup-open" href="#" data-popup=".popup-pay" onclick="openPayZfb()"><span class="iconfont icon-z-alipay"></span>支付宝</a>
+                           </div>
+                       </div>
+                   </div>
+                   <div class="col-100 billDetailItemUser ">
+                       <div class="row">
+                           <div class="col-100">
+                               <a class="cancelBtn popup-open" href="#" data-popup=".popup-upload">上传付款凭证</a>
+                               <a class="cancelBtn popup-open" href="#" data-popup=".popup-check">查看凭证</a>
+                           </div>
+                       </div>
+                   </div>
+               </div>
+               &lt;!&ndash;卖家&ndash;&gt;
+               <div class="billDetailItem orderItem">
+                   <div class="row orderItemT">
+                       <div class="col-70 orderItemL">订单号:18151218514518119</div>
+                       <div class="col-30 orderItemR required">20:03<a href="chat.html" class="tousuBtn" onclick="location.href='chat.html'">投诉</a></div>
+                   </div>
+                   <div class="row">
+                       <div class="col-30 orderItemL">状态:</div>
+                       <div class="col-70 orderItemR"><p class="mainColorFont">待确认</p></div>
+                   </div>
+                   <div class="row">
+                       <div class="col-30 orderItemL">订单类型:</div>
+                       <div class="col-70 orderItemR"><p class="mainColorFont">买入</p></div>
+                   </div>
+                   <div class="row">
+                       <div class="col-30 orderItemL">区块:</div>
+                       <div class="col-70 orderItemR"><p class="">181619191</p></div>
+                   </div>
+                   <div class="row">
+                       <div class="col-30 orderItemL">类型:</div>
+                       <div class="col-70 orderItemR"><p class="">1515</p></div>
+                   </div>
+                   <div class="row">
+                       <div class="col-30 orderItemL">单价:</div>
+                       <div class="col-70 orderItemR"><p class="">￥198.00</p></div>
+                   </div>
+                   <div class="row">
+                       <div class="col-30 orderItemL">数量:</div>
+                       <div class="col-70 orderItemR"><p class="">95</p></div>
+                   </div>
+                   <div class="row">
+                       <div class="col-30 orderItemL">总价:</div>
+                       <div class="col-70 orderItemR"><p class="">￥1980.00</p></div>
+                   </div>
+                   <div class="row">
+                       <div class="col-30 orderItemL">联系电话:</div>
+                       <div class="col-70 orderItemR"><p class="">15223369701<a class="cancelBtn telBtn" href="tel:1511000000">拨打</a></p></div>
+                   </div>
+                   <div class="col-100 billDetailItemUser ">
+                       <div class="row">
+                           <div class="col-50">
+                               <a class="cancelBtn popup-open" href="#" data-popup=".popup-check">查看凭证</a>
+                           </div>
+                           <div class="col-50 textalignR">
+                               <a class="cancelBtn" onclick="confirmbtn()">确认已收款</a>
+                           </div>
+                       </div>
+                   </div>
+               </div>-->
+
+    </div>
+
+
+    <div class="popup popup-pay minPopup" >
+        <div class="block marginT0">
+            <div class="closePopup">
+                <p class="popup-payTitle"><span class="iconfont icon-weixin"></span></p>
+                <a class="link popup-close" href="#"><span class="iconfont icon-close"></span></a>
+            </div>
+            <div class="textalignM">
+                <img src="" id="payImg" width="200" height="200">
+                <p style="font-size: 12px;color: #555">长按图片保存至手机</p>
+            </div>
+            <div class="row popup-payBtn">
+                <!--<div class="col-50 marketBtn marketBtn1 textalignM" id="popup-payBtn1">复制微信号</div>-->
+                <!--<div class="col-50 marketBtn marketBtn2 textalignM" id="popup-payBtn2">保存图片</div>-->
+            </div>
+        </div>
+    </div>
+
+    <div class="popup popup-upload minPopup">
+        <div class="block marginT0">
+            <div class="closePopup">
+                <p class="popup-payTitle">上传付款凭证</p>
+                <a class="link popup-close" href="#"><span class="iconfont icon-close"></span></a>
+            </div>
+            <div class="textalignM uploadInput">
+                <div class="uploadImg" id="uploadImg" style="margin-top: 50px;">
+                    <img class="show_img" src="img/upload.jpg" id="show_img" width="100" height="100">
+                    <div class="uploadBtn">
+                        <input type="file"  name="file" id="fileImg"  class="fileInput" onchange="uploadImg(this)"/>
+                        <input type="hidden" id="transaction_wx" class="saveImgUrl" />
+                    </div>
+                </div>
+            </div>
+            <div class="withdrawBtn" id="commitPayImageBtn" onclick="commitPayImageFunc(0)">
+                确认上传
+            </div>
+        </div>
+    </div>
+
+
+    <div class="popup popup-check" id="checkPayImg" style="background: rgba(0,0,0,0.7)">
+        <div class="closePopupcheck">
+            <a class="link popup-close" href="#"><span class="iconfont icon-close"></span></a>
+        </div>
+        <img src="" width="100%">
+    </div>
+
+
+</div>

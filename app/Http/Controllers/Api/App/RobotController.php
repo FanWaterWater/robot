@@ -4,17 +4,18 @@ namespace App\Http\Controllers\Api\App;
 
 use App\Models\User;
 use App\Models\Robot;
+use Yansongda\Pay\Pay;
 use App\Services\Token;
 use App\Utils\FundType;
 use App\Models\UserFund;
 use App\Models\RobotCode;
 use App\Models\RobotOrder;
+use App\Models\RobotConfig;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Redis;
-use App\Models\RobotConfig;
 
 class RobotController extends Controller
 {
