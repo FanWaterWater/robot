@@ -45,6 +45,7 @@ class CalcRobotIncome extends Command
         if ($config['income_switch'] == 1) {
             $users = User::where('status', 0)->get(['id']);
             foreach ($users as $user) {
+                \Log::info('用户:' . $user->id);
                 CalcRobotIncomeJob::dispatch($user->id, $income);
             }
             \Log::info('机器收益结算,今日结算用户数量:' . count($users));
