@@ -26,7 +26,7 @@ class Kernel extends ConsoleKernel
     {
         $schedule->command('command:clean-expired-robot')->everyThirtyMinutes();
         $schedule->command('command:clean-order')->hourly();
-        $schedule->command('command:calc-robot-income')->hourly();
+        $schedule->command('command:calc-robot-income')->dailyAt('00:01');
 
     }
 

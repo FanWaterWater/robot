@@ -78,7 +78,7 @@ class UserController extends Controller
         if (isset($data['password'])) {
             $data['password'] = bcrypt($data['password']);
         }
-        $data['invite_code'] = str_random(6);
+        $data['invite_code'] = str_random(8);
         if (User::create($data)) {
             return success();
         }
