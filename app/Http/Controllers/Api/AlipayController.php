@@ -27,7 +27,7 @@ class AlipayController extends Controller
             'total_amount' => $order->price, // 支付金额
             'subject'      => $request->subject ?? '开通会员' // 备注
         ];
-        $payId = 1;
+        $payId = 2;
         $config = config('alipay.pay' . $payId);
         return Pay::alipay($config)->wap($aliPayOrder);
     }
@@ -62,7 +62,7 @@ class AlipayController extends Controller
                         'change_amount' => 0,
                         'after_amount' => $user->amount,
                         'content' => '用户购买机器(编号：' . $robot->robot_no . ')',
-                        'remark' => '激活机器',
+                        'remark' => '购买激活机器',
                     ];
                     UserFund::create($fund);
                     DB::commit();

@@ -122,7 +122,7 @@ class RobotController extends Controller
                     'change_amount' => 0,
                     'after_amount' => Token::user()['amount'],
                     'content' => '用户使用激活码(' . $code->code . ')激活机器(编号：' . $robot->robot_no . ')',
-                    'remark' => '激活机器',
+                    'remark' => '激活码激活机器',
                 ];
                 UserFund::create($fund);
                 $code->user_id = $userId;
