@@ -55,6 +55,7 @@ class UserController extends Controller
             $data['password'] = bcrypt($request->password);
             $data['invite_code'] = str_random(8);
             $data['nickname'] = $request->nickname;
+            $data['add_type'] = 1;
             $data['level_id'] = Level::getLevels()[0]['id'];
             $newUser = User::create($data);
             if ($newUser) {

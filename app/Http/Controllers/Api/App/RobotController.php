@@ -114,7 +114,7 @@ class RobotController extends Controller
         try {
             $code = RobotCode::where('code', $code)->first();
             if (isset($code) && $code->status == 0) {
-                $robot = Robot::add($userId);
+                $robot = Robot::add($userId, 1);
                 $fund = [
                     'user_id' => $userId,
                     'type' => FundType::BUY_ROBOT,
