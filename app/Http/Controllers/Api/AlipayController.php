@@ -25,7 +25,7 @@ class AlipayController extends Controller
         $aliPayOrder = [
             'out_trade_no' => $order->order_no,
             'total_amount' => $order->price, // 支付金额
-            'subject'      => $request->subject ?? '开通会员' // 备注
+            'subject'      => '开通会员' // 备注
         ];
         $payId = 2;
         $config = config('alipay.pay' . $payId);
