@@ -38,8 +38,8 @@
     <script>
         var kid = 'k001';
         var name = '客服';
-        var host = 'http://localhost/robot/public/';
-        //   var host='https://dawnll.com';
+        // var host = 'http://localhost/robot/public/';
+          var host='https://dawnll.com';
         var avatar = host + "/back/images/userface3.jpg";
         var token = sessionStorage.getItem("token");
         layui.use('layim', function (layim) {
@@ -58,7 +58,7 @@
 
             //连接端口
             // var socket = new WebSocket('ws://192.168.1.43:2000');
-            var socket = new WebSocket('ws://dawnll.com:9501');
+            var socket = new WebSocket('wss://dawnll.com:9501');
 
             //连接成功时触发
             socket.onopen = function () {
