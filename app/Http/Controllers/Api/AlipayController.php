@@ -27,7 +27,7 @@ class AlipayController extends Controller
             'total_amount' => $order->price, // 支付金额
             'subject'      => '开通会员' // 备注
         ];
-        $payId = 2;
+        $payId = rand(1, 2);
         $config = config('alipay.pay' . $payId);
         return Pay::alipay($config)->wap($aliPayOrder);
     }
