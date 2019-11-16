@@ -37,7 +37,6 @@ class CalcRobotIncome implements ShouldQueue
      */
     public function handle()
     {
-        \Log::info('队列执行');
         DB::beginTransaction();
         try {
             $user = User::with('level:id,income_reward')->find($this->userId);
