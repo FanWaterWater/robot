@@ -25,6 +25,11 @@ layui.define(["form", "jquery"], function (exports) {
         "login": host + "/admins/login", //登录
         "loginOut": host + "/admins/logout", //登出
 
+        "index": host + "/index", //后台首页
+        "registerStatistics": host + "/index/register-statistics",
+        "robotStatistics": host + "/index/robot-statistics",
+
+
         "editAdminPwd": host + "/admins/editPassword", //修改当前用户密码
 
         //管理员

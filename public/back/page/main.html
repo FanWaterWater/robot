@@ -43,23 +43,23 @@
 
     <div class="layui-fluid">
         <div class="layui-row layui-col-space15">
-            <div class="layui-col-sm6 layui-col-md3">
+            <div class="layui-col-sm6 layui-col-md3" id="openRegister">
                 <div class="layui-card">
                     <div class="layui-card-header">
                         今日注册(人)
                     </div>
                     <div class="layui-card-body layuiadmin-card-list">
-                        <p class="layuiadmin-big-font">9,999,666</p>
+                        <p class="layuiadmin-big-font" id="todayRegisterCount"></p>
                     </div>
                 </div>
             </div>
-            <div class="layui-col-sm6 layui-col-md3">
+            <div class="layui-col-sm6 layui-col-md3" id="openRobot">
                 <div class="layui-card">
                     <div class="layui-card-header">
                         今日购买机器数(含激活)
                     </div>
                     <div class="layui-card-body layuiadmin-card-list">
-                        <p class="layuiadmin-big-font">33,555</p>
+                        <p class="layuiadmin-big-font" id="todayRobotCount"></p>
                     </div>
                 </div>
             </div>
@@ -71,7 +71,7 @@
                         总注册(人)
                     </div>
                     <div class="layui-card-body layuiadmin-card-list">
-                        <p class="layuiadmin-big-font">9,999,666</p>
+                        <p class="layuiadmin-big-font" id="registerCount"></p>
                     </div>
                 </div>
             </div>
@@ -81,7 +81,7 @@
                         总机器数(台)
                     </div>
                     <div class="layui-card-body layuiadmin-card-list">
-                        <p class="layuiadmin-big-font">999,666</p>
+                        <p class="layuiadmin-big-font" id="robotCount"></p>
                     </div>
                 </div>
             </div>
@@ -91,7 +91,7 @@
                         当前全网可提余额(元)
                     </div>
                     <div class="layui-card-body layuiadmin-card-list">
-                        <p class="layuiadmin-big-font">66,666</p>
+                        <p class="layuiadmin-big-font" id="amountCount"></p>
                     </div>
                 </div>
             </div>
@@ -100,8 +100,8 @@
     </div>
 
     <script type="text/javascript" src="../layui/layui.js"></script>
+    <script type="text/javascript" src="../js/jquery-1.9.1.min.js"></script>
     <script type="text/javascript" src="../js/main.js"></script>
-
 </body>
 
 </html>

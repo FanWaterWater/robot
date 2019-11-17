@@ -4,6 +4,10 @@ Route::post('backend/admins/login', 'Api\Backend\AdminController@login');
 
 
 Route::group(['prefix' => 'backend', 'middleware' => ['token.admin']], function () {
+    Route::post('index', 'Api\Backend\IndexController@index');
+    Route::get('index/register-statistics', 'Api\Backend\IndexController@RegisterStatistics');
+    Route::get('index/robot-statistics', 'Api\Backend\IndexController@robotStatistics');
+
     Route::post('admins/logout', 'Api\Backend\AdminController@logout');
     Route::apiResource('admins', 'Api\Backend\AdminController');
 
