@@ -26,5 +26,9 @@ Route::get('pay-success', function () {
 Route::post('getSn', 'Api\AlipayController@getSn');
 
 Route::get('test', function () {
-   return User::whereIn('id', [2,3,1])->get();
+    // Redis::zincrby('zset1', 1, 'ef');
+    Redis::zincrby('robot', 15, 1);
+    Redis::zincrby('team_user', 1, 1);
+    Redis::zincrby('direct_user', 1, 1);
+    return 'success';
 });
