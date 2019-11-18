@@ -21,6 +21,7 @@ class UserController extends Controller
         $levelId = $request->level_id;
         $nickname = $request->nickname;
         $sort = $request->sort;
+        $sortBy = 'id';
         $recommendId = -1;
         if (isset($request->recommend)) {
             $recommend = User::where('username', $request->recommend)->first(['id']);
@@ -31,13 +32,17 @@ class UserController extends Controller
         $endDate = $request->endDate ? $request->endDate . ' 23:59:59' : null;;
         $orderBy = $request->orderBy ? 'asc' : 'desc';
         $userIds = null;
-        if ($sort && in_array($sort, ['direct_user', 'indirect_user', 'team_user', 'robot', 'team_robot'])) {
-            $startOffset = ($request->page - 1) * $limit;
-            $endOffset = $request->page * $limit;
-            if ($request->orderBy) {
-                $userIds = Redis::zrevrange($sort, $startOffset, $endOffset);
-            } else {
-                $userIds = Redis::zrange($sort, $startOffset, $endOffset);
+        if ($sort) {
+            if (in_array($sort, ['direct_user', 'indirect_user', 'team_user', 'robot', 'team_robot'])) {
+                $startOffset = ($request->page - 1) * $limit;
+                $endOffset = $request->page * $limit;
+                if ($request->orderBy) {
+                    $userIds = Redis::zrevrange($sort, $startOffset, $endOffset);
+                } else {
+                    $userIds = Redis::zrange($sort, $startOffset, $endOffset);
+                }
+            } else if (in_array($sort, ['amount', 'amount_total'])) {
+                $sortBy = $sort;
             }
         }
 
@@ -59,7 +64,7 @@ class UserController extends Controller
             return $query->where('created_at', '<=', $endDate);
         })->when($userIds, function ($query) use ($userIds) {
             return $query->whereIn('id', $userIds);
-        })->with(['level:id,name,income_reward', 'recommend:id,username'])->orderBy('id', $orderBy)->paginate($limit);
+        })->with(['level:id,name,income_reward', 'recommend:id,username'])->orderBy($sortBy, $orderBy)->paginate($limit);
         $config = Cache::get('robot_config');
         foreach ($users as &$user) {
             $user->direct_users_count = Redis::scard('direct_user' . $user->id);
