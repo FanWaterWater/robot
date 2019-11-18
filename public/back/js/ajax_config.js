@@ -76,6 +76,14 @@ layui.define(["form", "jquery"], function (exports) {
             url: host + "/user-funds",
             method: "DELETE"
         },
+        "userChangeStatus": { //
+            url: host + "/users/change-status",
+            method: "POST"
+        },
+        "userGiftRobot": { //
+            url: host + "/users/gift-robot",
+            method: "POST"
+        },
         // "getDirectMarketings": {
         //     url: host + "/users/getDirectMarketings", //获取直推用户的信息
         //     method: "GET"

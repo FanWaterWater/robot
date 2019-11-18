@@ -11,6 +11,8 @@ Route::group(['prefix' => 'backend', 'middleware' => ['token.admin']], function 
     Route::post('admins/logout', 'Api\Backend\AdminController@logout');
     Route::apiResource('admins', 'Api\Backend\AdminController');
 
+    Route::post('users/change-status', 'Api\Backend\UserController@changeStatus');
+    Route::post('users/gift-robot', 'Api\Backend\UserController@giftRobot');
     Route::apiResource('users', 'Api\Backend\UserController');
     //用户资金记录
     Route::get('user-funds', 'Api\Backend\UserFundController@index');

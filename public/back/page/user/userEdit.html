@@ -45,9 +45,9 @@
                 </div>
             </div>
             <div class="layui-form-item layui-row layui-col-xs12" id="pwdDiv">
-                <label class="layui-form-label">登录密码</label>
+                <label class="layui-form-label">登录密码<i class="layui-red">*</i></label>
                 <div class="layui-input-block">
-                    <input class="layui-input" lay-verify="required" type="password" name="password" value="" />
+                    <input class="layui-input"  type="password" name="password" value="" />
                 </div>
             </div>
             <div class="layui-form-item layui-row layui-col-xs12 levelDiv">
@@ -118,7 +118,19 @@
             <div class="layui-form-item layui-row layui-col-xs12">
                 <label class="layui-form-label">银行名称</label>
                 <div class="layui-input-block ">
-                    <input class="layui-input" type="text" name="bank_name" value="" />
+                    <select name="bank_name" id="bank_name" title="" vlaue="">
+                        <option value="">请选择银行</option>
+                        <option value="建设银行">建设银行</option>
+                        <option value="工商银行">工商银行</option>
+                        <option value="邮政银行">邮政银行</option>
+                        <option value="中国农业">中国农业</option>
+                        <option value="平安银行">平安银行</option>
+                        <option value="农商银行">农商银行</option>
+                        <option value="民生银行">民生银行</option>
+                        <option value="交通银行">交通银行</option>
+                        <option value="光大银行">光大银行</option>
+                    </select>
+                    <!-- <input class="layui-input" type="text" name="bank_name" value="" /> -->
                 </div>
             </div>
             <div class="layui-form-item layui-row layui-col-xs12">

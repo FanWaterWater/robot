@@ -111,7 +111,7 @@ layui.use(['form', 'element', 'layer', 'jquery', 'ajaxUrl'], function () {
     //添加
     function toRegsiter() {
         var index = layui.layer.open({
-            title: "添加",
+            title: "今日注册统计",
             type: 2,
             content: "./statistics/register.html",
             success: function (layero, index) {
@@ -128,7 +128,7 @@ layui.use(['form', 'element', 'layer', 'jquery', 'ajaxUrl'], function () {
 
     function toRobot() {
         var index = layui.layer.open({
-            title: "添加",
+            title: "今日购买机器统计",
             type: 2,
             content: "./statistics/robot.html",
             success: function (layero, index) {

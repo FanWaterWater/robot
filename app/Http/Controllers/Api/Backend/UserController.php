@@ -3,9 +3,13 @@
 namespace App\Http\Controllers\Api\Backend;
 
 use App\Models\User;
+use App\Models\Robot;
 use App\Utils\FundType;
 use App\Models\UserFund;
+use App\Models\BankAccount;
 use Illuminate\Http\Request;
+use App\Models\AlipayAccount;
+use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Redis;
@@ -65,7 +69,7 @@ class UserController extends Controller
             return $query->where('created_at', '<=', $endDate);
         })->when($userIds, function ($query) use ($userIds) {
             return $query->whereIn('id', $userIds);
-        })->with(['level:id,name,income_reward', 'recommend:id,username'])->orderBy($sortBy, $orderBy)->paginate($limit);
+        })->with(['level:id,name,income_reward', 'recommend:id,username', 'alipay',  'bank'])->orderBy($sortBy, $orderBy)->paginate($limit);
         $config = Cache::get('robot_config');
         foreach ($users as &$user) {
             $user->direct_users_count = Redis::scard('direct_user' . $user->id);
@@ -94,7 +98,6 @@ class UserController extends Controller
                     $users->data = $users->sortByDesc($sortBy);
                 }
             }
-
         }
 
         return success($users);
@@ -102,7 +105,7 @@ class UserController extends Controller
 
     public function show(Request $request, $id)
     {
-        $user = User::with(['level:id,name', 'recommend:id,username'])->find($id);
+        $user = User::with(['level:id,name', 'recommend:id,username', 'alipay', 'bank'])->find($id);
         return success($user);
     }
 
@@ -131,16 +134,30 @@ class UserController extends Controller
     public function update(Request $request, $id)
     {
         $data = $request->all();
-        $user = User::where('username', $data['recommend'])->first(['id']);
-        if (isset($user)) {
-            $data['invite_id'] = $user->id;
-            unset($data['recommend']);
+        $recommend = User::where('username', $data['recommend'])->first(['id']);
+        if (isset($recommend)) {
+            $data['invite_id'] = $recommend->id;
         } else {
             return error('推荐人不存在', 200, 400);
         }
         if (isset($request->password)) {
             $data['password'] = bcrypt($request->password);
         }
+        $user = User::find($id);
+        if ($user->alipay_account_id > 0 && (isset($data['alipay_account_name']) || isset($data['alipay_account']))) {
+            AlipayAccount::where('id', $user->alipay_account_id)->update([
+                'name' => $data['alipay_account_name'],
+                'account' => $data['alipay_account']
+            ]);
+        }
+        if ($user->bank_account_id > 0 && (isset($data['bank_name']) || isset($data['bank_account_name']) || isset($data['bank_account']))) {
+            BankAccount::where('id', $user->bank_account_id)->update([
+                'bank' => $data['bank_name'],
+                'name' => $data['bank_account_name'],
+                'account' => $data['bank_account'],
+            ]);
+        }
+        unset($data['recommend'], $data['alipay_account_name'], $data['alipay_account'], $data['bank_name'], $data['bank_account_name'], $data['bank_account']);
         if (User::find($id)->update($data)) {
             return success();
         }
@@ -184,6 +201,37 @@ class UserController extends Controller
             return success();
         }
         return error();
+    }
+
+    public function giftRobot(Request $request)
+    {
+        $num = $request->num;
+        $userId = $request->id;
+        if((Redis::scard('robot'. $userId) +  $num) > 100) {
+            return error('用户机器数量达到上限，该用户已持有' . Redis::scard('robot'. $request->id) . '台机器');
+        }
+        DB::beginTransaction();
+        try {
+            for($i = 0; $i < $num; $i++) {
+                $robot = Robot::add($userId);
+            }
+            $user = User::find($userId);
+            $fund = [
+                'user_id' => $userId,
+                'type' => FundType::BUY_ROBOT,
+                'change_amount' => 0,
+                'after_amount' => $user->amount,
+                'content' =>  '用户购买' . $num . '台机器',
+                'remark' => '购买激活机器',
+            ];
+            UserFund::create($fund);
+            DB::commit();
+            return success();
+        }catch(\Exception $e) {
+            DB::rollback();
+            return error();
+        }
+
     }
 
     public function export(Request $request)

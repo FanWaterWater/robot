@@ -103,8 +103,8 @@ layui.use(['form', 'layer', 'laydate', 'table', 'laytpl', 'ajaxUrl'], function (
                     align: "center",
                     templet: function (d) {
                         var status;
-                        if (d.status == 1) {
-                            status = '<span style="color: red">冻结</span>';
+                        if (d.status == -1) {
+                            status = '<span style="color: red">封号</span>';
                         } else {
                             status = '<span style="color: green">正常</span>'
                         }
@@ -175,43 +175,74 @@ layui.use(['form', 'layer', 'laydate', 'table', 'laytpl', 'ajaxUrl'], function (
                     minWidth: 100,
                     align: "center"
                 },
-                // {
-                //     field: '',
-                //     title: '钱包总收益',
-                //     minWidth: 100,
-                //     align: "center",
-                //     templet: function (d) {
-                //         var add = "";
-                //         add = parseFloat(d.available_balance) + parseFloat(d.used_balance);
-                //         return add
-                //     }
-                // },
                 {
-                    field: 'wechat_pay',
-                    title: '支付宝',
+                    field: 'alipay_name',
+                    title: '支付宝名字',
                     minWidth: 100,
                     align: "center",
                     templet: function (d) {
-                        var transaction_setting = d.transaction_setting,
-                            wechat_pay = "";
-                        if (transaction_setting != "" && transaction_setting != null) {
-                            wechat_pay = '<img lay-event="openPic_wechat_pay" src="' + transaction_setting.wechat_pay + '" style="height: 100%;width: auto"/>'
+                        var alipay = d.alipay;
+                        if (alipay != "" && alipay != null) {
+                            return d.alipay.name
+                        } else {
+                            return '未设置'
                         }
-                        return wechat_pay
                     }
                 },
                 {
                     field: 'alipay',
-                    title: '银行卡',
+                    title: '支付宝账号',
                     minWidth: 100,
                     align: "center",
                     templet: function (d) {
-                        var transaction_setting = d.transaction_setting,
-                            alipay = "";
-                        if (transaction_setting != "" && transaction_setting != null) {
-                            alipay = '<img lay-event="openPic_alipay" src="' + transaction_setting.alipay + '" style="height: 100%;width: auto"/>'
+                        var alipay = d.alipay;
+                        if (alipay != "" && alipay != null) {
+                            return d.alipay.account
+                        } else {
+                            return '未设置'
                         }
-                        return alipay
+                    }
+                },
+                {
+                    field: 'bank',
+                    title: '银行名称',
+                    minWidth: 100,
+                    align: "center",
+                    templet: function (d) {
+                        var bank = d.bank;
+                        if (bank != "" && bank != null) {
+                            return d.bank.bank
+                        } else {
+                            return '未设置'
+                        }
+                    }
+                },
+                {
+                    field: 'bank_name',
+                    title: '银行卡持有人',
+                    minWidth: 100,
+                    align: "center",
+                    templet: function (d) {
+                        var bank = d.bank;
+                        if (bank != "" && bank != null) {
+                            return d.bank.name
+                        } else {
+                            return '未设置'
+                        }
+                    }
+                },
+                {
+                    field: 'bank_account',
+                    title: '银行卡账号',
+                    minWidth: 100,
+                    align: "center",
+                    templet: function (d) {
+                        var bank = d.bank;
+                        if (bank != "" && bank != null) {
+                            return d.bank.account
+                        } else {
+                            return '未设置'
+                        }
                     }
                 },
                 {
@@ -222,7 +253,7 @@ layui.use(['form', 'layer', 'laydate', 'table', 'laytpl', 'ajaxUrl'], function (
                 },
                 {
                     title: '操作',
-                    minWidth: 175,
+                    minWidth: 275,
                     templet: '#listBar',
                     fixed: "right",
                     align: "center"
@@ -351,13 +382,13 @@ layui.use(['form', 'layer', 'laydate', 'table', 'laytpl', 'ajaxUrl'], function (
             goExportUrl;
 
         username = $('#username').val(),
-        recommend = $('#recommend').val(),
-        level_id = $('#levels').val(),
-        realname = $('#realname').val(),
-        status = $('#status').val(),
-        orderBy = $('#orderBy').val(),
-        startDate = $("#minDate").val(),
-        endDate = $("#maxDate").val();
+            recommend = $('#recommend').val(),
+            level_id = $('#levels').val(),
+            realname = $('#realname').val(),
+            status = $('#status').val(),
+            orderBy = $('#orderBy').val(),
+            startDate = $("#minDate").val(),
+            endDate = $("#maxDate").val();
 
         for (var i in data) {
             ListId.push(data[i].id);
@@ -451,20 +482,11 @@ layui.use(['form', 'layer', 'laydate', 'table', 'laytpl', 'ajaxUrl'], function (
                             body.find("*[name=status]").val(data.status);
                             body.find("*[name=amount]").val(data.amount);
                             body.find("*[name=amount_total]").val(data.amount_total);
-                            // body.find("*[name=direct_users_count]").val(data.direct_users_count);
-                            // body.find("*[name=teamCount]").val(data.teamCount);
-
-                            // if (data.transaction_setting != "" && data.transaction_setting != null) {
-                            //     body.find("*[name=wechat_pay]").val(data.transaction_setting.wechat_pay);
-                            //     body.find("*[name=alipay]").val(data.transaction_setting.alipay);
-                            //     body.find("#wechat_payDiv .upload-img-box").append('<div class="upload-pre-item imgItem"><img src="' + data.transaction_setting.wechat_pay + '" class="img"></div>');
-                            //     body.find("#alipayDiv .upload-img-box").append('<div class="upload-pre-item imgItem"><img src="' + data.transaction_setting.alipay + '" class="img"></div>');
-                            // } else {
-                            //     body.find('#wechat_payDiv .layui-input-block').html("").append('<span style="line-height: 36px;color: #c5c5c5;">用户未设置交易信息，后台不可编辑</span>');
-                            //     body.find('#alipayDiv .layui-input-block').html("").append('<span style="line-height: 36px;color: #c5c5c5;">用户未设置交易信息，后台不可编辑</span>');
-                            // }
-
-
+                            body.find("*[name=alipay_account_name]").val(data.alipay.name);
+                            body.find("*[name=alipay_account]").val(data.alipay.account);
+                            body.find("*[name=bank_name]").val(data.bank.bank);
+                            body.find("*[name=bank_account_name]").val(data.bank.name);
+                            body.find("*[name=bank_account]").val(data.bank.account);
                             // form.render();
                         }
 
@@ -483,18 +505,81 @@ layui.use(['form', 'layer', 'laydate', 'table', 'laytpl', 'ajaxUrl'], function (
         })
     }
 
+    //添加
+    function changeStatus(params) {
+        var ajaxUrl = ajaxArr.userChangeStatus.url;
+        var ajaxType = ajaxArr.userChangeStatus.method;
+        var loading = layer.load();
+        $.ajax({
+            url: ajaxUrl,
+            type: ajaxType,
+            data: params,
+            async: true,
+            dataType: "json",
+            headers: {
+                'Authorization': token
+            },
+            success: function (res) {
+                layer.msg(res.msg);
+                tableIns.reload();
+                layer.closeAll();
+            },
+            complete: function () {
+                layer.close(loading);
+            }
+        });
+    }
+
+    //赠送机器
+    function giftRobot(params) {
+        var ajaxUrl = ajaxArr.userGiftRobot.url;
+        var ajaxType = ajaxArr.userGiftRobot.method;
+        var loading = layer.load();
+        $.ajax({
+            url: ajaxUrl,
+            type: ajaxType,
+            data: params,
+            async: true,
+            dataType: "json",
+            headers: {
+                'Authorization': token
+            },
+            success: function (res) {
+                layer.msg(res.msg);
+                if(res.code == 200) {
+                    tableIns.reload();
+                    layer.closeAll();
+                }
+            },
+            complete: function () {
+                layer.close(loading);
+            }
+        });
+    }
+
+
 
     $(".add_btn").click(function () {
         console.log('add_btn')
         add();
     });
 
+    function isNumber(val) {
+        var regPos = /^\d+(\.\d+)?$/; //非负浮点数
+        var regNeg = /^(-(([0-9]+\.[0-9]*[1-9][0-9]*)|([0-9]*[1-9][0-9]*\.[0-9]+)|([0-9]*[1-9][0-9]*)))$/; //负浮点数
+        if (regPos.test(val) || regNeg.test(val)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
 
     //列表操作
     table.on('tool(list)', function (obj) {
         var layEvent = obj.event,
             data = obj.data;
-
+        params = {};
         // 微信付款查看图
         if (layEvent === 'openPic_wechat_pay') {
             layer.open({
@@ -571,6 +656,33 @@ layui.use(['form', 'layer', 'laydate', 'table', 'laytpl', 'ajaxUrl'], function (
             $(window).on("resize", function () {
                 layui.layer.full(index);
             })
+        } else if (layEvent === 'disable') {
+            layer.prompt({
+                title: '请填写封号的原因',
+                formType: 2
+            }, function (text, index) {
+                params.remark = text;
+                params.status = -1;
+                params.id = data.id;
+                changeStatus(params)
+            });
+        } else if (layEvent === 'undisable') {
+            params.status = 0;
+            params.id = data.id;
+            changeStatus(params)
+        } else if (layEvent === 'gift') {
+            layer.prompt({
+                title: '请输入赠送机器数量',
+                formType: 0
+            }, function (value, index) {
+                if (!isNumber(value)) {
+                    layer.msg('请输入整数');
+                    return
+                }
+                params.num = value;
+                params.id = data.id;
+                giftRobot(params)
+            });
         }
     });
 

@@ -122,6 +122,11 @@ layui.use(['form', 'layer', 'layedit', 'laydate', 'upload', 'ajaxUrl'], function
         params.level_id = data.field.level;
         params.recommend = data.field.recommend;
         params.status = data.field.status;
+        params.alipay_account_name = data.field.alipay_account_name;
+        params.alipay_account = data.field.alipay_account;
+        params.bank_name = data.field.bank_name;
+        params.bank_account_name = data.field.bank_account_name;
+        params.bank_account = data.field.bank_account;
         // params.wechat_pay = data.field.wechat_pay;
         // params.alipay = data.field.alipay;
 
