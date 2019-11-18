@@ -87,9 +87,9 @@ class UserController extends Controller
                 $sortBy = $sort . 's_count';
             }
             if ($request->orderBy) {
-                $user->data = $users->sortBy($sortBy);
+                $users->data = $users->sortBy($sortBy);
             } else {
-                $user->data = $users->sortByDesc($sortBy);
+                $users->data = $users->sortByDesc($sortBy);
             }
         }
 
