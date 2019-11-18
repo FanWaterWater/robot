@@ -45,7 +45,6 @@ class UserController extends Controller
                 $sortBy = $sort;
             }
         }
-        dd($userIds);
         $users = User::when($username, function ($query) use ($username) {
             return $query->where('username', 'like', '%' . $username . '%');
         })->when($nickname, function ($query) use ($nickname) {
