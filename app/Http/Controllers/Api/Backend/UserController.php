@@ -32,6 +32,7 @@ class UserController extends Controller
         $endDate = $request->endDate ? $request->endDate . ' 23:59:59' : null;;
         $orderBy = $request->orderBy ? 'asc' : 'desc';
         $userIds = null;
+        $count = 0;
         if ($sort) {
             if (in_array($sort, ['direct_user', 'indirect_user', 'team_user', 'robot', 'team_robot'])) {
                 $startOffset = ($request->page - 1) * $limit;
@@ -41,6 +42,7 @@ class UserController extends Controller
                 } else {
                     $userIds = Redis::zrange($sort, $startOffset, $endOffset);
                 }
+                $count = Redis::zcard($sort);
             } else if (in_array($sort, ['amount', 'amount_total'])) {
                 $sortBy = $sort;
             }
@@ -85,6 +87,7 @@ class UserController extends Controller
         if ($sort) {
             if (in_array($sort, ['direct_user', 'indirect_user', 'team_user', 'robot', 'team_robot'])) {
                 $sortBy = $sort . 's_count';
+                $user->total = $count;
             }
             if ($request->orderBy) {
                 $users->data = $users->sortBy($sortBy);
