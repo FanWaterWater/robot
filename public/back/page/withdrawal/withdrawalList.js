@@ -68,12 +68,12 @@ layui.use(['form', 'layer', 'laydate', 'table', 'laytpl', 'ajaxUrl'], function (
                         return username
                     }
                 },
-                {
-                    field: 'order_no',
-                    title: '申请订单号',
-                    minWidth: 200,
-                    align: "center"
-                },
+                // {
+                //     field: 'order_no',
+                //     title: '申请订单号',
+                //     minWidth: 200,
+                //     align: "center"
+                // },
                 {
                     field: 'created_at',
                     title: '创建时间',
@@ -83,6 +83,12 @@ layui.use(['form', 'layer', 'laydate', 'table', 'laytpl', 'ajaxUrl'], function (
                 {
                     field: 'price',
                     title: '提现金额',
+                    minWidth: 150,
+                    align: "center"
+                },
+                {
+                    field: 'handle_fee',
+                    title: '手续费',
                     minWidth: 150,
                     align: "center"
                 },
@@ -131,13 +137,13 @@ layui.use(['form', 'layer', 'laydate', 'table', 'laytpl', 'ajaxUrl'], function (
                     align: "center",
                     templet: '#listVerify_status'
                 },
-                {
-                    field: 'status',
-                    title: '状态',
-                    width: 100,
-                    align: "center",
-                    templet: '#listStatus'
-                },
+                // {
+                //     field: 'status',
+                //     title: '状态',
+                //     width: 100,
+                //     align: "center",
+                //     templet: '#listStatus'
+                // },
                 {
                     field: 'remark',
                     title: '备注',

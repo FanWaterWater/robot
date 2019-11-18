@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers\Api\Backend;
 
+use App\Models\User;
+use App\Utils\FundType;
+use App\Models\UserFund;
 use App\Models\Withdraw;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -63,16 +66,18 @@ class WithdrawController extends Controller
         DB::beginTransaction();  //开启事务
         try {
             $withdraw = Withdraw::find($id);
-
             if ($verify_status == -1) {
                 $user = User::find($withdraw->user_id);
-                $user->increment('amount', $withdraw->price);
-                // BalanceRecord::create([
-                //     'order_no' => getOrderNo(),
-                //     'num' => $withdraw->price,
-                //     'user_id' => $withdraw->user_id,
-                //     'remark' => '提现审核不通过，退回' . $withdraw->price . '元'
-                // ]);
+                $priceTotal = $withdraw->price + $withdraw->handle_fee;
+                $user->increment('amount', $priceTotal);
+                UserFund::create([
+                    'user_id' => $user->id,
+                    'type' => FundType::WITHDRAW,
+                    'change_amount' => $priceTotal,
+                    'after_amount' => $user->amount,
+                    'content' => '提现审核不通过，返款' . $priceTotal . '元',
+                    'remark' => '提现审核不通过返款'
+                ]);
             }
             Withdraw::where('id', $id)->update($data);
             DB::commit();

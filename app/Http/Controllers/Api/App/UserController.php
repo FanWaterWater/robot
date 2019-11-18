@@ -159,6 +159,7 @@ class UserController extends Controller
             $accountId = $type == 0 ? $user->alipay_account_id : $user->bank_account_id;
             Withdraw::create([
                 'price' => $price,
+                'handle_fee' => $fee,
                 'user_id' => $user->id,
                 'type' => $type,
                 'account_id' => $accountId

@@ -119,7 +119,7 @@ layui.use(['form', 'layer', 'laydate', 'table', 'laytpl', 'ajaxUrl'], function (
                     align: "center",
                     templet: function (d) {
                         var count;
-                        count = '<a lay-event="directMarketingsCount" >' + d.direct_users_count + '</a>';
+                        count = '<a lay-event="" >' + d.direct_users_count + '</a>';
                         return count;
                     }
                 },
@@ -130,7 +130,7 @@ layui.use(['form', 'layer', 'laydate', 'table', 'laytpl', 'ajaxUrl'], function (
                     align: "center",
                     templet: function (d) {
                         var count;
-                        count = '<a lay-event="directMarketingsCount" >' + d.indirect_users_count + '</a>';
+                        count = '<a lay-event="" >' + d.indirect_users_count + '</a>';
                         return count;
                     }
                 },
@@ -141,7 +141,7 @@ layui.use(['form', 'layer', 'laydate', 'table', 'laytpl', 'ajaxUrl'], function (
                     align: "center",
                     templet: function (d) {
                         var count;
-                        count = '<a  lay-event="teamCount" >' + d.team_users_count + '</a>';
+                        count = '<a  lay-event="" >' + d.team_users_count + '</a>';
                         return count;
                     }
                 },
@@ -164,7 +164,7 @@ layui.use(['form', 'layer', 'laydate', 'table', 'laytpl', 'ajaxUrl'], function (
                     align: "center"
                 },
                 {
-                    field: 'amount_total',
+                    field: 'today_income',
                     title: '今日收益',
                     minWidth: 100,
                     align: "center"
@@ -317,6 +317,7 @@ layui.use(['form', 'layer', 'laydate', 'table', 'laytpl', 'ajaxUrl'], function (
             recommend = $('#recommend').val(),
             level_id = $('#levels').val(),
             realname = $('#realname').val(),
+            sort = $('#sort').val(),
             status = $('#status').val(),
             orderBy = $('#orderBy').val(),
             startDate = $("#minDate").val(),
@@ -332,6 +333,7 @@ layui.use(['form', 'layer', 'laydate', 'table', 'laytpl', 'ajaxUrl'], function (
                 recommend: recommend,
                 level_id: level_id,
                 realname: realname,
+                sort: sort,
                 status: status,
                 orderBy: orderBy,
                 startDate: startDate,

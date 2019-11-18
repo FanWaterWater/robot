@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\Backend;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Redis;
 use App\Http\Requests\App\UserRequest;
 
@@ -17,6 +18,7 @@ class UserController extends Controller
         $userId = $request->user_id;
         $levelId = $request->level_id;
         $nickname = $request->nickname;
+        $sort = $request->sort;
         $recommendId = -1;
         if (isset($request->recommend)) {
             $recommend = User::where('username', $request->recommend)->first(['id']);
@@ -26,6 +28,17 @@ class UserController extends Controller
         $startDate = $request->startDate;
         $endDate = $request->endDate ? $request->endDate . ' 23:59:59' : null;;
         $orderBy = $request->orderBy ? 'asc' : 'desc';
+        $userIds = null;
+        if ($sort && in_array($sort, ['direct_user', 'indirect_user', 'team_user', 'robot', 'team_robot'])) {
+            $startOffset = ($request->page - 1) * $limit;
+            $endOffset = $request->page * $limit;
+            if ($request->orderBy) {
+                $userIds = Redis::zrevrange($sort, $startOffset, $endOffset);
+            } else {
+                $userIds = Redis::zrange($sort, $startOffset, $endOffset);
+            }
+        }
+
         $users = User::when($username, function ($query) use ($username) {
             return $query->where('username', 'like', '%' . $username . '%');
         })->when($nickname, function ($query) use ($nickname) {
@@ -42,8 +55,10 @@ class UserController extends Controller
             return $query->where('created_at', '>=', $startDate);
         })->when($endDate, function ($query) use ($endDate) {
             return $query->where('created_at', '<=', $endDate);
-        })->with(['level:id,name', 'recommend:id,username'])->orderBy('id', $orderBy)->paginate($limit);
-
+        })->when($userIds, function ($query) use ($userIds) {
+            return $query->whereIn('id', $userIds);
+        })->with(['level:id,name,income_reward', 'recommend:id,username'])->orderBy('id', $orderBy)->paginate($limit);
+        $config = Cache::get('robot_config');
         foreach ($users as &$user) {
             $user->direct_users_count = Redis::scard('direct_user' . $user->id);
             $user->indirect_users_count = Redis::scard('indirect_user' . $user->id);
@@ -52,8 +67,23 @@ class UserController extends Controller
             // $user->direct_robots_count = Redis::scard('direct_robot' . $user->id) ?? 0;
             // $user->indirect_robots_count = Redis::scard('indirect_robot' . $user->id) ?? 0;
             $user->team_robots_count = Redis::scard('team_robot_total' . $user->id) ?? 0;
+            $todayIncome = 0;
+            $income = $config['income'];
+            if ($config['income_switch'] == 1) {
+                $todayIncome = Redis::scard('today_robot' . $user->id) * $income + Redis::scard('today_direct_robot' . $user->id) * ($user->level->income_reward['direct'] / 100 * $income) + Redis::scard('today_indirect_robot' . $user->id) * ($user->level->income_reward['indirect'] / 100 * $income) + Redis::scard('day_team_robot' . $user->id) * ($user->level->income_reward['team'] / 100 * $income);
+            }
+            $reward = UserFund::where('type', FundType::INVITE_INCOME)->whereDate('created_at', date('Y-m-d'))->where('user_id', $user->id)->sum('change_amount');
+            $todayIncome += $reward;
+            $user->today_income = $todayIncome;
         }
-        // $users = $users->sortByDesc('direct_user_count');
+        if ($sort && in_array($sort, ['direct_user', 'indirect_user', 'team_user', 'robot', 'team_robot'])) {
+            if ($request->orderBy) {
+                $user->data = $users->sortBy($sort . 's_count');
+            } else {
+                $user->data = $users->sortByDesc($sort . 's_count');
+            }
+        }
+
         return success($users);
     }
 

@@ -206,10 +206,13 @@ class User extends Authenticatable implements JWTSubject
             foreach ($superiors as $index => $superior) {
                 if ($index == TeamRole::DIRECT) {  //直推
                     Redis::sadd('direct_user' . $superior->id, $this->id);
+                    Redis::zincrby('direct_user', 1, $this->id);
                 } else if ($index == TeamRole::INDIRECT) { //间推
                     Redis::sadd('indirect_user' . $superior->id, $this->id);
+                    Redis::zincrby('indirect_user', 1, $this->id);
                 } else {  //团队
                     Redis::sadd('team_user' . $superior->id, $this->id);
+                    Redis::zincrby('team_user', 1, $this->id);
                 }
             }
         }
@@ -227,10 +230,13 @@ class User extends Authenticatable implements JWTSubject
             foreach ($superiors as $index => $superior) {
                 if ($index == TeamRole::DIRECT) {  //直推
                     Redis::srem('direct_user' . $superior->id, $this->id);
+                    Redis::zincrby('direct_user', -1, $this->id);
                 } else if ($index == TeamRole::INDIRECT) { //间推
                     Redis::srem('indirect_user' . $superior->id, $this->id);
+                    Redis::zincrby('indirect_user', -1, $this->id);
                 } else {  //团队
                     Redis::srem('team_user' . $superior->id, $this->id);
+                    Redis::zincrby('team_user', -1, $this->id);
                 }
             }
         }

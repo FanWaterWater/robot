@@ -86,20 +86,25 @@ class Robot extends Model
     {
         $user = User::find($this->user_id);
         Redis::sadd('robot' . $user->id, $this->id);
+        Redis::zincrby('robot', 1, $this->id);
         //获取所有上级
         $superiors = $user->superiors();
         if (isset($superiors)) {
             foreach ($superiors as $index => $superior) {
                 if ($index == TeamRole::DIRECT) {  //直推
                     Redis::sadd('direct_robot' . $superior->id, $this->id);
+                    Redis::zincrby('direct_robot', 1, $this->id);
                     $superior->incomeReward(TeamRole::DIRECT);
                 } else if ($index == TeamRole::INDIRECT) { //间推
                     Redis::sadd('indirect_robot' . $superior->id, $this->id);
+                    Redis::zincrby('indirect_robot', 1, $this->id);
                     $superior->incomeReward(TeamRole::INDIRECT);
                 } else {  //团队
                     Redis::sadd('team_robot' . $superior->id, $this->id);
+                    Redis::zincrby('team_robot', 1, $this->id);
                 }
                 Redis::sadd('team_robot_total' . $superior->id, $this->id);
+                Redis::zincrby('team_robot_total', 1, $this->id);
             }
         }
     }
@@ -119,12 +124,16 @@ class Robot extends Model
             foreach ($superiors as $index => $superior) {
                 if ($index == TeamRole::DIRECT) {  //直推
                     Redis::srem('direct_robot' . $superior->id, $this->id);
+                    Redis::zincrby('direct_robot', -1, $this->id);
                 } else if ($index == TeamRole::INDIRECT) { //间推
                     Redis::srem('indirect_robot' . $superior->id, $this->id);
+                    Redis::zincrby('indirect_robot', -1, $this->id);
                 } else {  //团队
                     Redis::srem('team_robot' . $superior->id, $this->id);
+                    Redis::zincrby('team_robot', -1, $this->id);
                 }
                 Redis::srem('team_robot_total' . $superior->id, $this->id);
+                Redis::zincrby('team_robot_total', -1, $this->id);
             }
         }
     }

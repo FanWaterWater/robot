@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <meta charset="utf-8">
     <META HTTP-EQUIV="pragma" CONTENT="no-cache">
@@ -12,13 +13,14 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="format-detection" content="telephone=no">
-    <link rel="stylesheet" href="../../layui/css/layui.css" media="all"/>
-    <link rel="stylesheet" href="../../css/public.css" media="all"/>
-    <link rel="stylesheet" href="../../css/june.css" media="all"/>
+    <link rel="stylesheet" href="../../layui/css/layui.css" media="all" />
+    <link rel="stylesheet" href="../../css/public.css" media="all" />
+    <link rel="stylesheet" href="../../css/june.css" media="all" />
     <style>
-        a{
+        a {
             cursor: pointer;
         }
+
         .width100 {
             width: 100px;
         }
@@ -30,17 +32,19 @@
         .width150 {
             width: 150px;
         }
+
     </style>
 </head>
+
 <body class="childrenBody">
-<form class="layui-form">
-    <blockquote class="layui-elem-quote quoteBox">
-        <form class="layui-form" enctype="" type="">
-            <div class="layui-block" style="margin-bottom:10px;">
-                <div class="layui-input-inline ">
-                    <a class="layui-btn layui-btn-normal add_btn">添加会员</a>
-                </div>
-                <!-- <div class="layui-inline">
+    <form class="layui-form">
+        <blockquote class="layui-elem-quote quoteBox">
+            <form class="layui-form" enctype="" type="">
+                <div class="layui-block" style="margin-bottom:10px;">
+                    <div class="layui-input-inline ">
+                        <a class="layui-btn layui-btn-normal add_btn">添加会员</a>
+                    </div>
+                    <!-- <div class="layui-inline">
                     <label class="layui-inline">当前会员数量：<span id="userCount" style="font-size: 20px"></span>，</label>
                 </div>
                 <div class="layui-inline">
@@ -49,54 +53,68 @@
                 <div class="layui-inline">
                     <label class="layui-inline">未认证会员数量：<span id="unRealnameCount" style="font-size: 20px"></span></label>
                 </div> -->
-            </div>
-            <div class="layui-input-inline">
-                <input type="tel" class="layui-input" name="username" id="username" placeholder="手机号"/>
-            </div>
-            <div class="layui-input-inline">
-                <input type="tel" class="layui-input" name="recommend" id="recommend" placeholder="推荐人"/>
-            </div>
-            <div class="layui-input-inline ">
-                <select name="levels" id="levels" lay-verify="" title="">
-                    <option value="">请选择等级</option>
-                </select>
-            </div>
-            <div class="layui-input-inline ">
-                <select name="levels" id="status" lay-verify="" title="">
-                    <option value="">请选择状态</option>
-                    <option value="0">正常</option>
-                    <option value="1">冻结</option>
-                </select>
-            </div>
-            <div class="layui-input-inline ">
-                <select name="status" id="orderBy" title="">
-                    <option value="" selected>请选择排序</option>
-                    <option value="1">升序</option>
-                    <option value="0">降序</option>
-                </select>
-            </div>
-            <div class="layui-input-inline ">
-                <input type="text" class="layui-input" id="minDate" placeholder="开始日期"/>
-            </div>
-            <div class="layui-inline">&nbsp;至&nbsp;</div>
-            <div class="layui-input-inline ">
-                <input type="text" class="layui-input" id="maxDate" placeholder="结束日期"/>
-            </div>
-            <div class="layui-inline">
-                <a class="layui-btn search_btn" data-type="reload">查询</a>
-                <a class="layui-btn layui-btn-normal ExportBtn">导出</a>
-            </div>
-        </form>
-    </blockquote>
-    <table id="listTable" lay-filter="list"></table>
-    <!--操作-->
-    <script type="text/html" id="listBar">
-        <a class="layui-btn layui-btn-xs" lay-event="edit" style="width: 40px">编辑</a>
-        <a class="layui-btn layui-btn-xs layui-btn-danger" lay-event="del" style="width: 40px">删除</a>
-        <!--<a class="layui-btn layui-btn-xs layui-btn-primary" lay-event="updatePwd" >修改密码</a>-->
-    </script>
-</form>
-<script type="text/javascript" src="../../layui/layui.js"></script>
-<script type="text/javascript" src="userList.js"></script>
+                </div>
+                <div class="layui-input-inline">
+                    <input type="tel" class="layui-input" name="username" id="username" placeholder="手机号" />
+                </div>
+                <div class="layui-input-inline">
+                    <input type="tel" class="layui-input" name="recommend" id="recommend" placeholder="推荐人" />
+                </div>
+                <div class="layui-input-inline ">
+                    <select name="levels" id="levels" lay-verify="" title="">
+                        <option value="">请选择等级</option>
+                    </select>
+                </div>
+                <div class="layui-input-inline ">
+                    <select name="levels" id="status" lay-verify="" title="">
+                        <option value="">请选择状态</option>
+                        <option value="0">正常</option>
+                        <option value="1">冻结</option>
+                    </select>
+                </div>
+                <div class="layui-input-inline ">
+                    <input type="text" class="layui-input" id="minDate" placeholder="开始日期" />
+                </div>
+                <div class="layui-inline">&nbsp;至&nbsp;</div>
+                <div class="layui-input-inline ">
+                    <input type="text" class="layui-input" id="maxDate" placeholder="结束日期" />
+                </div>
+                <div class="layui-input-inline ">
+                    <select name="sort" id="sort" title="">
+                        <option value="" selected>排序方式</option>
+                        <option value="direct_users_count">直推</option>
+                        <option value="indirect_users_count">间推</option>
+                        <option value="team_users_count">团队</option>
+                        <option value="robots_count">持有机器数量</option>
+                        <option value="team_robots_count">团队机器数量</option>
+                        <option value="amount">可提余额</option>
+                        <option value="amount_total">总收益</option>
+                    </select>
+                </div>
+                <div class="layui-input-inline ">
+                    <select name="status" id="orderBy" title="">
+                        <option value="" selected>请选择排序</option>
+                        <option value="1">升序</option>
+                        <option value="0">降序</option>
+                    </select>
+                </div>
+                <div class="layui-inline">
+                    <a class="layui-btn search_btn" data-type="reload">查询</a>
+                    <a class="layui-btn layui-btn-normal ExportBtn">导出</a>
+                </div>
+            </form>
+        </blockquote>
+        <table id="listTable" lay-filter="list"></table>
+        <!--操作-->
+        <script type="text/html" id="listBar">
+            <a class="layui-btn layui-btn-xs" lay-event="edit" style="width: 40px">编辑</a>
+            <a class="layui-btn layui-btn-xs layui-btn-danger" lay-event="del" style="width: 40px">删除</a>
+            <!--<a class="layui-btn layui-btn-xs layui-btn-primary" lay-event="updatePwd" >修改密码</a>-->
+
+        </script>
+    </form>
+    <script type="text/javascript" src="../../layui/layui.js"></script>
+    <script type="text/javascript" src="userList.js"></script>
 </body>
+
 </html>
