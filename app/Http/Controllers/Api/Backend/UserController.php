@@ -63,7 +63,7 @@ class UserController extends Controller
             return $query->where('created_at', '<=', $endDate);
         })->when($userIds, function ($query) use ($userIds) {
             return $query->whereIn('id', $userIds);
-        })->with(['level:id,name,income_reward', 'recommend:id,username'])->orderBy($sortBy, $orderBy)->paginate($limit);
+        })->with(['level:id,name,income_reward', 'recommend:id,username'])->paginate($limit);
         $config = Cache::get('robot_config');
         foreach ($users as &$user) {
             $user->direct_users_count = Redis::scard('direct_user' . $user->id);
@@ -82,11 +82,14 @@ class UserController extends Controller
             $todayIncome += $reward;
             $user->today_income = $todayIncome;
         }
-        if ($sort && in_array($sort, ['direct_user', 'indirect_user', 'team_user', 'robot', 'team_robot'])) {
+        if ($sort) {
+            if (in_array($sort, ['direct_user', 'indirect_user', 'team_user', 'robot', 'team_robot'])) {
+                $sortBy = $sort . 's_count';
+            }
             if ($request->orderBy) {
-                $user->data = $users->sortBy($sort . 's_count');
+                $user->data = $users->sortBy($sortBy);
             } else {
-                $user->data = $users->sortByDesc($sort . 's_count');
+                $user->data = $users->sortByDesc($sortBy);
             }
         }
 
