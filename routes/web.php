@@ -1,7 +1,9 @@
 <?php
 
 use App\Models\User;
+use Endroid\QrCode\QrCode;
 use Illuminate\Support\Facades\Redis;
+use Intervention\Image\Facades\Image;
 
 /*
 |--------------------------------------------------------------------------
@@ -27,8 +29,11 @@ Route::post('getSn', 'Api\AlipayController@getSn');
 
 Route::get('test', function () {
     // Redis::zincrby('zset1', 1, 'ef');
-    Redis::zincrby('robot', 15, 1);
-    Redis::zincrby('team_user', 1, 1);
-    Redis::zincrby('direct_user', 1, 1);
-    return 'success';
+    $dir = storage_path('app/public');
+    $qrCode = new QrCode('Life is too short to be generating QR codes');
+    $qrcode = public_path() .'/qrcode.png';
+    $qrCode->writeFile($qrcode);
+    $img = Image::make(public_path(). '/poster1.jpg')->resize(750, 1344);
+    $img->insert($qrcode, 'bottom-right', 15, 10);
+    $img->save($dir . '/poster.jpg');
 });

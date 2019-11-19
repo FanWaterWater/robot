@@ -94,14 +94,13 @@ class UserController extends Controller
     public function user(Request $request)
     {
         $user = User::find($request->user_id, ['id', 'nickname', 'username', 'avatar']);
-        Level::isUpgrade($request->user_id);
         return success($user);
     }
 
     public function logout()
     {
-        if (\Auth::guard('admin')->check()) {
-            \Auth::guard('admin')->logout();
+        if (\Auth::guard('user')->check()) {
+            \Auth::guard('user')->logout();
         }
         return success([], '登出成功');
     }

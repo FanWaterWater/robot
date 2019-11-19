@@ -60,8 +60,8 @@ class Level extends Model
         $indirectRobotCount = Redis::scard('indirect_robot' . $user->id);
         $teamRobotCount = Redis::scard('team_robot_total' . $user->id);
         foreach ($levels as $level) {
-            if ($level->id != $user->levelId) {
-                if ($level->upgrade->hold >= $holdRobotCount && $level->upgrade->direct >= $directRobotCount && $level->upgrade->indirect >= $indirectRobotCount && $level->upgrade->team >= $teamRobotCount) {
+            if ($level->id != $user->level_id) {
+                if ($level->upgrade['hold'] <= $holdRobotCount && $level->upgrade['direct'] <= $directRobotCount && $level->upgrade['indirect'] <= $indirectRobotCount && $level->upgrade['team'] <= $teamRobotCount) {
                     $user->level_id = $level->id;
                  }
             }

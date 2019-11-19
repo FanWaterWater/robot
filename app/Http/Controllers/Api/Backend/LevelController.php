@@ -35,6 +35,8 @@ class LevelController extends Controller
     public function update(Request $request, $id)
     {
         $data = $request->all();
+        $data['income_reward'] = json_encode($data['income_reward']);
+        $data['upgrade'] = json_encode($data['upgrade']);
         if (Level::find($id)->update($data)) {
             return success();
         }

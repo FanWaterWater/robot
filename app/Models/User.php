@@ -241,4 +241,14 @@ class User extends Authenticatable implements JWTSubject
             }
         }
     }
+
+    /**
+     * 创建邀请海报
+     *
+     * @return void
+     */
+    public function createPoster()
+    {
+
+    }
 }

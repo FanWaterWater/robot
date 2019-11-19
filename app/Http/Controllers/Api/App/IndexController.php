@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api\App;
 
+use App\Models\Ad;
 use App\Models\Help;
 use App\Models\Agent;
 use App\Models\Level;
@@ -21,7 +22,6 @@ class IndexController extends Controller
         $swipers = Swiper::where('hidden', 0)->orderBy('sort', 'desc')->get(['id', 'image', 'url']);
         $notices = Notice::orderBy('id', 'desc')->limit(3)->get(['id', 'title']);
         $agents = Agent::inRandomOrder()->limit(5)->get();
-        // Level::isUpgrade(Token::id());
         return  success(compact('swipers', 'notices', 'agents'));
     }
 
@@ -63,6 +63,12 @@ class IndexController extends Controller
             return $query->where('wechat', 'like', '%'. $keyword . '%')->orWhere('name', 'like', '%'. $keyword . '%');
         })->orderBy('id', 'desc')->paginate(10);
         return success($agents);
+    }
+
+    public function ad(Request $request)
+    {
+        $ad = Ad::where('hidden', 0)->inRandomOrder()->first();
+        return success($ad);
     }
 
 

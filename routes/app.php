@@ -21,6 +21,7 @@ Route::group(['prefix' => 'app', 'middleware' => ['token.user']], function () {
 
         Route::get('company-introduction', 'Api\App\IndexController@companyIntroduction');
         Route::get('agent-introduction', 'Api\App\IndexController@agentIntroduction');
+        Route::get('ad', 'Api\App\IndexController@ad');
     });
 
     Route::group(['prefix' => 'teams'], function () {

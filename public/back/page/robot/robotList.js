@@ -57,6 +57,23 @@ layui.use(['form', 'layer', 'laydate', 'table', 'laytpl', 'ajaxUrl'], function (
                     }
                 },
                 {
+                    field: 'add_type',
+                    title: '来源',
+                    minWidth: 100,
+                    align: "center",
+                    templet: function (d) {
+                        var html = ''
+                        if (d.add_type == 0) {
+                            html = '<p style="color:#5FB878">购买</p>'
+                        } else if(d.add_type == 1) {
+                            html = '<p style="color:#FFB800">激活</p>'
+                        } else if(d.add_type == 2) {
+                            html = '<p style="color:##01AAED">赠送</p>'
+                        }
+                        return html;
+                    }
+                },
+                {
                     field: 'user_id',
                     title: '用户ID',
                     minWidth: 100,

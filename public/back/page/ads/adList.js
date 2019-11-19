@@ -71,9 +71,9 @@ layui.use(['form', 'layer', 'laydate', 'table', 'laytpl', 'ajaxUrl'], function (
                     templet: function (d) {
                         var avatar = "";
                         if (d.hidden == 1) {
-                            avatar = '<p>开</p>';
-                        }else {
                             avatar = '<p>关</p>';
+                        }else {
+                            avatar = '<p>开</p>';
                         }
                         return avatar;
                     }
@@ -149,7 +149,7 @@ layui.use(['form', 'layer', 'laydate', 'table', 'laytpl', 'ajaxUrl'], function (
                     body.find("#imageBlock").show();
                     body.find("#image").attr('src', data.image);
                     body.find("*[name=image]").val(data.image);
-                    if(data.hidden) {
+                    if(data.hidden == 0) {
                         body.find("*[name=hidden]").attr('checked','true');
                     }
                     form.render();

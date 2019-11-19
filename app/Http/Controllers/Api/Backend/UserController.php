@@ -219,6 +219,7 @@ class UserController extends Controller
             $fund = [
                 'user_id' => $userId,
                 'type' => FundType::BUY_ROBOT,
+                'add_type' => 2,  //赠送
                 'change_amount' => 0,
                 'after_amount' => $user->amount,
                 'content' =>  '用户购买' . $num . '台机器',

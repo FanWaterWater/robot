@@ -48,11 +48,10 @@ layui.use(['form', 'layer', 'layedit', 'laydate', 'upload', 'ajaxUrl'], function
     form.on("submit(public)", function (data) {
         var ajaxUrl = "";
         var params = {};
-        params.name = data.field.name;
+        params.title = data.field.title;
         params.image = data.field.image;
         params.url = data.field.url;
-        params.hidden = data.field.hidden;
-
+        params.hidden = data.field.hidden  == 0 ? 1 : 0;
 
         if (pageMode == "add") {
             ajaxUrl = ajaxArr.adsAdd.url;

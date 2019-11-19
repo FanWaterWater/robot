@@ -344,7 +344,8 @@ layui.use(['form', 'layer', 'laydate', 'table', 'laytpl', 'ajaxUrl'], function (
     //搜索
     $(".search_btn").on("click", function () {
 
-        var username = $('#username').val(),
+        var user_id = $('#user_id').val(),
+            username = $('#username').val(),
             recommend = $('#recommend').val(),
             level_id = $('#levels').val(),
             realname = $('#realname').val(),
@@ -360,7 +361,7 @@ layui.use(['form', 'layer', 'laydate', 'table', 'laytpl', 'ajaxUrl'], function (
                 curr: 1 //重新从第 1 页开始
             },
             where: {
-                username: username,
+                user_id: user_id,
                 recommend: recommend,
                 level_id: level_id,
                 realname: realname,
