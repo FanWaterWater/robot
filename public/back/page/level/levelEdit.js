@@ -82,6 +82,7 @@ layui.use(['form', 'layer', 'layedit', 'laydate', 'upload', 'ajaxUrl'], function
             'team' : data.field.income_reward_team,
         }
         params.upgrade = {
+            'hold' : data.field.upgrade_hold,
             'direct' : data.field.upgrade_direct,
             'indirect' : data.field.upgrade_indirect,
             'team' : data.field.upgrade_team,

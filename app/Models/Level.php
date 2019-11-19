@@ -42,4 +42,9 @@ class Level extends Model
         }
         return $userlevel;
     }
+
+    public static function isUpgrade()
+    {
+
+    }
 }
