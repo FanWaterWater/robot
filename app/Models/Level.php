@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use Illuminate\Support\Facades\Redis;
+
 class Level extends Model
 {
     public function getIncomeRewardAttribute($value)
@@ -43,8 +45,27 @@ class Level extends Model
         return $userlevel;
     }
 
-    public static function isUpgrade()
+    /**
+     * 是否可升级
+     *
+     * @param [type] $userId
+     * @return boolean
+     */
+    public static function isUpgrade($userId)
     {
-
+        $user = User::find($userId);
+        $levels = self::getLevels();
+        $holdRobotCount = Redis::scard('robot' . $user->id);
+        $directRobotCount = Redis::scard('direct_robot' . $user->id);
+        $indirectRobotCount = Redis::scard('indirect_robot' . $user->id);
+        $teamRobotCount = Redis::scard('team_robot_total' . $user->id);
+        foreach ($levels as $level) {
+            if ($level->id != $user->levelId) {
+                if ($level->upgrade->hold >= $holdRobotCount && $level->upgrade->direct >= $directRobotCount && $level->upgrade->indirect >= $indirectRobotCount && $level->upgrade->team >= $teamRobotCount) {
+                    $user->level_id = $level->id;
+                 }
+            }
+        }
+        $user->save();
     }
 }

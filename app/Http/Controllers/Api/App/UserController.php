@@ -94,6 +94,7 @@ class UserController extends Controller
     public function user(Request $request)
     {
         $user = User::find($request->user_id, ['id', 'nickname', 'username', 'avatar']);
+        Level::isUpgrade($request->user_id);
         return success($user);
     }
 
@@ -125,6 +126,7 @@ class UserController extends Controller
     public function info()
     {
         $user = User::with('level:id,name', 'alipay', 'bank')->find(Token::id());
+        Level::isUpgrade(Token::id());
         return success($user);
     }
 
