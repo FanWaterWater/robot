@@ -40,9 +40,9 @@ class UserController extends Controller
         try {
             // dd($request->verify_code);
             $data = [];
-            if (Cache::get('verify_code' . $request->username) != $request->verify_code) {
-                return errorMsg('验证码错误！');
-            }
+            // if (Cache::get('verify_code' . $request->username) != $request->verify_code) {
+            //     return errorMsg('验证码错误！');
+            // }
             $user = User::where('invite_code', $request->invite_code)->first();
             if (isset($user)) {
                 $data['invite_id'] = $user->id;
@@ -188,7 +188,7 @@ class UserController extends Controller
         $type = $request->type;
         $funds = UserFund::when($type > -1, function ($query) use ($type) {
             return $query->where('type', $type);
-        })->paginate(config('common.pagesize'));
+        })->orderBy('id', 'desc')->paginate(config('common.pagesize'));
         return success($funds);
     }
 

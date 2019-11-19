@@ -51,9 +51,9 @@ class RobotController extends Controller
     {
         $type = $request->type;
         if ($type == 0) {
-            $robots = Robot::where('user_id', Token::id())->paginate(config('common.pagesize'));
+            $robots = Robot::where('user_id', Token::id())->orderBy('id', 'desc')->paginate(config('common.pagesize'));
         } else {
-            $robots = Robot::onlyTrashed()->where('user_id', Token::id())->paginate(config('common.pagesize'));
+            $robots = Robot::onlyTrashed()->where('user_id', Token::id())->orderBy('id', 'desc')->paginate(config('common.pagesize'));
         }
         return success($robots);
     }
