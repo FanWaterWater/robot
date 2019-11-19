@@ -4,10 +4,12 @@ namespace App\Http\Controllers\Api\App;
 
 use App\Models\Help;
 use App\Models\Agent;
+use App\Models\Level;
 use App\Models\Video;
 use App\Models\Notice;
 use App\Models\Swiper;
 use App\Models\Company;
+use App\Services\Token;
 use Illuminate\Http\Request;
 use App\Models\AgentIntroduction;
 use App\Http\Controllers\Controller;
@@ -19,6 +21,7 @@ class IndexController extends Controller
         $swipers = Swiper::where('hidden', 0)->orderBy('sort', 'desc')->get(['id', 'image', 'url']);
         $notices = Notice::orderBy('id', 'desc')->limit(3)->get(['id', 'title']);
         $agents = Agent::inRandomOrder()->limit(5)->get();
+        Level::isUpgrade(Token::id());
         return  success(compact('swipers', 'notices', 'agents'));
     }
 
