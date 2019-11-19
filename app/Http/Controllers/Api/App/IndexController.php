@@ -21,7 +21,7 @@ class IndexController extends Controller
         $swipers = Swiper::where('hidden', 0)->orderBy('sort', 'desc')->get(['id', 'image', 'url']);
         $notices = Notice::orderBy('id', 'desc')->limit(3)->get(['id', 'title']);
         $agents = Agent::inRandomOrder()->limit(5)->get();
-        Level::isUpgrade(Token::id());
+        // Level::isUpgrade(Token::id());
         return  success(compact('swipers', 'notices', 'agents'));
     }
 
