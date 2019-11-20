@@ -22,15 +22,15 @@ layui.use(['form', 'layer', 'layedit', 'laydate', 'upload', 'ajaxUrl'], function
         return null; //返回参数值
     }
 
+    laydate.render({
+        elem: '#date' //指定元素
+    });
+
     form.verify({
         min8: [
             /^[\S]{8,8}$/, '请输入8位数！'
         ]
     });
-
-
-
-
 
     /*
      获取页面类型
@@ -50,12 +50,12 @@ layui.use(['form', 'layer', 'layedit', 'laydate', 'upload', 'ajaxUrl'], function
             ajaxType = ajaxArr.robotConfigsEdit.method;
 
         }
-
         params.income_switch = data.field.income_switch;
         params.type = data.field.type;
         params.limit = data.field.limit;
         params.income = data.field.income;
         params.price = data.field.price;
+        params.date = data.field.date;
 
         var loading = layer.load();
         // 实际使用时的提交信息

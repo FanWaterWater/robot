@@ -11,7 +11,8 @@ class RobotConfig extends Model
         parent::boot();
 
         static::created(function ($model) {
-            Cache::forever('robot_config', $model);
+            $config = self::whereDate('date', date('Y-m-d'))->first();
+            Cache::forever('robot_config', $config);
         });
     }
 }

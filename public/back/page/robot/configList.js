@@ -96,7 +96,7 @@ layui.use(['form', 'layer', 'laydate', 'table', 'laytpl', 'ajaxUrl'], function (
                     }
                 },
                 {
-                    field: 'created_at',
+                    field: 'date',
                     title: '开始时间',
                     minWidth: 100,
                     align: "center",

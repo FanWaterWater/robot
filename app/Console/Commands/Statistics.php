@@ -50,9 +50,12 @@ class Statistics extends Command
             ]);
             $buyCount = Robot::whereDate('created_at', $date)->where('add_type', 0)->count();
             $activateCount = Robot::whereDate('created_at', $date)->where('add_type', 1)->count();
+            $giftCount = Robot::whereDate('created_at', $date)->where('add_type', 2)->count();
+
             RobotStatistics::create([
                 'buy_count' => $buyCount,
-                'activate_count' => $activateCount
+                'activate_count' => $activateCount,
+                'gift_count' => $giftCount
             ]);
             DB::commit();
         } catch (\Exception $e) {

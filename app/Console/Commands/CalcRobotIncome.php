@@ -6,6 +6,7 @@ use App\Models\User;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Cache;
 use App\Jobs\CalcRobotIncome as CalcRobotIncomeJob;
+use App\Models\RobotConfig;
 
 class CalcRobotIncome extends Command
 {
@@ -49,5 +50,7 @@ class CalcRobotIncome extends Command
             }
             \Log::info('机器收益结算,今日结算用户数量:' . count($users));
         }
+        $config = RobotConfig::whereDate('date', date('Y-m-d'))->first();
+        Cache::forever('robot_config', $config);
     }
 }

@@ -75,7 +75,7 @@ layui.use(['form', 'element', 'layer', 'jquery', 'ajaxUrl'], function () {
             }
         })
     }
-    console.log(ajaxArr)
+
     $.ajax({
         url: ajaxArr.index,
         headers: {
