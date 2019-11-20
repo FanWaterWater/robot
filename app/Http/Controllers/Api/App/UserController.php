@@ -189,7 +189,7 @@ class UserController extends Controller
         $type = $request->type;
         $funds = UserFund::when($type > -1, function ($query) use ($type) {
             return $query->where('type', $type);
-        })->where('id', Token::id())->orderBy('id', 'desc')->paginate(config('common.pagesize'));
+        })->where('user_id', Token::id())->orderBy('id', 'desc')->paginate(config('common.pagesize'));
         return success($funds);
     }
 
