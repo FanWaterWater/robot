@@ -5,13 +5,14 @@ namespace App\Http\Controllers\Api\Backend;
 use App\Models\RobotConfig;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Cache;
 
 class RobotConfigController extends Controller
 {
     public function index(Request $request)
     {
         $pagesize = $request->limi ?? config('common.pagesize');
-        $robotConfigs = RobotConfig::orderBy('id', 'desc')->paginate($pagesize);
+        $robotConfigs = RobotConfig::orderBy('date', 'desc')->paginate($pagesize);
         return success($robotConfigs);
     }
 
@@ -50,6 +51,6 @@ class RobotConfigController extends Controller
 
     public function currentConfig()
     {
-        return success(RobotConfig::orderBy('id', 'desc')->first());
+        return success(Cache::get('robot_config'));
     }
 }

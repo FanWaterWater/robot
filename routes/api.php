@@ -24,6 +24,8 @@ Route::get('config', function() {
     return success(Cache::get('system_config'));
 });
 
+Route::get('receipt', 'Api\Backend\ReceiptController@receipt');
+
 Route::group(['prefix' => 'alipay'], function () {
     Route::post('pay', 'Api\AlipayController@pay');
     Route::post('notify', 'Api\AlipayController@notify');

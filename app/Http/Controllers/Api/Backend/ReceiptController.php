@@ -16,6 +16,12 @@ class ReceiptController extends Controller
         return success($receipts);
     }
 
+    public function receipt()
+    {
+        $receipt = Receipt::first();
+        return success($receipt);
+    }
+
     public function store(Request $request)
     {
         $data = $request->all();

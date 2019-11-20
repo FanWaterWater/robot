@@ -5,7 +5,7 @@ layui.define(["form", "jquery"], function (exports) {
     // host = "http://localhost/robot/public/api/backend";
     // baseurl = "http://localhost/robot/public";
     var $ = layui.jquery;
-    // 判断token过期
+    // 判断token过期u
     $(document).ajaxSuccess(function (event, xhr, opts) {
         var xhr = JSON.parse(xhr.responseText);
         if (xhr.code == 401) {
