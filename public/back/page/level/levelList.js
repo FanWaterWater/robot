@@ -99,6 +99,15 @@ layui.use(['form', 'layer', 'laydate', 'table', 'laytpl', 'ajaxUrl'], function (
                     }
                 },
                 {
+                    field: 'upgrade_hold',
+                    title: '升级(持有)',
+                    minWidth: 100,
+                    align: "center",
+                    templet: function(d) {
+                        return d.upgrade.hold
+                    }
+                },
+                {
                     field: 'upgrade_direct',
                     title: '升级(直推)',
                     minWidth: 100,
@@ -192,6 +201,7 @@ layui.use(['form', 'layer', 'laydate', 'table', 'laytpl', 'ajaxUrl'], function (
                     body.find("*[name=income_reward_direct]").val(data.income_reward.direct);
                     body.find("*[name=income_reward_indirect]").val(data.income_reward.indirect);
                     body.find("*[name=income_reward_team]").val(data.income_reward.team);
+                    body.find("*[name=upgrade_hold]").val(data.upgrade.hold);
                     body.find("*[name=upgrade_direct]").val(data.upgrade.direct);
                     body.find("*[name=upgrade_indirect]").val(data.upgrade.indirect);
                     body.find("*[name=upgrade_team]").val(data.upgrade.team);
