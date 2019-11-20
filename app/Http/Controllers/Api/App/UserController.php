@@ -43,7 +43,7 @@ class UserController extends Controller
             // if (Cache::get('verify_code' . $request->username) != $request->verify_code) {
             //     return errorMsg('验证码错误！');
             // }
-            $user = User::where('invite_code', $request->invite_code)->first();
+            $user = User::where('id', $request->invite_code)->first();
             if (isset($user)) {
                 $data['invite_id'] = $user->id;
             } else {
@@ -53,7 +53,7 @@ class UserController extends Controller
             $data['nickname'] = $request->nickname;
             $data['username'] = $request->username;
             $data['password'] = bcrypt($request->password);
-            $data['invite_code'] = str_random(8);
+            // $data['invite_code'] = str_random(8);
             $data['nickname'] = $request->nickname;
             $data['add_type'] = 1;
             $data['level_id'] = Level::getLevels()[0]['id'];

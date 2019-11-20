@@ -124,7 +124,8 @@ class UserController extends Controller
         if (isset($data['password'])) {
             $data['password'] = bcrypt($data['password']);
         }
-        $data['invite_code'] = str_random(8);
+        $data['nickname'] = $data['nickname'] ?? str_random(8);
+        // $data['invite_code'] = str_random(8);
         if (User::create($data)) {
             return success();
         }
@@ -207,19 +208,18 @@ class UserController extends Controller
     {
         $num = $request->num;
         $userId = $request->id;
-        if((Redis::scard('robot'. $userId) +  $num) > 100) {
-            return error('用户机器数量达到上限，该用户已持有' . Redis::scard('robot'. $request->id) . '台机器');
+        if ((Redis::scard('robot' . $userId) +  $num) > 100) {
+            return error('用户机器数量达到上限，该用户已持有' . Redis::scard('robot' . $request->id) . '台机器');
         }
         DB::beginTransaction();
         try {
-            for($i = 0; $i < $num; $i++) {
-                $robot = Robot::add($userId);
+            for ($i = 0; $i < $num; $i++) {
+                Robot::add($userId, 2);
             }
             $user = User::find($userId);
             $fund = [
                 'user_id' => $userId,
                 'type' => FundType::BUY_ROBOT,
-                'add_type' => 2,  //赠送
                 'change_amount' => 0,
                 'after_amount' => $user->amount,
                 'content' =>  '用户购买' . $num . '台机器',
@@ -228,11 +228,10 @@ class UserController extends Controller
             UserFund::create($fund);
             DB::commit();
             return success();
-        }catch(\Exception $e) {
+        } catch (\Exception $e) {
             DB::rollback();
             return error();
         }
-
     }
 
     public function export(Request $request)
