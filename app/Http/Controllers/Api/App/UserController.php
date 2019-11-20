@@ -149,6 +149,10 @@ class UserController extends Controller
         $priceTotal = $price + $fee;
         DB::beginTransaction();
         try {
+            $withdrawCount =  Withdraw::lockForUpdate()->where('user_id', Token::id())->whereDate('created_at', date('Y-m-d'))->count();
+            if ($withdrawCount > 0) {
+                return error('每日只能提现一次');
+            }
             $user = User::lockForUpdate()->find(Token::id(), ['id', 'amount', 'alipay_account_id', 'bank_account_id']);
             if (!isset($user)) {
                 return errorMsg('用户不存在');

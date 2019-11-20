@@ -21,7 +21,7 @@ layui.use(['form', 'layer', 'layedit', 'laydate', 'upload','ajaxUrl'], function(
             url: ajaxArr.upload,
             accept: 'video',
             acceptMime: 'video/*',
-            size: '1024000'
+            size: '102400000'
         }
         , devmode: true
         , codeConfig: {

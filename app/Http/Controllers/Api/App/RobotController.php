@@ -93,6 +93,7 @@ class RobotController extends Controller
             'subject'      => '购买机器' // 备注
         ];
         // $payId = rand(1, 2);
+        //记得改机器数量（change_amount）
         $payId = 2;
         $config = config('alipay.pay' . $payId);
         return Pay::alipay($config)->wap($aliPayOrder);
@@ -119,7 +120,7 @@ class RobotController extends Controller
                 $fund = [
                     'user_id' => $userId,
                     'type' => FundType::BUY_ROBOT,
-                    'change_amount' => 0,
+                    'change_amount' => 1,
                     'after_amount' => Token::user()['amount'],
                     'content' => '用户使用激活码(' . $code->code . ')激活机器(编号：' . $robot->robot_no . ')',
                     'remark' => '激活码激活机器',
