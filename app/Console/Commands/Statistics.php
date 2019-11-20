@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Models\User;
 use App\Models\Robot;
 use App\Models\RobotStatistics;
 use Illuminate\Console\Command;

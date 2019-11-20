@@ -30,6 +30,9 @@ Route::group(['prefix' => 'backend', 'middleware' => ['token.admin']], function 
     //帮助中心管理
     Route::post('helps/delete/batch', 'Api\Backend\HelpController@batchDel');
     Route::apiResource('helps', 'Api\Backend\HelpController');
+
+    //收款配置
+    Route::apiResource('receipts', 'Api\Backend\ReceiptController');
     //公告管理
     Route::post('notices/send', 'Api\Backend\NoticeController@send');
     Route::post('notices/delete/batch', 'Api\Backend\NoticeController@batchDel');

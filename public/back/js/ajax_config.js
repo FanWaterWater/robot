@@ -330,6 +330,7 @@ layui.define(["form", "jquery"], function (exports) {
             method: "DELETE"
         },
 
+
         //代理设置
         "agentsList": host + "/agents",
         "agentsAdd": {
@@ -342,6 +343,21 @@ layui.define(["form", "jquery"], function (exports) {
         },
         "agentsDelete": {
             url: host + "/agents",
+            method: "DELETE"
+        },
+
+        //收款配置
+        "receiptsList": host + "/receipts",
+        "receiptsAdd": {
+            url: host + "/receipts",
+            method: "POST"
+        },
+        "receiptsEdit": {
+            url: host + "/receipts",
+            method: "PUT"
+        },
+        "receiptsDelete": {
+            url: host + "/receipts",
             method: "DELETE"
         },
 

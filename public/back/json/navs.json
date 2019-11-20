@@ -48,6 +48,12 @@
             "href": "page/level/levelList.html"
         },
         {
+            "title": "收款设置",
+            "icon": "icon-text",
+            "spread": false,
+            "href": "page/receipt/receiptList.html"
+        },
+        {
             "title": "提现申请",
             "icon": "icon-text",
             "spread": false,
