@@ -139,7 +139,7 @@ class UserController extends Controller
         $price = $request->price;
         $type = $request->type;
         if ($price < 10 || $price % 10 != 0) {
-            return errorMsg('提现金额必须是10的倍数');
+            return error('提现金额必须是10的倍数');
         }
         //计算手续费
         $fee = 2;
