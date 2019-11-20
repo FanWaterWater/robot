@@ -149,7 +149,7 @@ class UserController extends Controller
         $priceTotal = $price + $fee;
         DB::beginTransaction();
         try {
-            $user = User::find(Token::id(), ['id', 'amount', 'alipay_account_id', 'bank_account_id']);
+            $user = User::lockForUpdate()->find(Token::id(), ['id', 'amount', 'alipay_account_id', 'bank_account_id']);
             if (!isset($user)) {
                 return errorMsg('用户不存在');
             }
