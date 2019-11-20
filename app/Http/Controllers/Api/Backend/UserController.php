@@ -120,7 +120,7 @@ class UserController extends Controller
                 return error('推荐人不存在', 200, 400);
             }
         }
-        unset($data['recommend']);
+        unset($data['recommend'], $data['alipay_account_name'], $data['alipay_account'], $data['bank_name'], $data['bank_account_name'], $data['bank_account']);
         if (isset($data['password'])) {
             $data['password'] = bcrypt($data['password']);
         }
