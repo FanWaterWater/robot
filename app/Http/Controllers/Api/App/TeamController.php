@@ -41,7 +41,7 @@ class TeamController extends Controller
             $user->direct_users_count = Redis::scard('direct_user' . $user->id);
             $user->indirect_users_count = Redis::scard('indirect_user' . $user->id);
             $user->team_users_count = Redis::scard('team_user' . $user->id);
-            $user->robots_count = Redis::scard('robot_count' . $user->id);
+            $user->robots_count = Redis::scard('robot' . $user->id);
             $user->team_robots_count  = Redis::scard('team_robot_total' . $user->id);
         }
         return success($users);
