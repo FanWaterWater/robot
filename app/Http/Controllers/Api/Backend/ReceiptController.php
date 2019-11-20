@@ -11,8 +11,7 @@ class ReceiptController extends Controller
     public function index(Request $request)
     {
         $limit = $request->limit;
-        $orderBy = $request->orderBy ? 'asc' : 'desc';
-        $receipts = Receipt::orderBy('id', $orderBy)->paginate($limit);
+        $receipts = Receipt::paginate($limit);
         return success($receipts);
     }
 
