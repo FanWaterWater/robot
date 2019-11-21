@@ -28,12 +28,7 @@ Route::get('pay-success', function () {
 Route::post('getSn', 'Api\AlipayController@getSn');
 
 Route::get('test', function () {
-    // Redis::zincrby('zset1', 1, 'ef');
-    $dir = storage_path('app/public');
-    $qrCode = new QrCode('Life is too short to be generating QR codes');
-    $qrcode = public_path() .'/qrcode.png';
-    $qrCode->writeFile($qrcode);
-    $img = Image::make(public_path(). '/poster1.jpg')->resize(750, 1344);
-    $img->insert($qrcode, 'bottom-right', 15, 10);
-    $img->save($dir . '/poster.jpg');
+    $user = User::find(1);
+    $user->createPoster();
+    return success();
 });

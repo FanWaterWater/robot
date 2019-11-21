@@ -5,8 +5,10 @@ namespace App\Models;
 use App\Utils\FundType;
 use App\Utils\TeamRole;
 use App\Utils\AccountType;
+use Endroid\QrCode\QrCode;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Redis;
+use Intervention\Image\Facades\Image;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
@@ -179,17 +181,17 @@ class User extends Authenticatable implements JWTSubject
         $indirectRobots = Redis::smembers('indirect_robot' . $this->id);
         $teamRobots = Redis::smembers('team_robot' . $this->id);
         // $teamRobotTotals = Redis::smembers('team_robot_total' . $this->id);
-        if(count($myRobots)) {
-            Redis::sadd('today_robot'. $this->id, $myRobots);
+        if (count($myRobots)) {
+            Redis::sadd('today_robot' . $this->id, $myRobots);
         }
-        if(count($directRobots)) {
-            Redis::sadd('today_direct_robot'. $this->id, $directRobots);
+        if (count($directRobots)) {
+            Redis::sadd('today_direct_robot' . $this->id, $directRobots);
         }
-        if(count($indirectRobots)) {
-            Redis::sadd('today_indirect_robot'. $this->id, $indirectRobots);
+        if (count($indirectRobots)) {
+            Redis::sadd('today_indirect_robot' . $this->id, $indirectRobots);
         }
-        if(count($teamRobots)) {
-            Redis::sadd('today_team_robot'. $this->id, $teamRobots);
+        if (count($teamRobots)) {
+            Redis::sadd('today_team_robot' . $this->id, $teamRobots);
         }
         // Redis::sadd('today_team_robot_total'. $this->id, $teamRobotTotals);
     }
@@ -249,6 +251,15 @@ class User extends Authenticatable implements JWTSubject
      */
     public function createPoster()
     {
-
+        $qrcodeDir = storage_path('app/public/posters/qrcode');
+        $posterDir = storage_path('app/public/posters');
+        $url = 'http://h5.dawnll.com/#/pages/login/register?code=' . $this->id;
+        $qrCode = new QrCode($url);
+        $qrcode = $qrcodeDir . '/qrcode' . $this->id . '.png';
+        $qrCode->writeFile($qrcode);
+        $img = Image::make($posterDir . '/bg.png')->resize(945, 2126);
+        $qrcodeImg = Image::make($qrcode)->resize(202, 202);
+        $img->insert($qrcodeImg, 'bottom-right', 340, 538);
+        $img->save($posterDir . '/poster' . $this->id . '.png');
     }
 }
