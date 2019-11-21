@@ -41,13 +41,13 @@ class CalcRobotIncome implements ShouldQueue
         try {
             $user = User::with('level:id,income_reward')->find($this->userId);
             $income = $this->income;
-            $myIncome = Redis::scard('today_robot' . $user->id) * $income;
+            $myIncome = Redis::scard('robot' . $user->id) * $income;
             //直推收益
-            $directIncome = Redis::scard('today_direct_robot' . $user->id) * ($user->level->income_reward['direct'] / 100 * $income);
+            $directIncome = Redis::scard('direct_robot' . $user->id) * ($user->level->income_reward['direct'] / 100 * $income);
             //间推收益
-            $indirectIncome = Redis::scard('today_indirect_robot' . $user->id) * ($user->level->income_reward['indirect'] / 100 * $income);
+            $indirectIncome = Redis::scard('indirect_robot' . $user->id) * ($user->level->income_reward['indirect'] / 100 * $income);
             //团队收益
-            $teamIncome = Redis::scard('today_team_robot' . $user->id) * ($user->level->income_reward['team'] / 100 * $income);
+            $teamIncome = Redis::scard('team_robot' . $user->id) * ($user->level->income_reward['team'] / 100 * $income);
             $totalIncome = $myIncome + $directIncome + $indirectIncome + $teamIncome;
             if ($totalIncome > 0) {
                 $user->increment('amount', $totalIncome);
@@ -63,7 +63,7 @@ class CalcRobotIncome implements ShouldQueue
             }
             DB::commit();
             //更新今日机器数量
-            $user->updateTodayRobotCount();
+            // $user->updateTodayRobotCount();
         } catch (\Exception $e) {
             \Log::info('机器收益结算回滚-userId:' . $this->userId);
             DB::rollback();
