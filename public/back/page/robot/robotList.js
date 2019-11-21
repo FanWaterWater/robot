@@ -169,7 +169,8 @@ layui.use(['form', 'layer', 'laydate', 'table', 'laytpl', 'ajaxUrl'], function (
                 robot_no: $("#robot_no").val(),
                 username: $("#username").val(),
                 startDate: $("#minDate").val(),
-                endDate: $("#maxDate").val()
+                endDate: $("#maxDate").val(),
+                add_type: $("#add_type").val(),
             }
         })
     });

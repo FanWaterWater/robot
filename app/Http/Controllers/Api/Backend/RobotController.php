@@ -14,6 +14,7 @@ class RobotController extends Controller
     {
         $pagesize = $request->limit ?? config('common.pagesize');
         $robotNo = $request->robot_no;
+        $addType = $request->add_type ?? -1;
         $startDate = $request->startDate;
         $endDate = $request->endDate ? $request->endDate . ' 23:59:59' : null;
         $userId = -1;
@@ -25,6 +26,8 @@ class RobotController extends Controller
             return $query->where('user_id', $userId);
         })->when($robotNo, function ($query) use ($robotNo) {
             return $query->where('robot_no', $robotNo);
+        })->when($addType > -1, function ($query) use ($addType) {
+            return $query->where('add_type', $addType);
         })->when($startDate, function ($query) use ($startDate) {
             return $query->where('start_time', '>=', $startDate);
         })->when($endDate, function ($query) use ($endDate) {

@@ -61,7 +61,7 @@ class IndexController extends Controller
         $keyword = $request->keyword;
         $agents = Agent::when($keyword, function($query) use ($keyword) {
             return $query->where('wechat', 'like', '%'. $keyword . '%')->orWhere('name', 'like', '%'. $keyword . '%');
-        })->orderBy('id', 'desc')->paginate(10);
+        })->orderBy('type', 'desc')->paginate(10);
         return success($agents);
     }
 

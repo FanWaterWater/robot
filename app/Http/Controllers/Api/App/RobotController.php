@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Redis;
+use Carbon\Carbon;
 
 class RobotController extends Controller
 {
@@ -27,10 +28,11 @@ class RobotController extends Controller
         $config = Cache::get('robot_config');
         //计算今日收益
         $todayIncome = 0;
-        $income = $config['income'];
-        if ($config['income_switch'] == 1) {
-            $todayIncome = Redis::scard('today_robot' . $userId) * $income + Redis::scard('today_direct_robot' . $user->id) * ($user->level->income_reward['direct'] / 100 * $income) + Redis::scard('today_indirect_robot' . $user->id) * ($user->level->income_reward['indirect'] / 100 * $income) + Redis::scard('day_team_robot' . $user->id) * ($user->level->income_reward['team'] / 100 * $income);
-        }
+        // $income = $config['income'];
+        // if ($config['income_switch'] == 1) {
+        //     $todayIncome = Redis::scard('today_robot' . $userId) * $income + Redis::scard('today_direct_robot' . $user->id) * ($user->level->income_reward['direct'] / 100 * $income) + Redis::scard('today_indirect_robot' . $user->id) * ($user->level->income_reward['indirect'] / 100 * $income) + Redis::scard('day_team_robot' . $user->id) * ($user->level->income_reward['team'] / 100 * $income);
+        // }
+        $todayIncome = UserFund::where('type', FundType::ROBOT_INCOME)->whereDate('created_at', date('Y-m-d'))->where('user_id', $userId)->sum('change_amount');
         $reward = UserFund::where('type', FundType::INVITE_INCOME)->whereDate('created_at', date('Y-m-d'))->where('user_id', $userId)->sum('change_amount');
         $todayIncome += $reward;
         $data = [
@@ -106,6 +108,10 @@ class RobotController extends Controller
      */
     public function activate(Request $request)
     {
+        //0点到0：30维护
+        if(date('H') == 0 && date('i') < 30) {
+            return error('0:00~0:30为机器收益系统结算期间，请稍后再来');
+        }
         $userId = Token::id();
         $robotCount = Redis::scard('robot' . $userId);
         if ($robotCount >= Cache::get('system_config')['ROBOT_LIMIT']) {
