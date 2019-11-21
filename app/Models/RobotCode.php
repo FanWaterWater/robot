@@ -4,7 +4,7 @@ namespace App\Models;
 
 class RobotCode extends Model
 {
-    public static function generateCode($length = 8)
+    public static function generateCode($length = 12)
     {
         return str_random($length);
     }

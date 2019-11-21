@@ -29,6 +29,8 @@ layui.define(["form", "jquery"], function (exports) {
         "registerStatistics": host + "/index/register-statistics",
         "robotStatistics": host + "/index/robot-statistics",
 
+        "getOnceToken": host + "/once-token",
+
 
         "editAdminPwd": host + "/admins/editPassword", //修改当前用户密码
 
@@ -472,7 +474,7 @@ layui.define(["form", "jquery"], function (exports) {
             method: "DELETE"
         },
         "codesExport": {
-            url: host + "/robot-codes/export", //导出激活码
+            url: host + "/export/robot-codes", //导出激活码
             method: "GET"
         },
 

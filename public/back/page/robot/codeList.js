@@ -46,7 +46,7 @@ layui.use(['form', 'layer', 'laydate', 'table', 'laytpl', 'ajaxUrl'], function (
                     minWidth: 150,
                     align: "center",
                     templet: function (d) {
-                        if(d.user_id == 0) {
+                        if (d.user_id == 0) {
                             return '无'
                         }
                         return d.user_id
@@ -58,7 +58,7 @@ layui.use(['form', 'layer', 'laydate', 'table', 'laytpl', 'ajaxUrl'], function (
                     minWidth: 150,
                     align: "center",
                     templet: function (d) {
-                        if(d.robot_id == 0) {
+                        if (d.robot_id == 0) {
                             return '无'
                         }
                         return d.robot_id
@@ -100,27 +100,30 @@ layui.use(['form', 'layer', 'laydate', 'table', 'laytpl', 'ajaxUrl'], function (
 
     var start = laydate.render({
         elem: '#minDate', //指定元素
-        done: function (value, date) {
-            endMax = end.config.max;
-            end.config.min = date;
-            end.config.min.month = date.month - 1;
-        }
+        type: 'datetime'
+        // done: function (value, date) {
+        //     endMax = end.config.max;
+        //     end.config.min = date;
+        //     end.config.min.month = date.month - 1;
+        // }
     });
 
     var end = laydate.render({
         elem: '#maxDate', //指定元素
-        done: function (value, date) {
-            if ($.trim(value) == '') {
-                var curDate = new Date();
-                date = {
-                    'date': curDate.getDate(),
-                    'month': curDate.getMonth() + 1,
-                    'year': curDate.getFullYear()
-                };
-            }
-            start.config.max = date;
-            start.config.max.month = date.month - 1;
-        }
+        type: 'datetime'
+
+        // done: function (value, date) {
+        //     if ($.trim(value) == '') {
+        //         var curDate = new Date();
+        //         date = {
+        //             'date': curDate.getDate(),
+        //             'month': curDate.getMonth() + 1,
+        //             'year': curDate.getFullYear()
+        //         };
+        //     }
+        //     start.config.max = date;
+        //     start.config.max.month = date.month - 1;
+        // }
     });
 
     //列表导出
@@ -143,9 +146,24 @@ layui.use(['form', 'layer', 'laydate', 'table', 'laytpl', 'ajaxUrl'], function (
             icon: 3,
             title: '提示信息'
         }, function (index) {
-            layer.closeAll();
-            window.location.href = goExportUrl;
-            tableIns.reload(); /*刷新表格*/
+            $.ajax({
+                url: ajaxArr.getOnceToken,
+                // data: data.id,
+                async: true,
+                dataType: "json",
+                headers: {
+                    'Authorization': token
+                },
+                success: function (res) {
+                    layer.closeAll();
+                    window.location.href = goExportUrl + '&once_token=' + res.data;
+                    tableIns.reload(); /*刷新表格*/
+                },
+                complete: function () {
+                    // layer.close(loading);
+                }
+            });
+
         })
 
     })

@@ -54,7 +54,7 @@ layui.use(['form', 'layer', 'layedit', 'laydate', 'upload', 'ajaxUrl'], function
             params.code = data.field.code;
 			ajaxType = ajaxArr.codesEdit.method;
 			if( params.code.length != 8){
-				layer.msg('邀请码的必须为8位数');
+				layer.msg('邀请码的必须为12位数');
                 return false;
 			}
 

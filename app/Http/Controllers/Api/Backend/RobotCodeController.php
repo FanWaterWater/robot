@@ -72,7 +72,7 @@ class RobotCodeController extends Controller
         $status = $request->status ?? -1;
         $code = $request->code;
         $startDate = $request->startDate;
-        $endDate = $request->endDate ? $request->endDate . ' 23:59:59' : null;;
+        $endDate = $request->endDate;
         $orderBy = $request->orderBy ? 'asc' : 'desc';
         $codes = RobotCode::when($code, function ($query) use ($code) {
             return $query->where('code', 'like', '%' . $code . '%');

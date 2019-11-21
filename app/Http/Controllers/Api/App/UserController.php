@@ -151,7 +151,7 @@ class UserController extends Controller
         try {
             $withdrawCount =  Withdraw::lockForUpdate()->where('user_id', Token::id())->whereDate('created_at', date('Y-m-d'))->count();
             if ($withdrawCount > 0) {
-                return error('每日只能提现一次');
+                return error('一天只限提现1次，请明天再来');
             }
             $user = User::lockForUpdate()->find(Token::id(), ['id', 'amount', 'alipay_account_id', 'bank_account_id']);
             if (!isset($user)) {

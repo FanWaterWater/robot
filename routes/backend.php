@@ -1,6 +1,7 @@
 <?php
 
 Route::post('backend/admins/login', 'Api\Backend\AdminController@login');
+Route::get('backend/once-token', 'Controller@getOnceToken');
 
 
 Route::group(['prefix' => 'backend', 'middleware' => ['token.admin']], function () {

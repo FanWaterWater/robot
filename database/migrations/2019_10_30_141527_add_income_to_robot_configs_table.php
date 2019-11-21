@@ -14,7 +14,7 @@ class AddIncomeToRobotConfigsTable extends Migration
     public function up()
     {
         Schema::table('robot_configs', function (Blueprint $table) {
-            $table->tinyInteger('income')->after('type')->nullable()->default(0)->comment('收益百分比，单位：%');
+            $table->decimal('income', 4, 2)->after('type')->nullable()->default(0)->comment('收益，单位：元');
         });
     }
 
