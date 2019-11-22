@@ -23,7 +23,7 @@ class IndexController extends Controller
     {
         $swipers = Swiper::where('hidden', 0)->orderBy('sort', 'desc')->get(['id', 'image', 'url']);
         $notices = Headline::orderBy('id', 'desc')->limit(10)->get(['id', 'content']);
-        $agents = Agent::inRandomOrder()->limit(5)->get();
+        $agents = Agent::inRandomOrder()->where('type', 0)->limit(5)->get();
         return  success(compact('swipers', 'notices', 'agents'));
     }
 
