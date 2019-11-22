@@ -78,6 +78,15 @@ class WithdrawController extends Controller
                     'content' => '提现驳回，提现' . $withdraw->price . '元,手续费' . $withdraw->handle_fee . '元,返款' . $priceTotal . '元',
                     'remark' => '提现驳回'
                 ]);
+            } else {
+                UserFund::create([
+                    'user_id' => $user->id,
+                    'type' => FundType::WITHDRAW,
+                    'change_amount' => 0,
+                    'after_amount' => $user->amount,
+                    'content' => '提现成功，提现' . $withdraw->price . '元,手续费' . $withdraw->handle_fee . '元',
+                    'remark' => '提现成功'
+                ]);
             }
             Withdraw::where('id', $id)->update($data);
             DB::commit();
