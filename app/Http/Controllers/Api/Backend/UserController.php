@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\Backend;
 use App\Models\User;
 use App\Models\Robot;
 use App\Utils\FundType;
+use App\Models\Headline;
 use App\Models\UserFund;
 use App\Models\BankAccount;
 use Illuminate\Http\Request;
