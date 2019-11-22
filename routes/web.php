@@ -32,3 +32,9 @@ Route::get('test', function () {
     $user = User::find(4);
     return $user->superiors();
 });
+
+
+Route::get('test2', function () {
+    $user = User::find(4);
+    return $user->superiors();
+});
