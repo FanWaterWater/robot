@@ -76,12 +76,12 @@ layui.use(['form', 'layer', 'laydate', 'table', 'laytpl', 'ajaxUrl'], function (
                         return levelName;
                     }
                 },
-                {
-                    field: 'invite_code',
-                    title: '邀请码',
-                    minWidth: 150,
-                    align: "center"
-                },
+                // {
+                //     field: 'invite_code',
+                //     title: '邀请码',
+                //     minWidth: 150,
+                //     align: "center"
+                // },
                 {
                     field: 'recommend',
                     title: '推荐人',

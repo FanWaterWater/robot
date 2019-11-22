@@ -28,7 +28,7 @@ Route::get('pay-success', function () {
 Route::post('getSn', 'Api\AlipayController@getSn');
 
 Route::get('test', function () {
-    $user = User::find(1);
-    $user->createPoster();
+    $user = User::find(26);
+    $user->joinTeam();
     return success();
 });
