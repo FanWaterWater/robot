@@ -228,7 +228,7 @@ class UserController extends Controller
             ];
             UserFund::create($fund);
             $headline = [
-                'content' => '🎉🎉🎉' . $user->nickname . '购买了' . $num . '台机器',
+                'content' => $user->nickname . '购买了' . $num . '台机器',
             ];
             Headline::create($headline);
             DB::commit();
