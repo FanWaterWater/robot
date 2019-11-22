@@ -41,16 +41,14 @@ class CalcRobotIncome extends Command
      */
     public function handle()
     {
-        $config = Cache::get('robot_config');
-        $income = $config['income'];
-        if ($config['income_switch'] == 1) {
+        $config = RobotConfig::whereDate('date', date('Y-m-d'))->first();
+        Cache::forever('robot_config', $config);
+        if ($config->income_switch == 1) {
             $users = User::where('status', 0)->get(['id']);
             foreach ($users as $user) {
-                CalcRobotIncomeJob::dispatch($user->id, $income);
+                CalcRobotIncomeJob::dispatch($user->id, $config->income);
             }
             \Log::info('机器收益结算,今日结算用户数量:' . count($users));
         }
-        $config = RobotConfig::whereDate('date', date('Y-m-d'))->first();
-        Cache::forever('robot_config', $config);
     }
 }
