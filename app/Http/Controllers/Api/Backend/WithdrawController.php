@@ -75,7 +75,7 @@ class WithdrawController extends Controller
                     'type' => FundType::WITHDRAW,
                     'change_amount' => $priceTotal,
                     'after_amount' => $user->amount,
-                    'content' => '提现驳回，提现' . $withdraw->price . '元,手续费' . $withdraw->handle_fee . '元,返款' . $priceTotal . '元',
+                    'content' =>  '提现驳回，返款' . $priceTotal . '元;驳回原因:' . $remark,
                     'remark' => '提现驳回'
                 ]);
             } else {

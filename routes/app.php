@@ -18,6 +18,7 @@ Route::group(['prefix' => 'app', 'middleware' => ['token.user']], function () {
 
         Route::get('videos', 'Api\App\IndexController@videos');
         Route::get('agents', 'Api\App\IndexController@agents');
+        Route::get('agents-by-type', 'Api\App\IndexController@agentsByType');
 
         Route::get('company-introduction', 'Api\App\IndexController@companyIntroduction');
         Route::get('agent-introduction', 'Api\App\IndexController@agentIntroduction');

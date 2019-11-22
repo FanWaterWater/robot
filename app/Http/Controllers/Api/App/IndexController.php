@@ -70,6 +70,15 @@ class IndexController extends Controller
         return success($agents);
     }
 
+    public function agentsByType(Request $request)
+    {
+        $type = $request->type;
+        $agents = Agent::when($type, function ($query) use ($type) {
+            return $query->where('type', $type);
+        })->inRandomOrder()->get();
+        return success($agents);
+    }
+
     public function ad(Request $request)
     {
         $ad = Ad::where('hidden', 0)->inRandomOrder()->first();
