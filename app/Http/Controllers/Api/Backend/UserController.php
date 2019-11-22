@@ -209,7 +209,7 @@ class UserController extends Controller
     {
         $num = $request->num;
         $userId = $request->id;
-        if ((Redis::scard('robot' . $userId) +  $num) > 100) {
+        if ((Redis::scard('robot' . $userId) +  $num) > Cache::get('system_config')['ROBOT_LIMIT']) {
             return error('用户机器数量达到上限，该用户已持有' . Redis::scard('robot' . $request->id) . '台机器');
         }
         DB::beginTransaction();
