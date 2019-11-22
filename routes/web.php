@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\User;
+use App\Models\Robot;
 use Endroid\QrCode\QrCode;
 use Illuminate\Support\Facades\Redis;
 use Intervention\Image\Facades\Image;
@@ -28,7 +29,6 @@ Route::get('pay-success', function () {
 Route::post('getSn', 'Api\AlipayController@getSn');
 
 Route::get('test', function () {
-    $user = User::find(26);
-    $user->joinTeam();
-    return success();
+    $notices = Robot::groupBy('user_id')->with('user:id,nickname')->limit(100)->get();
+    return $notices;
 });

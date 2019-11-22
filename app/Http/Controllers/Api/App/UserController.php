@@ -151,7 +151,7 @@ class UserController extends Controller
         try {
             $withdrawCount =  Withdraw::lockForUpdate()->where('user_id', Token::id())->whereDate('created_at', date('Y-m-d'))->count();
             if ($withdrawCount > 0) {
-                return error('一天只限提现1次，请明天再来');
+                return errorMsg('一天只限提现1次，请明天再来');
             }
             $user = User::lockForUpdate()->find(Token::id(), ['id', 'amount', 'alipay_account_id', 'bank_account_id']);
             if (!isset($user)) {
@@ -175,7 +175,7 @@ class UserController extends Controller
                 'change_amount' => -$priceTotal,
                 'after_amount' => $user->amount,
                 'content' => '用户提现' . $price . '元，手续费' . $fee . '元',
-                'remark' => '用户提现'
+                'remark' => '提现发起'
             ]);
             DB::commit();
             return success();

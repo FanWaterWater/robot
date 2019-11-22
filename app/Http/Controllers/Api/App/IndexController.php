@@ -22,7 +22,6 @@ class IndexController extends Controller
     {
         $swipers = Swiper::where('hidden', 0)->orderBy('sort', 'desc')->get(['id', 'image', 'url']);
         $notices = Notice::orderBy('id', 'desc')->limit(3)->get(['id', 'title']);
-        // $notices = Robot::orderBy('id', 'desc')->with('user:id,nickname')->limit(10)->get(['id', 'title']);
         $agents = Agent::inRandomOrder()->limit(5)->get();
         return  success(compact('swipers', 'notices', 'agents'));
     }

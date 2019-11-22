@@ -28,16 +28,24 @@ class TeamController extends Controller
     public function detail(Request $request)
     {
         $type = $request->type;
+        $keyword = $request->keyword;
         $userId = Token::id();
-        if($type == TeamRole::DIRECT) {
+        if ($type == TeamRole::DIRECT) {
             $userIds = Redis::smembers('direct_user' . $userId);
-        }else if($type == TeamRole::INDIRECT) {
+        } else if ($type == TeamRole::INDIRECT) {
             $userIds = Redis::smembers('indirect_user' . $userId);
-        }else {
+        } else {
             $userIds = Redis::smembers('team_user' . $userId);
         }
-        $users = User::whereIn('id', $userIds)->with('level:id,name')->orderBy('id', 'desc')->paginate(config('common.pagesize'), ['id', 'avatar', 'nickname', 'phone', 'wechat', 'level_id']);
-        foreach($users as &$user) {
+        if (isset($keyword)) {
+            $users = User::when($keyword, function ($query) use ($keyword) {
+                return $query->where('nickname', 'like', '%' . $keyword . '%')->orWhere('phone', 'like', '%' . $keyword . '%')->orWhere('wechat', 'like', '%' . $keyword . '%');
+            })->with('level:id,name')->orderBy('id', 'desc')->get(['id', 'avatar', 'nickname', 'phone', 'wechat', 'level_id', 'created_at']);
+            $users = $users->whereIn('id', $userIds)->forPage($request->page, config('common.pagesize'))->values();
+        } else {
+            $users = User::whereIn('id', $userIds)->with('level:id,name')->orderBy('id', 'desc')->paginate(config('common.pagesize'), ['id', 'avatar', 'nickname', 'phone', 'wechat', 'level_id', 'created_at']);
+        }
+        foreach ($users as &$user) {
             $user->direct_users_count = Redis::scard('direct_user' . $user->id);
             $user->indirect_users_count = Redis::scard('indirect_user' . $user->id);
             $user->team_users_count = Redis::scard('team_user' . $user->id);
@@ -45,6 +53,5 @@ class TeamController extends Controller
             $user->team_robots_count  = Redis::scard('team_robot_total' . $user->id);
         }
         return success($users);
-
     }
 }

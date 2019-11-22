@@ -75,8 +75,8 @@ class WithdrawController extends Controller
                     'type' => FundType::WITHDRAW,
                     'change_amount' => $priceTotal,
                     'after_amount' => $user->amount,
-                    'content' => '提现审核不通过，提现' . $withdraw->price . '元,手续费' . $withdraw->handle_fee . '元,返款' . $priceTotal . '元',
-                    'remark' => '提现审核不通过返款'
+                    'content' => '提现驳回，提现' . $withdraw->price . '元,手续费' . $withdraw->handle_fee . '元,返款' . $priceTotal . '元',
+                    'remark' => '提现驳回'
                 ]);
             }
             Withdraw::where('id', $id)->update($data);

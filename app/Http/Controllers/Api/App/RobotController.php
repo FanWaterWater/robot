@@ -17,6 +17,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Redis;
 use Carbon\Carbon;
+use App\Models\Headline;
 
 class RobotController extends Controller
 {
@@ -109,7 +110,7 @@ class RobotController extends Controller
     public function activate(Request $request)
     {
         //0点到0：30维护
-        if(date('H') == 0 && date('i') < 30) {
+        if (date('H') == 0 && date('i') < 30) {
             return error('0:00~0:30为机器收益系统结算期间，请稍后再来');
         }
         $userId = Token::id();
@@ -132,6 +133,10 @@ class RobotController extends Controller
                     'remark' => '激活码激活机器',
                 ];
                 UserFund::create($fund);
+                $headline = [
+                    'content' => Token::user()['nickname'] . '激活了1台机器',
+                ];
+                Headline::create($headline);
                 $code->user_id = $userId;
                 $code->status = 1;
                 $code->robot_id = $robot->id;
