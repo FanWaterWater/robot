@@ -15,13 +15,14 @@ use App\Services\Token;
 use Illuminate\Http\Request;
 use App\Models\AgentIntroduction;
 use App\Http\Controllers\Controller;
+use App\Models\Headline;
 
 class IndexController extends Controller
 {
     public function index()
     {
         $swipers = Swiper::where('hidden', 0)->orderBy('sort', 'desc')->get(['id', 'image', 'url']);
-        $notices = Notice::orderBy('id', 'desc')->limit(3)->get(['id', 'title']);
+        $notices = Headline::orderBy('id', 'desc')->limit(10)->get(['id', 'content']);
         $agents = Agent::inRandomOrder()->limit(5)->get();
         return  success(compact('swipers', 'notices', 'agents'));
     }
