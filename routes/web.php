@@ -29,6 +29,6 @@ Route::get('pay-success', function () {
 Route::post('getSn', 'Api\AlipayController@getSn');
 
 Route::get('test', function () {
-    $notices = Robot::groupBy('user_id')->with('user:id,nickname')->limit(100)->get();
-    return $notices;
+    $user = User::find(4);
+    return $user->superiors();
 });
