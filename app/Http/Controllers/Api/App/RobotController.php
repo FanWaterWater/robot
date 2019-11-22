@@ -134,7 +134,7 @@ class RobotController extends Controller
                 ];
                 UserFund::create($fund);
                 $headline = [
-                    'content' => Token::user()['nickname'] . '激活了1台机器',
+                    'content' =>  🎉🎉🎉 . Token::user()['nickname'] . '激活了1台机器',
                 ];
                 Headline::create($headline);
                 $code->user_id = $userId;
