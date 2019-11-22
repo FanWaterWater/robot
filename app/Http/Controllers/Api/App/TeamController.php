@@ -14,7 +14,7 @@ class TeamController extends Controller
     public function index()
     {
         $user = Token::user();
-        return Redis::smembers('direct_robot' . $user['id']);
+        return Redis::scard('direct_user' . $user['id']);
         $recommend = User::where('id', $user['invite_id'])->first(['id', 'phone', 'wechat', 'avatar', 'nickname']);
         $directUser = Redis::scard('direct_user' . $user['id']);
         $indirectUser = Redis::scard('indirect_user' . $user['id']);
