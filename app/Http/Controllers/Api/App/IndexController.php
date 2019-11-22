@@ -6,6 +6,7 @@ use App\Models\Ad;
 use App\Models\Help;
 use App\Models\Agent;
 use App\Models\Level;
+use App\Models\Robot;
 use App\Models\Video;
 use App\Models\Notice;
 use App\Models\Swiper;
@@ -21,6 +22,7 @@ class IndexController extends Controller
     {
         $swipers = Swiper::where('hidden', 0)->orderBy('sort', 'desc')->get(['id', 'image', 'url']);
         $notices = Notice::orderBy('id', 'desc')->limit(3)->get(['id', 'title']);
+        // $notices = Robot::orderBy('id', 'desc')->with('user:id,nickname')->limit(10)->get(['id', 'title']);
         $agents = Agent::inRandomOrder()->limit(5)->get();
         return  success(compact('swipers', 'notices', 'agents'));
     }
@@ -59,8 +61,8 @@ class IndexController extends Controller
     public function agents(Request $request)
     {
         $keyword = $request->keyword;
-        $agents = Agent::when($keyword, function($query) use ($keyword) {
-            return $query->where('wechat', 'like', '%'. $keyword . '%')->orWhere('name', 'like', '%'. $keyword . '%');
+        $agents = Agent::when($keyword, function ($query) use ($keyword) {
+            return $query->where('wechat', 'like', '%' . $keyword . '%')->orWhere('name', 'like', '%' . $keyword . '%');
         })->orderBy('type', 'desc')->paginate(10);
         return success($agents);
     }
