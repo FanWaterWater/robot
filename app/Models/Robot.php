@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\User;
 use App\Utils\FundType;
 use App\Utils\TeamRole;
 use Illuminate\Support\Carbon;
@@ -84,33 +85,29 @@ class Robot extends Model
      */
     public function addTeamRobot()
     {
-        \Log::info($this['user_id']);
-        \Log::info($this->user_id);
-        $user = User::find($this['user_id']);
-        \Log::info($user);
-        \Log::info($this);
-        // Redis::sadd('robot' . $user->id, $this->id);
-        // Redis::zincrby('robot', 1, $this->id);
-        // //获取所有上级
-        // $superiors = $user->superiors();
-        // if (isset($superiors)) {
-        //     foreach ($superiors as $index => $superior) {
-        //         if ($index == TeamRole::DIRECT) {  //直推
-        //             Redis::sadd('direct_robot' . $superior->id, $this->id);
-        //             Redis::zincrby('direct_robot', 1, $this->id);
-        //             $superior->incomeReward(TeamRole::DIRECT);
-        //         } else if ($index == TeamRole::INDIRECT) { //间推
-        //             Redis::sadd('indirect_robot' . $superior->id, $this->id);
-        //             Redis::zincrby('indirect_robot', 1, $this->id);
-        //             $superior->incomeReward(TeamRole::INDIRECT);
-        //         } else {  //团队
-        //             Redis::sadd('team_robot' . $superior->id, $this->id);
-        //             Redis::zincrby('team_robot', 1, $this->id);
-        //         }
-        //         Redis::sadd('team_robot_total' . $superior->id, $this->id);
-        //         Redis::zincrby('team_robot_total', 1, $this->id);
-        //     }
-        // }
+        $user = User::find($this->user_id);
+        Redis::sadd('robot' . $user->id, $this->id);
+        Redis::zincrby('robot', 1, $this->id);
+        //获取所有上级
+        $superiors = $user->superiors();
+        if (isset($superiors)) {
+            foreach ($superiors as $index => $superior) {
+                if ($index == TeamRole::DIRECT) {  //直推
+                    Redis::sadd('direct_robot' . $superior->id, $this->id);
+                    Redis::zincrby('direct_robot', 1, $this->id);
+                    $superior->incomeReward(TeamRole::DIRECT);
+                } else if ($index == TeamRole::INDIRECT) { //间推
+                    Redis::sadd('indirect_robot' . $superior->id, $this->id);
+                    Redis::zincrby('indirect_robot', 1, $this->id);
+                    $superior->incomeReward(TeamRole::INDIRECT);
+                } else {  //团队
+                    Redis::sadd('team_robot' . $superior->id, $this->id);
+                    Redis::zincrby('team_robot', 1, $this->id);
+                }
+                Redis::sadd('team_robot_total' . $superior->id, $this->id);
+                Redis::zincrby('team_robot_total', 1, $this->id);
+            }
+        }
     }
 
     /**

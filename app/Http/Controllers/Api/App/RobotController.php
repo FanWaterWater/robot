@@ -81,8 +81,7 @@ class RobotController extends Controller
      */
     public function buy(Request $request)
     {
-        // $userId = $request->user_id;
-        $userId = 1;
+        $userId = Token::id();
         $num = $request->num;
         $robotCount = Redis::scard('robot' . $userId);
         if ($robotCount >= Cache::get('system_config')['ROBOT_LIMIT']) {
