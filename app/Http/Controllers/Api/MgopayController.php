@@ -69,7 +69,6 @@ class MgopayController extends Controller
             //获取支付宝的通知返回参数，可参考技术文档中服务器异步通知参数列表
             //交易状态
             if ($request['trade_status'] == 'TRADE_SUCCESS') {
-                \Log::info('TRADE_SUCCESS');
                 $order = RobotOrder::where('order_no', $request['out_trade_no'])->first();
                 if (isset($order) && $order->status == 0) {
 
@@ -82,8 +81,6 @@ class MgopayController extends Controller
                         $num = $order->num;
                         $userId = $order->user_id;
                         $user = User::find($userId);
-                        \Log::info($num);
-
                         for ($i = 0; $i < $num; $i++) {
                             $robot = Robot::add($userId, 0);
                         }
