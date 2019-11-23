@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Redis;
+use Symfony\Component\HttpFoundation\Response;
 use Carbon\Carbon;
 use App\Models\Headline;
 
@@ -129,7 +130,7 @@ class RobotController extends Controller
         // include_once(app_path('Services/mgopay/lib/epay_submit.class.php'));
         $alipaySubmit = new \App\Services\AlipaySubmit($config);
         $html_text = $alipaySubmit->buildRequestForm($parameter);
-        return $html_text;
+        return Response::create($html_text);
         // return Pay::alipay($config)->wap($aliPayOrder);
     }
 
