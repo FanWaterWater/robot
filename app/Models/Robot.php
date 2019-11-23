@@ -84,6 +84,8 @@ class Robot extends Model
      */
     public function addTeamRobot()
     {
+        \Log::info($this['user_id']);
+        \Log::info($this->user_id);
         $user = User::find($this['user_id']);
         \Log::info($user);
         \Log::info($this);
