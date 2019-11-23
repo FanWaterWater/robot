@@ -2,9 +2,14 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Models\User;
+use App\Models\Robot;
+use App\Models\Headline;
 use App\Models\RobotOrder;
 use Illuminate\Http\Request;
 use App\Services\AlipayNotify;
+use App\Services\AlipaySubmit;
+use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -45,69 +50,59 @@ class MgopayController extends Controller
             "money"    => $money,
             "sitename"    => $sitename
         );
-        $alipaySubmit = new \App\Services\AlipaySubmit($config);
+        $alipaySubmit = new AlipaySubmit($config);
         $html_text = $alipaySubmit->buildRequestForm($parameter);
         return Response::create($html_text);
     }
 
     public function notify(Request $request)
     {
-        \Log::info($request);
-
         $config = config('mgopay');
         $alipayNotify = new AlipayNotify($config);
         $verify_result = $alipayNotify->verifyNotify();
         if ($verify_result) { //验证成功
-            \Log::info('验证成功');
-
-            return "success";        //请不要修改或删除
-
             /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
             //请在这里加上商户的业务逻辑程序代
             //——请根据您的业务逻辑来编写程序（以下代码仅作参考）——
             //获取支付宝的通知返回参数，可参考技术文档中服务器异步通知参数列表
-            //商户订单号
-            $out_trade_no = $request->out_trade_no;
-            //SAF易支付交易号
-            $trade_no = $request->trade_no;
             //交易状态
-            $trade_status = $request->trade_status;
-            //支付方式
-            $type = $request->type;
-            if ($_GET['trade_status'] == 'TRADE_SUCCESS') {
+            if ($request->trade_status == 'TRADE_SUCCESS') {
                 $order = RobotOrder::where('order_no', $request->out_trade_no)->first();
                 if ($request->trade_status == 'TRADE_SUCCESS' && $request->notify_type == 'trade_status_sync' && isset($order) && $order->status == 0) {
                     DB::beginTransaction();  //开启事务
                     try {
-                        $order->trade_no = $request->trade_no;
-                        $order->pay_way = $request->type;
-                        $order->gmt_payment = $request->gmt_payment;
+                        $order->trade_no = $request->trade_no;  //SAF易支付交易号
+                        $order->pay_way = $request->type;  //支付方式
                         $order->status = 1;
                         $order->save();
+                        $num = $order->num;
                         $userId = $order->user_id;
                         $user = User::find($userId);
-                        $robot = Robot::add($userId);
+                        for ($i = 0; $i < $num; $i++) {
+                            Robot::add($userId);
+                        }
                         $fund = [
                             'user_id' => $userId,
                             'type' => FundType::BUY_ROBOT,
                             'change_amount' => 0,
                             'after_amount' => $user->amount,
-                            'content' => '用户购买机器(编号：' . $robot->robot_no . ')',
+                            'content' => '用户购买' . $num . '台机器',
                             'remark' => '购买激活机器',
                         ];
                         UserFund::create($fund);
+                        $headline = [
+                            'content' => $user->nickname . '购买了' . $num . '台机器',
+                        ];
+                        Headline::create($headline);
                         DB::commit();
-                    } catch (Exception $e) {
+                    } catch (\Exception $e) {
                         DB::rollback();
                     }
                 }
-
-
             }
             //——请根据您的业务逻辑来编写程序（以上代码仅作参考）——
 
             return "success";        //请不要修改或删除
-
             /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         } else {
             //验证失败
