@@ -6,8 +6,8 @@ namespace App\Services;
  * 功能：SAF易支付接口请求提交类
  * 详细：构造易支付接口表单HTML文本，获取远程HTTP数据
  */
-require_once("lib/epay_core.function.php");
-require_once("lib/epay_md5.function.php");
+require_once(app_path("Services/lib/epay_core.function.php"));
+require_once(app_path("Services/lib/epay_md5.function.php"));
 
 class AlipaySubmit {
 
