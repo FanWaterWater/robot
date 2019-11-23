@@ -99,7 +99,35 @@ class RobotController extends Controller
             'subject'      => '购买机器' // 备注
         ];
         $config = config('mgopay');
-        dd($config);
+        $notify_url = "https://" . $_SERVER['HTTP_HOST'] . "/SDK/notify_url.php";
+        //需http://格式的完整路径，不能加?id=123这类自定义参数
+        //页面跳转同步通知页面路径
+        $return_url = "https://" . $_SERVER['HTTP_HOST'] . "/SDK/return_url.php";
+        //需http://格式的完整路径，不能加?id=123这类自定义参数，不能写成http://localhost/
+        //商户订单号
+        $out_trade_no = $order->order_no;
+        //商户网站订单系统中唯一订单号，必填
+        //支付方式
+        // $type = $_POST['type'];
+        $type = 'alipay';
+        //商品名称
+        $name = '购买机器';
+        //付款金额
+        $money = 0.01;
+        //站点名称
+        $sitename = '易支付测试站';
+
+        $parameter = array(
+            "pid" => trim($config['partner']),
+            "type" => $type,
+            "notify_url"    => $notify_url,
+            "return_url"    => $return_url,
+            "out_trade_no"    => $out_trade_no,
+            "name"    => $name,
+            "money"    => $money,
+            "sitename"    => $sitename
+        );
+        dd($parameter);
         // return Pay::alipay($config)->wap($aliPayOrder);
     }
 
