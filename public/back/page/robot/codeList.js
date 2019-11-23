@@ -157,7 +157,7 @@ layui.use(['form', 'layer', 'laydate', 'table', 'laytpl', 'ajaxUrl'], function (
                 success: function (res) {
                     if(res.code == 200) {
                         layer.closeAll();
-                        window.location.href = goExportUrl + '&once_token=' + res.data;
+                        parent.window.location.href = goExportUrl + '&once_token=' + res.data;
                         tableIns.reload(); /*刷新表格*/
                     }else {
                         layer.msg(res.msg)
