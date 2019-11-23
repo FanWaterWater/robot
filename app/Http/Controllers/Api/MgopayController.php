@@ -14,6 +14,6 @@ class MgopayController extends Controller
 
     public function notify()
     {
-
+        \Log::info('收到通知');
     }
 }

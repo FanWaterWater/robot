@@ -32,8 +32,8 @@ Route::group(['prefix' => 'alipay'], function () {
 });
 
 Route::group(['prefix' => 'mgopay'], function () {
-    Route::post('pay', 'Api\AlipayController@pay');
-    Route::post('notify', 'Api\AlipayController@notify');
+    Route::post('pay', 'Api\MgopayController@pay');
+    Route::post('notify', 'Api\MgopayController@notify');
 });
 
 Route::group(['prefix' => 'chat'], function () {
