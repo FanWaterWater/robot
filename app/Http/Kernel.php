@@ -64,6 +64,7 @@ class Kernel extends HttpKernel
         'token.admin' => \App\Http\Middleware\AdminToken::class,
         'token.user' => \App\Http\Middleware\UserToken::class,
         'token.once'=> \App\Http\Middleware\CheckOnceToken::class,
+        'superadmin'=> \App\Http\Middleware\SuperAdmin::class,
     ];
 
     /**

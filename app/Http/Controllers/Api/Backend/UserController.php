@@ -18,6 +18,11 @@ use App\Http\Requests\App\UserRequest;
 
 class UserController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('superadmin')->only(['update']);
+    }
+
     public function index(Request $request)
     {
         $limit = $request->limit;

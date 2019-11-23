@@ -9,6 +9,11 @@ use App\Http\Controllers\Controller;
 
 class AdminController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('superadmin')->except(['index']);
+    }
+
     public function index()
     {
         $pagesize = request('limit') ?? config('common.pagesize');
@@ -25,7 +30,7 @@ class AdminController extends Controller
     public function store(Request $request)
     {
         $data = $request->all(['username', 'password']);
-        if(isset($data['password'])) {
+        if (isset($data['password'])) {
             $data['password'] = bcrypt($data['password']);
         }
         if (Admin::create($data)) {
@@ -37,7 +42,7 @@ class AdminController extends Controller
     public function update(Request $request, $id)
     {
         $data = $request->all(['username']);
-        if(isset($request->password)) {
+        if (isset($request->password)) {
             $data['password'] = bcrypt($request->password);
         }
         if (Admin::find($id)->update($data)) {
@@ -58,7 +63,7 @@ class AdminController extends Controller
     {
         $credentials = request(['username', 'password']);
         $token = Admin::login($credentials);
-        if(!$token) {
+        if (!$token) {
             return error('账号或密码错误');
         }
         return $this->respondWithToken($token);
@@ -66,7 +71,7 @@ class AdminController extends Controller
 
     public function logout()
     {
-        if(\Auth::guard('admin')->check()) {
+        if (\Auth::guard('admin')->check()) {
             \Auth::guard('admin')->logout();
         }
         return success([], '登出成功');

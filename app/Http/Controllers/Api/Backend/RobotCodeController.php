@@ -10,6 +10,11 @@ use App\Http\Controllers\Controller;
 
 class RobotCodeController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('superadmin');
+    }
+
     public function index(Request $request)
     {
         $limit = $request->limit;
