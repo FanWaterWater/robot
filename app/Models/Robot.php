@@ -84,7 +84,7 @@ class Robot extends Model
      */
     public function addTeamRobot()
     {
-        $user = User::find($this->user_id);
+        $user = User::find($this['user_id']);
         \Log::info($user);
         \Log::info($this);
         // Redis::sadd('robot' . $user->id, $this->id);
