@@ -32,7 +32,7 @@ Route::get('test', function () {
     $arr = range(0, 3000);
     $users = User::get();
     foreach ($users as $user) {
-        Redis::srem('robot' . $user->id);
+        Redis::srem('robot' . $user->id, $arr);
         Redis::srem('direct_robot' . $user->id, $arr);
         Redis::srem('indirect_robot' . $user->id, $arr);
         Redis::srem('team_robot' . $user->id, $arr);
