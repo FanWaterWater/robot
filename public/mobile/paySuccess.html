@@ -37,7 +37,10 @@
 
     <script type="text/javascript">
         $(".paySuccessBtn").click(function() {
-            uni.reLaunch({
+            // uni.reLaunch({
+            //     url: '/pages/home/home'
+            // });
+            uni.redirectTo({
                 url: '/pages/home/home'
             });
         })
