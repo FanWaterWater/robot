@@ -29,7 +29,7 @@ Route::get('pay-success', function () {
 Route::post('getSn', 'Api\AlipayController@getSn');
 
 Route::get('test', function () {
-    $arr = range(0, 3000);
+    $arr = range(0, 10001);
     $users = User::get();
     foreach ($users as $user) {
         Redis::srem('robot' . $user->id, $arr);
