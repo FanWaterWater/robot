@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Api;
 
 use App\Models\User;
 use App\Models\Robot;
+use App\Utils\FundType;
 use App\Models\Headline;
+use App\Models\UserFund;
 use App\Models\RobotOrder;
 use Illuminate\Http\Request;
 use App\Services\AlipayNotify;
@@ -68,8 +70,14 @@ class MgopayController extends Controller
             //交易状态
             \Log::info($request);
             if ($request['trade_status'] == 'TRADE_SUCCESS') {
+                \Log::info('TRADE_SUCCESS');
+
                 $order = RobotOrder::where('order_no', $request['out_trade_no'])->first();
+                \Log::info($order);
+
                 if (isset($order) && $order->status == 0) {
+                    \Log::info('order');
+
                     DB::beginTransaction();  //开启事务
                     try {
                         $order->trade_no = $request['trade_no'];  //SAF易支付交易号
