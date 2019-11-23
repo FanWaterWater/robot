@@ -88,7 +88,7 @@ class MgopayController extends Controller
                         $fund = [
                             'user_id' => $userId,
                             'type' => FundType::BUY_ROBOT,
-                            'change_amount' => 0,
+                            'change_amount' => $num,
                             'after_amount' => $user->amount,
                             'content' => '用户购买' . $num . '台机器',
                             'remark' => '购买激活机器',
