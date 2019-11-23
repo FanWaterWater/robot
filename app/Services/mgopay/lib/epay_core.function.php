@@ -19,12 +19,12 @@ function createLinkstring($para) {
     foreach($para as $key => $val) {
 		$arg.=$key."=".$val."&";
     }
+
 	// while (list ($key, $val) = each ($para)) {
 	// 	$arg.=$key."=".$val."&";
 	// }
 	//去掉最后一个&字符
-	$arg = substr($arg,0,strlen($arg)-2);
-
+	$arg = substr($arg,0,strlen($arg)-1);
 	//如果存在转义字符，那么去掉转义
 	if(get_magic_quotes_gpc()){$arg = stripslashes($arg);}
 
@@ -44,7 +44,7 @@ function createLinkstringUrlencode($para) {
 	// 	$arg.=$key."=".urlencode($val)."&";
 	// }
 	//去掉最后一个&字符
-	$arg = substr($arg,0,strlen($arg)-2);
+	$arg = substr($arg,0,strlen($arg)-1);
 
 	//如果存在转义字符，那么去掉转义
 	if(get_magic_quotes_gpc()){$arg = stripslashes($arg);}

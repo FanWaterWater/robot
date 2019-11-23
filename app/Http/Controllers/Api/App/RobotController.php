@@ -88,49 +88,12 @@ class RobotController extends Controller
             return error('持有机器已到上限');
         }
         $order = RobotOrder::create([
-            'order_no' => getOrderNo(),
+            'order_no' =>  getOrderNo(),
             'user_id' => $userId,
             'price' => Cache::get('robot_config')['price'],
             'status' => 0
         ]);
-        $aliPayOrder = [
-            'out_trade_no' => $order->order_no,
-            'total_amount' => $order->price, // 支付金额
-            'subject'      => '购买机器' // 备注
-        ];
-        $config = config('mgopay');
-        $notify_url = "https://" . $_SERVER['HTTP_HOST'] . "/mgopay/notify";
-        //需http://格式的完整路径，不能加?id=123这类自定义参数
-        //页面跳转同步通知页面路径
-        $return_url = "https://" . $_SERVER['HTTP_HOST'] . "/mobile/paySuccess.html";
-        //需http://格式的完整路径，不能加?id=123这类自定义参数，不能写成http://localhost/
-        //商户订单号
-        $out_trade_no = $order->order_no;
-        //商户网站订单系统中唯一订单号，必填
-        //支付方式
-        // $type = $_POST['type'];
-        $type = 'alipay';
-        //商品名称
-        $name = '购买机器';
-        //付款金额
-        $money = 0.01;
-        //站点名称
-        $sitename = '易支付测试站';
-
-        $parameter = array(
-            "pid" => trim($config['partner']),
-            "type" => $type,
-            "notify_url"    => $notify_url,
-            "return_url"    => $return_url,
-            "out_trade_no"    => $out_trade_no,
-            "name"    => $name,
-            "money"    => $money,
-            "sitename"    => $sitename
-        );
-        // include_once(app_path('Services/mgopay/lib/epay_submit.class.php'));
-        $alipaySubmit = new \App\Services\AlipaySubmit($config);
-        $html_text = $alipaySubmit->buildRequestForm($parameter);
-        return Response::create($html_text);
+        return success($order);
         // return Pay::alipay($config)->wap($aliPayOrder);
     }
 

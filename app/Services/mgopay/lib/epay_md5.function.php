@@ -16,7 +16,7 @@
  * return 签名结果
  */
 function md5Sign($prestr, $key) {
-	$prestr = $prestr . $key;
+    $prestr = $prestr . $key;
 	return md5($prestr);
 }
 

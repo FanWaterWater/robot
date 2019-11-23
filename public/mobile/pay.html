@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+    <!--<link rel="apple-touch-icon" href="images/apple-touch-icon.png" />-->
+    <!--<link href="images/apple-touch-startup-image-320x460.png" media="(device-width: 320px)" rel="apple-touch-startup-image">-->
+    <!--<link href="images/apple-touch-startup-image-640x920.png" media="(device-width: 320px) and (-webkit-device-pixel-ratio: 2)" rel="apple-touch-startup-image">-->
+    <title>刷脸易付</title>
+    <link rel="stylesheet" type="text/css" href="css/theme.css?v=1.1">
+    <link rel="stylesheet" type="text/css" href="css/font-awesome.min.css" />
+    <link rel="stylesheet" type="text/css" href="css/iconfont.css" />
+    <link rel="stylesheet" type="text/css" href="css/animate.min.css" />
+    <!-- <script src="js/plugin/less.min.js"></script> -->
+</head>
+<style>
+    html {
+        padding: 0;
+        margin: 0;
+        height: 100%;
+        width: 100%;
+    }
+
+    body {
+        padding: 0;
+        margin: 0;
+        height: 100%;
+        width: 100%;
+    }
+
+    .header {
+        height: 150px;
+        width: 100%;
+        /* background-image: linear-gradient(180deg, #da8685, #dea985); */
+        /* background: #0081ff; */
+        padding: 10px 20px;
+        box-sizing: border-box;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .header .pay-info {
+        font-size: 12px;
+        font-weight: 700;
+        text-align: center;
+    }
+
+
+    .header .pay-info .price {
+        font-size: 36px;
+    }
+
+    .header .price span {
+        font-size: 24px;
+        font-weight: 700;
+    }
+
+    .header .price #price{
+        font-size: 36px;
+        font-weight: 700;
+    }
+
+    .header .pay-info .tips {
+        color: #888;
+        font-weight: 300;
+    }
+
+    .header .pay-info .count {
+        color: #888;
+        font-weight: 300;
+    }
+
+    .pay-way {
+        width: 100%;
+        padding: 10px 20px;
+        box-sizing: border-box;
+    }
+
+    .cell {
+        display: flex;
+        flex-direction: row;
+        height: 60px;
+        justify-content: space-between;
+        align-items: center;
+        box-sizing: border-box;
+        color: #333;
+        /* border-top: 1px #eee solid; */
+        border-bottom: 1px #f3f3f3 solid;
+    }
+
+    .cell-left {
+        display: flex;
+        flex-direction: row;
+        height: 60px;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .cell-left img {
+        width: 30px;
+        height: 30px;
+        margin-right: 10px;
+    }
+
+    .cell-right img {
+        width: 25px;
+        height: 25px;
+        margin-right: 5px;
+
+    }
+
+    .paySuccessBtn {
+        background: #0081ff !important;
+        margin-top: 50px;
+    }
+
+</style>
+
+<body>
+    <div class="header">
+        <div class="pay-info">
+            <div class="tips">支付总价</div>
+            <div class="price"><span>￥</span><span id="price">291.00</span></div>
+            <div class="count">购买数量<span id='count'></span>台</div>
+        </div>
+    </div>
+    <div class="pay-way">
+        <div class="cell" id="alipay">
+            <div class="cell-left">
+                <img src="img/alipay.png" alt="">
+                支付宝
+            </div>
+            <div class="cell-right">
+                <img id="alipay-select" src="img/select.png" alt="">
+            </div>
+        </div>
+        <div class="cell" id="wechat">
+            <div class="cell-left">
+                <img src="img/icon_9.png" alt="">
+                微信支付
+            </div>
+            <div class="cell-right">
+                <img id="wechat-select" src="img/select.png" alt="">
+            </div>
+        </div>
+        <div class="cell" id="other">
+            <div class="cell-left">
+                <img src="img/zz.png" alt="">
+                其他支付方式
+            </div>
+            <div class="cell-right">
+                <img id="other-select" src="img/select.png" alt="">
+            </div>
+        </div>
+    </div>
+    <form action="https://dawnll.com/api/mgopay/pay" method="POST" id='form'>
+        <input type="hidden" name="type" value="alipay">
+        <input type="hidden" name="order_no" id="">
+        <div class="paySuccessBtn" id="form-submit">
+            确认支付
+        </div>
+    </form>
+    <div class="paySuccessBtn" id="other-submit" style="display:none">
+        确认支付
+    </div>
+</body>
+<script src="js/plugin/jquery-1.10.1.min.js"></script>
+<script type="text/javascript" src="https://js.cdn.aliyun.dcloud.net.cn/dev/uni-app/uni.webview.1.5.1.js"></script>
+<script>
+    $('#alipay-select').show()
+    $('#wechat-select').hide()
+    $('#other-select').hide()
+
+    function getUrlParam(name) {
+        var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)"); //构造一个含有目标参数的正则表达式对象
+        var r = window.location.search.substr(1).match(reg); //匹配目标参数
+        if (r != null) return unescape(r[2]);
+        return null; //返回参数值
+    }
+    var user_id = getUrlParam('user_id')
+    var order_no = getUrlParam('order_no')
+    var count = getUrlParam('count')
+    var price = getUrlParam('price')
+
+    $('#user_id').val(user_id);
+    $('input[name=order_no]').val(order_no)
+    $('#count').html(count)
+    $('#price').html(price)
+    // var host = 'https://dawnll.com';
+    var host = 'http://localhost/robot/public';
+
+    $('#alipay').click(function () {
+        $('#alipay-select').show()
+        $('#wechat-select').hide()
+        $('#other-select').hide()
+        $('#form').show()
+        $('#other-submit').hide()
+        $("input[name=type]").val('alipay')
+    })
+
+    $('#wechat').click(function () {
+        $('#alipay-select').hide()
+        $('#wechat-select').show()
+        $('#other-select').hide()
+        $('#form').show()
+        $('#other-submit').hide()
+        $("input[name=type]").val('wxpay')
+    })
+
+    $('#other').click(function () {
+        $('#alipay-select').hide()
+        $('#wechat-select').hide()
+        $('#other-select').show()
+        $('#form').hide()
+        $('#other-submit').show()
+    })
+
+    $('#form-submit').click(function () {
+        $('#form').submit();
+    })
+
+    $('#other-submit').click(function () {
+        uni.navigateBack({
+            delta: 1
+        });
+    })
+    // $.ajax({
+    //     url:  host + '/api/config',
+    //     success(res) {
+    //         $('#robot_limit').html(res.data.ROBOT_LIMIT)
+    //     }
+    // })
+
+    // $.ajax({
+    //     url: host + '/api/app/robots/config',
+    //     success(res) {
+    //         $('.price').html(res.data.price)
+    //         if(res.data.type == 0) {
+    //             $('#type1').hide()
+    //         }else {
+    //             $('#type0').hide()
+    //             $('#robot_limit').html(res.data.limit)
+    //         }
+    //     }
+    // })
+
+</script>
+
+</html>
