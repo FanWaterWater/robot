@@ -82,7 +82,7 @@ class MgopayController extends Controller
                         $num = $order->num;
                         $userId = $order->user_id;
                         $user = User::find($userId);
-                        \Log::info('user');
+                        \Log::info($num);
 
                         for ($i = 0; $i < $num; $i++) {
                             Robot::add($userId, 0);
