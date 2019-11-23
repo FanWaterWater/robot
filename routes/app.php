@@ -44,7 +44,6 @@ Route::group(['prefix' => 'app', 'middleware' => ['token.user']], function () {
     Route::group(['prefix' => 'robots'], function () {
         Route::get('index', 'Api\App\RobotController@index');
         Route::get('list', 'Api\App\RobotController@list');
-        Route::post('buy', 'Api\App\RobotController@buy');
         Route::post('activate', 'Api\App\RobotController@activate');
     });
 });
