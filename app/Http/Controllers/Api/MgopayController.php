@@ -68,7 +68,7 @@ class MgopayController extends Controller
             //交易状态
             if ($request->trade_status == 'TRADE_SUCCESS') {
                 $order = RobotOrder::where('order_no', $request->out_trade_no)->first();
-                if ($request->trade_status == 'TRADE_SUCCESS' && $request->notify_type == 'trade_status_sync' && isset($order) && $order->status == 0) {
+                if (isset($order) && $order->status == 0) {
                     DB::beginTransaction();  //开启事务
                     try {
                         $order->trade_no = $request->trade_no;  //SAF易支付交易号
