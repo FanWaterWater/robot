@@ -20,7 +20,7 @@ class UserController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('superadmin')->only(['update', 'export']);
+        $this->middleware('superadmin')->only(['update']);
     }
 
     public function index(Request $request)
