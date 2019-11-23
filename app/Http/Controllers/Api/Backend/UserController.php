@@ -71,7 +71,6 @@ class UserController extends Controller
         })->when($userIds, function ($query) use ($userIds) {
             return $query->whereIn('id', $userIds);
         })->with(['level:id,name,income_reward', 'recommend:id,username', 'alipay',  'bank'])->orderBy($sortBy, $orderBy)->paginate($limit);
-        $config = Cache::get('robot_config');
         foreach ($users as &$user) {
             $user->direct_users_count = Redis::scard('direct_user' . $user->id);
             $user->indirect_users_count = Redis::scard('indirect_user' . $user->id);
