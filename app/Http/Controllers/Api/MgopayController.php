@@ -52,10 +52,16 @@ class MgopayController extends Controller
 
     public function notify(Request $request)
     {
+        \Log::info($request);
+
         $config = config('mgopay');
         $alipayNotify = new AlipayNotify($config);
         $verify_result = $alipayNotify->verifyNotify();
         if ($verify_result) { //验证成功
+            \Log::info('验证成功');
+
+            return "success";        //请不要修改或删除
+
             /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
             //请在这里加上商户的业务逻辑程序代
             //——请根据您的业务逻辑来编写程序（以下代码仅作参考）——
