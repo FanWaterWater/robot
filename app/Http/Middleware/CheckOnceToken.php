@@ -19,7 +19,7 @@ class CheckOnceToken
     {
         $token = $request->header('once_token') ?? $request->once_token;
         $exist = Cache::get($token);
-        if (Token::user()['username'] == 'admin' && $exist) {
+        if ($exist) {
             Cache::forget($token);
             return $next($request);
         }
