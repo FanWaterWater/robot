@@ -99,10 +99,10 @@ class RobotController extends Controller
             'subject'      => '购买机器' // 备注
         ];
         $config = config('mgopay');
-        $notify_url = "https://" . $_SERVER['HTTP_HOST'] . "/SDK/notify_url.php";
+        $notify_url = "https://" . $_SERVER['HTTP_HOST'] . "/mgopay/notify";
         //需http://格式的完整路径，不能加?id=123这类自定义参数
         //页面跳转同步通知页面路径
-        $return_url = "https://" . $_SERVER['HTTP_HOST'] . "/SDK/return_url.php";
+        $return_url = "https://" . $_SERVER['HTTP_HOST'] . "/mobile/paySuccess.html";
         //需http://格式的完整路径，不能加?id=123这类自定义参数，不能写成http://localhost/
         //商户订单号
         $out_trade_no = $order->order_no;
