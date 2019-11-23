@@ -4,6 +4,8 @@
  * 功能：SAF易支付接口请求提交类
  * 详细：构造易支付接口表单HTML文本，获取远程HTTP数据
  */
+namespace App\Services;
+
 require_once("epay_core.function.php");
 require_once("epay_md5.function.php");
 
@@ -18,7 +20,7 @@ class AlipaySubmit {
     function AlipaySubmit($alipay_config) {
     	$this->__construct($alipay_config);
     }
-	
+
 	/**
 	 * 生成签名结果
 	 * @param $para_sort 已排序要签名的数组
@@ -27,7 +29,7 @@ class AlipaySubmit {
 	function buildRequestMysign($para_sort) {
 		//把数组所有元素，按照“参数=参数值”的模式用“&”字符拼接成字符串
 		$prestr = createLinkstring($para_sort);
-		
+
 		$mysign = md5Sign($prestr, $this->alipay_config['key']);
 
 		return $mysign;
@@ -47,11 +49,11 @@ class AlipaySubmit {
 
 		//生成签名结果
 		$mysign = $this->buildRequestMysign($para_sort);
-		
+
 		//签名结果与签名方式加入请求提交参数组中
 		$para_sort['sign'] = $mysign;
 		$para_sort['sign_type'] = strtoupper(trim($this->alipay_config['sign_type']));
-		
+
 		return $para_sort;
 	}
 
@@ -63,13 +65,13 @@ class AlipaySubmit {
 	function buildRequestParaToString($para_temp) {
 		//待请求参数数组
 		$para = $this->buildRequestPara($para_temp);
-		
+
 		//把参数组中所有元素，按照“参数=参数值”的模式用“&”字符拼接成字符串，并对字符串做urlencode编码
 		$request_data = createLinkstringUrlencode($para);
-		
+
 		return $request_data;
 	}
-	
+
     /**
      * 建立请求，以表单HTML形式构造（默认）
      * @param $para_temp 请求参数数组
@@ -80,7 +82,7 @@ class AlipaySubmit {
 	function buildRequestForm($para_temp, $method='POST', $button_name='正在跳转') {
 		//待请求参数数组
 		$para = $this->buildRequestPara($para_temp);
-		
+
 		$sHtml = "<form id='alipaysubmit' name='alipaysubmit' action='".$this->alipay_gateway_new."_input_charset=".trim(strtolower($this->alipay_config['input_charset']))."' method='".$method."'>";
 		while (list ($key, $val) = each ($para)) {
             $sHtml.= "<input type='hidden' name='".$key."' value='".$val."'/>";
@@ -88,9 +90,9 @@ class AlipaySubmit {
 
 		//submit按钮控件请不要含有name属性
         $sHtml = $sHtml."<input type='submit' value='".$button_name."'></form>";
-		
+
 		$sHtml = $sHtml."<script>document.forms['alipaysubmit'].submit();</script>";
-		
+
 		return $sHtml;
 	}
 }

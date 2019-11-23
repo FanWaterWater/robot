@@ -126,8 +126,8 @@ class RobotController extends Controller
             "money"    => $money,
             "sitename"    => $sitename
         );
-        include_once(app_path('Services/mgopay/lib/epay_submit.class.php'));
-        $alipaySubmit = new AlipaySubmit($config);
+        // include_once(app_path('Services/mgopay/lib/epay_submit.class.php'));
+        $alipaySubmit = new App\Services\AlipaySubmit($config);
         $html_text = $alipaySubmit->buildRequestForm($parameter);
         return $html_text;
         // return Pay::alipay($config)->wap($aliPayOrder);
