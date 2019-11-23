@@ -42,13 +42,13 @@ class Robot extends Model
         $config = Cache::get('robot_config');
         $robot = [
             'user_id' => $userId,
-            'type' => $config->type,
+            'type' => $config['type'],
             'robot_no' => getRobotOrderNo(),
             'start_time' => now(),
             'end_time' => now(),
             'add_type' => $addType
         ];
-        if ($config->type == 1) {
+        if ($config['type'] == 1) {
             $robot['end_time'] = Carbon::now()->addDays($config->limit)->toDateTimeString();
         }
         return Robot::create($robot);
