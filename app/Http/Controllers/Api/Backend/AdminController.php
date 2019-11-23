@@ -11,7 +11,7 @@ class AdminController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('superadmin')->except(['index']);
+        $this->middleware('superadmin')->except(['index', 'login', 'logout']);
     }
 
     public function index()
