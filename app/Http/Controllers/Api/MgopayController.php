@@ -82,9 +82,8 @@ class MgopayController extends Controller
                         $userId = $order->user_id;
                         $user = User::find($userId);
                         for ($i = 0; $i < $num; $i++) {
-                            $robot = Robot::add($userId, 0);
+                            Robot::add($userId, 0);
                         }
-                        \Log::info('Robot');
 
                         $fund = [
                             'user_id' => $userId,
@@ -95,14 +94,10 @@ class MgopayController extends Controller
                             'remark' => '购买激活机器',
                         ];
                         UserFund::create($fund);
-                        \Log::info('UserFund');
-
                         $headline = [
                             'content' => $user->nickname . '购买了' . $num . '台机器',
                         ];
                         Headline::create($headline);
-                        \Log::info('Headline');
-
                         DB::commit();
                     } catch (\Exception $e) {
                         \Log::info($e->getMessage());
