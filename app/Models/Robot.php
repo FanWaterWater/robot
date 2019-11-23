@@ -18,7 +18,6 @@ class Robot extends Model
         parent::boot();
 
         static::created(function ($model) {
-            \Log::info($model);
             $model->addTeamRobot();
         });
 
@@ -86,6 +85,8 @@ class Robot extends Model
     public function addTeamRobot()
     {
         $user = User::find($this->user_id);
+        \Log::info($user);
+        \Log::info($this);
         Redis::sadd('robot' . $user->id, $this->id);
         Redis::zincrby('robot', 1, $this->id);
         //获取所有上级
