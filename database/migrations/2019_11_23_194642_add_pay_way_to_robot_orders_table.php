@@ -15,6 +15,7 @@ class AddPayWayToRobotOrdersTable extends Migration
     {
         Schema::table('robot_orders', function (Blueprint $table) {
             $table->string('pay_way')->after('order_no')->nullable()->comment('支付方式');
+            $table->integer('num')->after('pay_way')->nullable()->comment('购买数量');
         });
     }
 
@@ -27,6 +28,7 @@ class AddPayWayToRobotOrdersTable extends Migration
     {
         Schema::table('robot_orders', function (Blueprint $table) {
             $table->dropColumn('pay_way');
+            $table->dropColumn('num');
         });
     }
 }
