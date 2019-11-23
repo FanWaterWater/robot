@@ -17,7 +17,7 @@ class MgopayController extends Controller
             return error('订单号错误');
         }
         $config = config('mgopay');
-        $notify_url = "https://" . $_SERVER['HTTP_HOST'] . "/mgopay/notify";
+        $notify_url = "https://" . $_SERVER['HTTP_HOST'] . "/api/mgopay/notify";
         //需http://格式的完整路径，不能加?id=123这类自定义参数
         //页面跳转同步通知页面路径
         $return_url = "https://" . $_SERVER['HTTP_HOST'] . "/mobile/paySuccess.html";
