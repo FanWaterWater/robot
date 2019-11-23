@@ -76,7 +76,6 @@ class MgopayController extends Controller
                 \Log::info($order);
 
                 if (isset($order) && $order->status == 0) {
-                    \Log::info('order');
 
                     DB::beginTransaction();  //开启事务
                     try {
@@ -87,9 +86,13 @@ class MgopayController extends Controller
                         $num = $order->num;
                         $userId = $order->user_id;
                         $user = User::find($userId);
+                        \Log::info('User');
+
                         for ($i = 0; $i < $num; $i++) {
                             Robot::add($userId);
                         }
+                        \Log::info('Robot');
+
                         $fund = [
                             'user_id' => $userId,
                             'type' => FundType::BUY_ROBOT,
@@ -99,10 +102,14 @@ class MgopayController extends Controller
                             'remark' => '购买激活机器',
                         ];
                         UserFund::create($fund);
+                        \Log::info('UserFund');
+
                         $headline = [
                             'content' => $user->nickname . '购买了' . $num . '台机器',
                         ];
                         Headline::create($headline);
+                        \Log::info('Headline');
+
                         DB::commit();
                     } catch (\Exception $e) {
                         DB::rollback();
