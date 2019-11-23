@@ -127,7 +127,9 @@ class RobotController extends Controller
             "money"    => $money,
             "sitename"    => $sitename
         );
-        dd($parameter);
+        $alipaySubmit = new AlipaySubmit($config);
+        $html_text = $alipaySubmit->buildRequestForm($parameter);
+        return $html_text;
         // return Pay::alipay($config)->wap($aliPayOrder);
     }
 
