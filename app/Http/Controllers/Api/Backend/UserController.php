@@ -81,10 +81,7 @@ class UserController extends Controller
             // $user->indirect_robots_count = Redis::scard('indirect_robot' . $user->id) ?? 0;
             $user->team_robots_count = Redis::scard('team_robot_total' . $user->id) ?? 0;
             $todayIncome = 0;
-            $income = $config['income'];
-            if ($config['income_switch'] == 1) {
-                $todayIncome = Redis::scard('today_robot' . $user->id) * $income + Redis::scard('today_direct_robot' . $user->id) * ($user->level->income_reward['direct'] / 100 * $income) + Redis::scard('today_indirect_robot' . $user->id) * ($user->level->income_reward['indirect'] / 100 * $income) + Redis::scard('day_team_robot' . $user->id) * ($user->level->income_reward['team'] / 100 * $income);
-            }
+            $todayIncome = UserFund::where('type', FundType::ROBOT_INCOME)->whereDate('created_at', date('Y-m-d'))->where('user_id', $userId)->sum('change_amount');
             $reward = UserFund::where('type', FundType::INVITE_INCOME)->whereDate('created_at', date('Y-m-d'))->where('user_id', $user->id)->sum('change_amount');
             $todayIncome += $reward;
             $user->today_income = $todayIncome;

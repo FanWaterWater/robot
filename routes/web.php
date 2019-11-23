@@ -29,12 +29,16 @@ Route::get('pay-success', function () {
 Route::post('getSn', 'Api\AlipayController@getSn');
 
 Route::get('test', function () {
-    $user = User::find(4);
-    return $user->superiors();
-});
-
-
-Route::get('test2', function () {
-    $user = User::find(4);
-    return $user->superiors();
+    $users = User::get();
+    foreach($users as $user) {
+        Redis::srem('robot' . $user->id);
+        Redis::srem('direct_robot' . $user->id);
+        Redis::srem('indirect_robot' . $user->id);
+        Redis::srem('team_robot' . $user->id);
+        Redis::srem('team_robot_total' . $user->id);
+        Redis::srem('direct_user' . $user->id);
+        Redis::srem('indirect_user' . $user->id);
+        Redis::srem('team_user' . $user->id);
+    }
+    return 'success';
 });
