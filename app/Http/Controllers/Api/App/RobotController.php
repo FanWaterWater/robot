@@ -91,6 +91,7 @@ class RobotController extends Controller
         $order = RobotOrder::create([
             'order_no' =>  getOrderNo(),
             'user_id' => $userId,
+            'num' => $num,
             'price' => Cache::get('robot_config')['price'] * $num,
             'status' => 0
         ]);
