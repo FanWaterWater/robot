@@ -86,7 +86,6 @@ class MgopayController extends Controller
 
                         for ($i = 0; $i < $num; $i++) {
                             $robot = Robot::add($userId, 0);
-                            \Log::info($robot);
                         }
                         \Log::info('Robot');
 
