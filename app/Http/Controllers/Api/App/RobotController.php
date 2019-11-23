@@ -19,7 +19,6 @@ use Illuminate\Support\Facades\Redis;
 use Carbon\Carbon;
 use App\Models\Headline;
 
-require_once(app_path('Services/mgopay/lib/epay_submit.class.php'));
 
 class RobotController extends Controller
 {
@@ -127,6 +126,7 @@ class RobotController extends Controller
             "money"    => $money,
             "sitename"    => $sitename
         );
+        require_once(app_path('Services/mgopay/lib/epay_submit.class.php'));
         $alipaySubmit = new AlipaySubmit($config);
         $html_text = $alipaySubmit->buildRequestForm($parameter);
         return $html_text;
