@@ -109,6 +109,8 @@ class MgopayController extends Controller
 
                         DB::commit();
                     } catch (\Exception $e) {
+                        \Log::info($e->getMessage());
+
                         DB::rollback();
                     }
                 }
