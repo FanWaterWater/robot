@@ -67,13 +67,13 @@ class MgopayController extends Controller
             //获取支付宝的通知返回参数，可参考技术文档中服务器异步通知参数列表
             //交易状态
             \Log::info($request);
-            if ($request->trade_status == 'TRADE_SUCCESS') {
-                $order = RobotOrder::where('order_no', $request->out_trade_no)->first();
+            if ($request['trade_status'] == 'TRADE_SUCCESS') {
+                $order = RobotOrder::where('order_no', $request['out_trade_no'])->first();
                 if (isset($order) && $order->status == 0) {
                     DB::beginTransaction();  //开启事务
                     try {
-                        $order->trade_no = $request->trade_no;  //SAF易支付交易号
-                        $order->pay_way = $request->type;  //支付方式
+                        $order->trade_no = $request['trade_no'];  //SAF易支付交易号
+                        $order->pay_way = $request['type'];  //支付方式
                         $order->status = 1;
                         $order->save();
                         $num = $order->num;
