@@ -5,5 +5,5 @@ return [
     'sign_type' => 'md5',
     'input_charset' => 'utf-8',
     'transport' => 'https',
-    'apiurl' => 'http://pay.mgopay.com.cn/submit.php',
+    'apiurl' => 'http://pay.mgopay.com.cn/',
 ];
