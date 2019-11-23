@@ -18,6 +18,7 @@ class Robot extends Model
         parent::boot();
 
         static::created(function ($model) {
+            \Log::info($model);
             $model->addTeamRobot();
         });
 
@@ -43,13 +44,13 @@ class Robot extends Model
         $robot = [
             'user_id' => $userId,
             'type' => $config['type'],
-            'robot_no' => getRobotOrderNo(),
+            'robot_no' => getRobotOrderNo($config['type']),
             'start_time' => now(),
             'end_time' => now(),
             'add_type' => $addType
         ];
         if ($config['type'] == 1) {
-            $robot['end_time'] = Carbon::now()->addDays($config->limit)->toDateTimeString();
+            $robot['end_time'] = Carbon::now()->addDays($config['limit'])->toDateTimeString();
         }
         return Robot::create($robot);
     }
