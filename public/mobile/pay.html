@@ -227,8 +227,8 @@
     })
 
     $('#other-submit').click(function () {
-        uni.navigateBack({
-            delta: 1
+        uni.navigateTo({
+            url: '/pages/robot/buy-detail?count=' + count + '&price=' + price
         });
     })
     // $.ajax({

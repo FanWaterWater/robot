@@ -70,7 +70,7 @@ class RobotController extends Controller
      */
     public function config()
     {
-        $config = RobotConfig::orderBy('id', 'desc')->first();
+        $config = RobotConfig::whereDate('date', date('Y-m-d'))->first();
         return success($config);
     }
 
@@ -83,6 +83,7 @@ class RobotController extends Controller
     {
         // $userId = $request->user_id;
         $userId = 1;
+        $num = $request->num;
         $robotCount = Redis::scard('robot' . $userId);
         if ($robotCount >= Cache::get('system_config')['ROBOT_LIMIT']) {
             return error('持有机器已到上限');
@@ -90,7 +91,7 @@ class RobotController extends Controller
         $order = RobotOrder::create([
             'order_no' =>  getOrderNo(),
             'user_id' => $userId,
-            'price' => Cache::get('robot_config')['price'],
+            'price' => Cache::get('robot_config')['price'] * $num,
             'status' => 0
         ]);
         return success($order);
