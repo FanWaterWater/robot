@@ -28,7 +28,7 @@ Route::get('receipt', 'Api\Backend\ReceiptController@receipt');
 
 Route::group(['prefix' => 'alipay'], function () {
     Route::post('pay', 'Api\AlipayController@pay');
-    Route::get('notify', 'Api\AlipayController@notify');
+    Route::any('notify', 'Api\AlipayController@notify');
 });
 
 Route::group(['prefix' => 'mgopay'], function () {
