@@ -40,6 +40,7 @@ class Robot extends Model
     public static function add($userId, $addType = 0)
     {
         $config = Cache::get('robot_config');
+        \Log::info($config);
         $robot = [
             'user_id' => $userId,
             'type' => $config['type'],
@@ -48,6 +49,7 @@ class Robot extends Model
             'end_time' => now(),
             'add_type' => $addType
         ];
+        \Log::info($robot);
         if ($config['type'] == 1) {
             $robot['end_time'] = Carbon::now()->addDays($config->limit)->toDateTimeString();
         }
