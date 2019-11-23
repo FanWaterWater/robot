@@ -2,7 +2,6 @@
 
 namespace App\Http\Middleware;
 
-use App\Services\Token;
 use Closure;
 use Illuminate\Support\Facades\Cache;
 
