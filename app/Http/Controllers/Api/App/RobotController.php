@@ -81,7 +81,8 @@ class RobotController extends Controller
      */
     public function buy(Request $request)
     {
-        $userId = $request->user_id;
+        // $userId = $request->user_id;
+        $userId = 1;
         $robotCount = Redis::scard('robot' . $userId);
         if ($robotCount >= Cache::get('system_config')['ROBOT_LIMIT']) {
             return error('持有机器已到上限');
@@ -98,7 +99,8 @@ class RobotController extends Controller
             'subject'      => '购买机器' // 备注
         ];
         $config = config('mgopay');
-        return Pay::alipay($config)->wap($aliPayOrder);
+        dd($config);
+        // return Pay::alipay($config)->wap($aliPayOrder);
     }
 
     /**
