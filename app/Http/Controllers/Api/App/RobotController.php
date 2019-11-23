@@ -19,6 +19,8 @@ use Illuminate\Support\Facades\Redis;
 use Carbon\Carbon;
 use App\Models\Headline;
 
+require_once(app_path('Services/mgopay/lib/epay_submit.class.php'));
+
 class RobotController extends Controller
 {
     public function index()
@@ -95,10 +97,7 @@ class RobotController extends Controller
             'total_amount' => $order->price, // 支付金额
             'subject'      => '购买机器' // 备注
         ];
-        // $payId = rand(1, 2);
-        //记得改机器数量（change_amount）
-        $payId = 2;
-        $config = config('alipay.pay' . $payId);
+        $config = config('mgopay');
         return Pay::alipay($config)->wap($aliPayOrder);
     }
 
