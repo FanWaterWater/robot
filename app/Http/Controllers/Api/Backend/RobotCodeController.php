@@ -12,7 +12,7 @@ class RobotCodeController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('superadmin');
+        $this->middleware('superadmin')->except(['index']);
     }
 
     public function index(Request $request)
