@@ -84,8 +84,8 @@ class RobotController extends Controller
         $userId = Token::id();
         $num = $request->num;
         $robotCount = Redis::scard('robot' . $userId);
-        if ($robotCount >= Cache::get('system_config')['ROBOT_LIMIT']) {
-            return error('持有机器已到上限');
+        if (($robotCount + $num) >= Cache::get('system_config')['ROBOT_LIMIT']) {
+            return error('持有机器已到上限,您还可购买' . (Cache::get('system_config')['ROBOT_LIMIT'] - $robotCount) . '台机器');
         }
         $order = RobotOrder::create([
             'order_no' =>  getOrderNo(),
